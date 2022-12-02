@@ -1,0 +1,5 @@
+src/serviceWorker.ts
+src/reportWebVitals.js
+tailwind.config.js
+config-overrides.js
+.eslintrc.js

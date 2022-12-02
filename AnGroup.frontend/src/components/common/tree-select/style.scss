@@ -1,0 +1,35 @@
+.ant-select:not(.ant-select-customize-input) {
+  &.papper-tree-select {
+    .ant-select-selector {
+      border-radius: 0.75em;
+      min-width: 116px;
+      border: 1px solid #c2c2c2;
+
+      // for height and radius of medium select box
+      display: flex;
+      align-items: center;
+      span.ant-select-selection-item {
+        display: flex;
+        align-items: center;
+      }
+      // css for select box has search
+      .ant-select-selection-search {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  // for radius of select box
+  &.tree-select-rounded-small {
+    .ant-select-selector {
+      border-radius: 5px;
+    }
+  }
+
+  &.tree-select-rounded-large {
+    .ant-select-selector {
+      border-radius: 1.25em;
+    }
+  }
+}

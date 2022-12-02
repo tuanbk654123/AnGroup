@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Roboto font */
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 400;
+    src: local('Roboto'), url('../fonts/Roboto-Regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Roboto Bold';
+    font-weight: 700;
+    src: local('Roboto Bold'), url('../fonts/Roboto-Bold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Roboto Medium';
+    font-weight: 500;
+    src: local('Roboto Medium'), url('../fonts/Roboto-Medium.ttf') format('truetype');
+  }
+
+  /* Inter font */
+  @font-face {
+    font-family: 'Inter';
+    font-weight: 400;
+    src: local('Inter'), url('../fonts/Inter-Regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Inter Medium';
+    font-weight: 500;
+    src: local('Inter Medium'), url('../fonts/Inter-Medium.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Inter SemiBold';
+    font-weight: 600;
+    src: local('Inter SemiBold'), url('../fonts/Inter-SemiBold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'Inter Bold';
+    font-weight: 700;
+    src: local('Inter Bold'), url('../fonts/Inter-Bold.ttf') format('truetype');
+  }
+}
+
+
+@layer components {
+  .app-loading {
+    @apply flex justify-center align-middle fixed w-[100vw] h-[100vh] bg-black opacity-60 z-[9999999]
+  }
+  .page-title {
+    @apply text-[22px] text-primary font-body-bold;
+  }
+  .sider-wrapper {
+    @apply shadow-md w-[254px] bg-primary;
+  }
+  .menu-wrapper {
+    @apply text-sm font-body-bold text-white bg-primary;
+  }
+  .header-wrapper {
+    @apply h-16 px-5 bg-[#182E89];
+  }
+  .btn {
+    @apply px-6 hover:opacity-80 hover:text-white border-0 font-body text-white focus:text-white;
+  }
+  .btn-primary {
+    @apply btn bg-primary hover:bg-primary focus:bg-primary;
+  }
+  .btn-secondary {
+    @apply btn bg-[#747474]  hover:bg-secondary focus:bg-[#747474];
+  }
+  .btn-danger {
+    @apply btn bg-danger hover:bg-danger focus:bg-danger;
+  }
+  .btn-warning {
+    @apply btn bg-warning hover:bg-warning focus:bg-warning;
+  }
+  .btn-error {
+    @apply btn bg-error hover:bg-error focus:bg-error;
+  }
+  .btn-outline {
+    @apply btn bg-white border-primary border-solid text-primary hover:border-0 hover:bg-primary focus:bg-white focus:text-primary focus:border-primary;
+  }
+  .btn-cancel {
+    @apply btn bg-btn-cancel hover:bg-btn-cancel focus:bg-btn-cancel;
+  }
+}
+
+/* for text input */
+@layer components {
+  .text-input__custom {
+    @apply rounded-select border border-btn-cancel text-sm focus:border-btn-cancel hover:border-btn-cancel active:border-btn-cancel;
+  }
+  .input-h-small {
+    @apply h-8;
+  }
+
+  .input-h-large {
+    @apply h-14;
+  }
+
+  .input-rounded-small {
+    @apply rounded-[5px];
+  }
+
+  .input-rounded-large {
+    @apply rounded-[20px];
+  }
+  .ant-input-disabled.text-input__custom,
+  .paper-select.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    @apply bg-[#D9D9D9] text-[#000000];
+  }
+  .custom-picker.ant-picker-disabled {
+    @apply bg-[#D9D9D9];
+  }
+  .custom-picker.ant-picker-disabled .ant-picker-input input,
+  .custom-picker.ant-picker-disabled .ant-picker-input span {
+    @apply text-[#000000];
+  }
+  .text-input__custom.ocr-null, 
+  .ant-input-disabled.text-input__custom.ocr-null {
+    @apply border-red-400
+  }
+}
+
+/* for text input area */
+@layer components {
+  .text-input-area__custom {
+    @apply rounded-select border border-btn-cancel text-sm focus:border-btn-cancel hover:border-btn-cancel active:border-btn-cancel;
+  }
+
+  .input-area-rounded-small {
+    @apply rounded-[5px];
+  }
+
+  .input-area-rounded-large {
+    @apply rounded-[20px];
+  }
+}
+
+/* for table columns */
+@layer components {
+  .active-flag {
+    @apply flex items-center justify-center px-2 max-w-max border border-solid border-[#B7EB8F] bg-[#FCFFE6] rounded-[2px] text-[#52C41A] text-sm;
+  }
+  .inactive-flag {
+    @apply flex items-center justify-center px-2 max-w-max border border-solid border-[#FFA39E] bg-[#FFF1F0] rounded-[2px] text-[#F5222D] text-sm;
+  }
+  .column-role-item {
+    @apply px-3 py-1 bg-[#C2C2C2] text-white rounded-small mr-2;
+  }
+}

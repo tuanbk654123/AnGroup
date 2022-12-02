@@ -1,0 +1,9 @@
+# build stage
+FROM node:alpine
+WORKDIR /app
+COPY . .
+RUN yarn install
+# RUN npm run build:dev
+
+#app run
+CMD ["npm", "run", "start"]

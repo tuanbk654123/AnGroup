@@ -1,0 +1,35 @@
+.papper-modal__custom {
+  .ant-modal-content {
+    border-radius: 5px;
+    button.ant-modal-close {
+      width: 24px;
+      height: 24px;
+      top: 12px;
+      right: 12px;
+      span.ant-modal-close-x {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .ant-modal-header {
+      border-radius: 5px 5px 0px 0px;
+      border-bottom: unset !important;
+      padding: 1rem;
+      .ant-modal-title {
+        font-family: 'Inter Bold';
+        font-size: 1.25rem;
+        text-align: center;
+      }
+    }
+    .ant-modal-body {
+      padding: 0 2.25rem;
+    }
+    .ant-modal-footer {
+      border-top: unset !important;
+      padding: 1.25rem;
+      & > button:last-child {
+        margin: 0;
+      }
+    }
+  }
+}

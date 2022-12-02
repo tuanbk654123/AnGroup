@@ -1,0 +1,17 @@
+.papper-confirm-modal__custom {
+  .ant-modal-content {
+    border-radius: 12px;
+    .ant-modal-header {
+      border-radius: 12px 12px 0px 0px;
+    }
+    .ant-modal-body {
+      padding: 24px 1rem 1rem;
+    }
+    .ant-modal-footer {
+      padding: 1rem;
+      & > button:last-child {
+        margin: 0;
+      }
+    }
+  }
+}

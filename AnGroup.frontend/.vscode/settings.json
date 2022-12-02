@@ -1,0 +1,9 @@
+{
+    "css.lint.unknownAtRules": "ignore",
+    "css.validate": true,
+    "scss.validate": true,
+    "i18n-ally.localesPaths": [
+        "src/i18n",
+        "src/i18n/languages"
+    ],
+}

@@ -1,0 +1,33 @@
+.ant-table-wrapper.papper-table__custom {
+  .ant-table {
+    background: transparent;
+  }
+  thead.ant-table-thead {
+    & > tr > th {
+      font-family: 'Inter Bold';
+      font-size: 14px;
+      color: #181c32;
+      border-bottom: 1px solid #e9ebf4;
+
+      &.ant-table-selection-column {
+        background-color: #f4f8fa;
+        padding: 1rem;
+        border-bottom: unset !important;
+      }
+    }
+  }
+  tbody.ant-table-tbody {
+    & > tr > td {
+      font-family: 'Inter';
+      font-weight: 400;
+      font-size: 14px;
+      color: #181c32;
+      border-bottom: 1px solid #e9ebf4;
+      padding: 0.5rem;
+      &.ant-table-selection-column {
+        padding: 16px;
+        border-bottom: unset !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+// override antd style for sider
+.sider-wrapper {
+    // flex: unset !important;
+    // width: 254px !important;
+    // max-width: 254px !important;
+    // min-width: 254px !important;
+    // width: auto !important;
+    // min-width: 80px !important;
+    // max-width: 254px !important;
+    // padding-left: 7px !important;
+}
+
+.sider-wrapper-hidden {
+    // flex: unset !important;
+    // width: 254px !important;
+    // min-width: 80px !important;
+    // max-width: 254px !important;
+    // background: #041662 !important;
+}
+
+.wrapper-menu {
+    background: #182E89 !important;
+    color: #fff !important;
+}
+
+.ant-menu-horizontal {
+    border-bottom: none !important;
+}
+
+.img-hidden {
+    margin-left: -15px !important;
+}
+
+.ant-menu-item-selected {
+    background-color: unset !important;
+}

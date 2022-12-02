@@ -1,0 +1,26 @@
+.count-select-item-container {
+    margin-bottom: 8px;
+    margin-right: 8px;
+    width: 104px;
+    .count-select-item-button {
+        cursor: pointer;
+        width: 100%;
+        height: 104px;
+        position: relative;
+        border-radius: 8px;
+        border: 1px dashed #d9d9d9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .btn-delete {
+            position: absolute;
+            background-color: #fff;
+            top: -14px;
+            right: -6px;
+        }
+    }
+    .count-select-item-input {
+        margin-top: 6px;
+        width: 100%;
+    }
+}

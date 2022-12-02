@@ -1,0 +1,22 @@
+image: node
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - "which ssh-agent || ( apt-get install -qq openssh-client )"
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+deploy:
+  stage: deploy
+  environment:
+    name: production
+    url: example.com
+  script:
+    - bash deploy/deploy.sh
+  only:
+    - deploy

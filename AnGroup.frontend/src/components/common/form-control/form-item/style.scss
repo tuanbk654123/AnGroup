@@ -1,0 +1,25 @@
+// @import '~/styles/_variables.scss';
+
+.ant-form-item.form-item__custom {
+  &.vertical {
+    flex-direction: column;
+  }
+  &.horizontal {
+    flex-direction: row;
+    align-items: center;
+    .ant-form-item-label {
+      padding-bottom: 0;
+      margin-right: 8px;
+    }
+  }
+  .ant-form-item-label {
+    font-family: 'Inter';
+    font-size: 14px;
+    label {
+      color: #4e4b66;
+      &::before {
+        margin-left: 4px;
+      }
+    }
+  }
+}
