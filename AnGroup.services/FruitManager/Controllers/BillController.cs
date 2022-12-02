@@ -27,27 +27,28 @@ using DataAccess.ExceptionFilter.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
 using System.Data;
+using DataAccess.Models.Dto.ExportProcess;
 
 namespace FruitManager.Controllers
 {
-    [Route("api/UsersLogin")]
+    [Route("api/Bill")]
 //    [Authorize]
     [ApiController]
-    public class UserLoginController : ControllerBase
+    public class BillController : ControllerBase
     {
-        private readonly IUserLoginService userLoginService;
+        private readonly IBillService BillService;
 
-        public UserLoginController(IUserLoginService userLoginService )
+        public BillController(IBillService BillService )
         {
-            this.userLoginService = userLoginService;
+            this.BillService = BillService;
         }
 
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateUserLoginDto createUserLoginDto, CancellationToken cancellationToken)
+        public async Task<bool> Create(CreateBillDto createBillDto, CancellationToken cancellationToken)
         {
-            bool create = await userLoginService.Create(createUserLoginDto, cancellationToken);
+            bool create = await BillService.Create(createBillDto, cancellationToken);
             if (create)
             {
                 return true;
@@ -57,11 +58,11 @@ namespace FruitManager.Controllers
 
 
         [HttpGet("Search")]
-        public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchUserLoginDto searchUserLoginDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchBillDto searchBillDto, CancellationToken cancellationToken)
         {
             if (pageable == null || pageable.PageSize == 0)
                 return BadRequest("Dữ liệu phân trang không đúng");
-            return Ok( await userLoginService.Search(pageable, searchUserLoginDto));
+            return Ok( await BillService.Search(pageable, searchBillDto));
         }
     }
 }

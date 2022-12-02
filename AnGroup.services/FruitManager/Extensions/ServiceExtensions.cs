@@ -78,7 +78,23 @@ namespace FruitManager.Extensions
         public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IUserLoginService, UserLoginService>();
-            services.AddTransient<IUserLoginRepository, UserLoginRepository>(); 
+            services.AddTransient<IUserLoginRepository, UserLoginRepository>();
+            services.AddTransient<IBillService, BillService>();
+            services.AddTransient<IBillRepository, BillRepository>();
+            services.AddTransient<IExportPriceService, ExportPriceService>();
+            services.AddTransient<IExportPriceRepository, ExportPriceRepository>();
+            services.AddTransient<IExportProcessService, ExportProcessService>();
+            services.AddTransient<IExportProcessRepository, ExportProcessRepository>();
+            services.AddTransient<IExportReportService, ExportReportService>();
+            services.AddTransient<IExportReportRepository, ExportReportRepository>();
+            services.AddTransient<IGardenService, GardenService>();
+            services.AddTransient<IGardenRepository, GardenRepository>();
+            services.AddTransient<IImportPriceService, ImportPriceService>();
+            services.AddTransient<IImportPriceRepository, ImportPriceRepository>();
+            services.AddTransient<IImportProcessService, ImportProcessService>();
+            services.AddTransient<IImportProcessRepository, ImportProcessRepository>();
+            services.AddTransient<IImportReportService, ImportReportService>();
+            services.AddTransient<IImportReportRepository, ImportReportRepository>();
 
         }
 

@@ -27,27 +27,28 @@ using DataAccess.ExceptionFilter.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
 using System.Data;
+using DataAccess.Models.Dto.ExportProcess;
 
 namespace FruitManager.Controllers
 {
-    [Route("api/UsersLogin")]
+    [Route("api/ImportPrice")]
 //    [Authorize]
     [ApiController]
-    public class UserLoginController : ControllerBase
+    public class ImportPriceController : ControllerBase
     {
-        private readonly IUserLoginService userLoginService;
+        private readonly IImportPriceService ImportPriceService;
 
-        public UserLoginController(IUserLoginService userLoginService )
+        public ImportPriceController(IImportPriceService ImportPriceService )
         {
-            this.userLoginService = userLoginService;
+            this.ImportPriceService = ImportPriceService;
         }
 
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateUserLoginDto createUserLoginDto, CancellationToken cancellationToken)
+        public async Task<bool> Create(CreateImportPriceDto createImportPriceDto, CancellationToken cancellationToken)
         {
-            bool create = await userLoginService.Create(createUserLoginDto, cancellationToken);
+            bool create = await ImportPriceService.Create(createImportPriceDto, cancellationToken);
             if (create)
             {
                 return true;
@@ -57,11 +58,11 @@ namespace FruitManager.Controllers
 
 
         [HttpGet("Search")]
-        public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchUserLoginDto searchUserLoginDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchImportPriceDto searchImportPriceDto, CancellationToken cancellationToken)
         {
             if (pageable == null || pageable.PageSize == 0)
                 return BadRequest("Dữ liệu phân trang không đúng");
-            return Ok( await userLoginService.Search(pageable, searchUserLoginDto));
+            return Ok( await ImportPriceService.Search(pageable, searchImportPriceDto));
         }
     }
 }

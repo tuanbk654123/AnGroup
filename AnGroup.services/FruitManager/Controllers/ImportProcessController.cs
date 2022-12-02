@@ -27,27 +27,28 @@ using DataAccess.ExceptionFilter.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
 using System.Data;
+using DataAccess.Models.Dto.ExportProcess;
 
 namespace FruitManager.Controllers
 {
-    [Route("api/UsersLogin")]
+    [Route("api/ImportProcess")]
 //    [Authorize]
     [ApiController]
-    public class UserLoginController : ControllerBase
+    public class ImportProcessController : ControllerBase
     {
-        private readonly IUserLoginService userLoginService;
+        private readonly IImportProcessService ImportProcessService;
 
-        public UserLoginController(IUserLoginService userLoginService )
+        public ImportProcessController(IImportProcessService ImportProcessService )
         {
-            this.userLoginService = userLoginService;
+            this.ImportProcessService = ImportProcessService;
         }
 
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateUserLoginDto createUserLoginDto, CancellationToken cancellationToken)
+        public async Task<bool> Create(CreateImportProcessDto createImportProcessDto, CancellationToken cancellationToken)
         {
-            bool create = await userLoginService.Create(createUserLoginDto, cancellationToken);
+            bool create = await ImportProcessService.Create(createImportProcessDto, cancellationToken);
             if (create)
             {
                 return true;
@@ -57,11 +58,11 @@ namespace FruitManager.Controllers
 
 
         [HttpGet("Search")]
-        public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchUserLoginDto searchUserLoginDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchImportProcessDto searchImportProcessDto, CancellationToken cancellationToken)
         {
             if (pageable == null || pageable.PageSize == 0)
                 return BadRequest("Dữ liệu phân trang không đúng");
-            return Ok( await userLoginService.Search(pageable, searchUserLoginDto));
+            return Ok( await ImportProcessService.Search(pageable, searchImportProcessDto));
         }
     }
 }
