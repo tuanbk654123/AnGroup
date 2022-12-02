@@ -1,0 +1,18 @@
+﻿using DataAccess.Models.Enum;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace DataAccess.Models.Dto.ExportProcess
+{
+    public class UpdateBillDto
+    {
+        public string Id { set; get; } // Id
+        public string IdGarden { set; get; } // Id Garden
+        public DateTime Date { get; set; } // ngày tại bill
+        public string ImportProcess { set; get; } // Id ImportProcess
+
+
+    }
+}

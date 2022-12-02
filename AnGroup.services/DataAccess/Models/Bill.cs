@@ -9,7 +9,8 @@ namespace DataAccess.Models
     {
         public string Id { set; get; } // Id
         public string IdGarden { set; get; } // Id Garden
-
+        public DateTime Date { get; set; } // ngày tại bill
+        public string ImportProcess { set; get; } // Id ImportProcess
 
     }
 }

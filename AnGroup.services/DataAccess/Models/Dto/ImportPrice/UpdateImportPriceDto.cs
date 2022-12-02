@@ -5,19 +5,25 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models.Dto.ExportProcess
 {
-    public class UpdateExportPriceDto
+    public class UpdateImportPriceDto
     {
         public string Id { set; get; } // Id
         public DateTime DateImport { get; set; } // tên
-        public float PriceBlue { get; set; } // số tiền
-        public float PriceGreen { get; set; } // số tiền
-        public float PriceRed { get; set; } // số tiền
-        public float PriceOrange { get; set; } // số tiền
+        public float PriceKemLon { get; set; } // số tiền
+        public float PriceKem2 { get; set; } // số tiền
+        public float PriceKem3 { get; set; } // số tiền
+        public float PriceRXo { get; set; } // số tiền
+        public float PriceR1 { get; set; } // số tiền
+        public float PriceR2 { get; set; } // số tiền
+        public float PriceR3 { get; set; } // số tiền
 
-        public float RateBlue { get; set; } // tỷ lệ
-        public float RateGreen { get; set; } //  tỷ lệ
-        public float RateRed { get; set; } //  tỷ lệ
-        public float RateOrange { get; set; } //  tỷ lệ
+        public float RateKemLon { get; set; } // tỷ lệ
+        public float RateKem2 { get; set; } //  tỷ lệ
+        public float RateKem3 { get; set; } //  tỷ lệ
+        public float RateRXo { get; set; } //  tỷ lệ
+        public float RateR1 { get; set; } //  tỷ lệ
+        public float RateR2 { get; set; } //  tỷ lệ
+        public float RateR3 { get; set; } // tỷ lệ
 
     }
 }

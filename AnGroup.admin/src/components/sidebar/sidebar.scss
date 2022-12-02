@@ -1,0 +1,104 @@
+.sidebar{
+    flex: 1;
+    //border-right: 0.5px solid lightgrey;
+    min-height: 100vh;
+    background-color: #d32f2f;
+    // margin-top: 5px;
+    // margin-bottom: 5px;
+    // margin-left: 5px;
+    .top{
+        height: 70px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0px;
+        padding-top: 20px;
+        background-color: #d32f2f;
+        .logo{
+            font-size: 25px;
+            font-weight: bold;
+            color: #dc778f;
+        }
+    }
+    .hr1{
+        height: 0;
+        //border:  0.5px solid rgb(231, 228, 228);
+    }
+    .center{
+        //padding-left: 10px;
+         //border-right: 0.5px solid lightgrey;
+         padding-top: 15px;
+         height: 100vh;
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+        }
+        .title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+        li{
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            cursor: pointer;
+            height: 40px;
+            
+            &:hover{
+                background-color: #ffffff;
+                border-radius: 10px;
+            }
+        }
+        li:hover{
+            background-color: #ffffff;
+            .icon{
+                color: #d32f2f;
+            }
+            span{
+                color: #d32f2f;
+            }
+        }
+      
+        .icon{
+            font-size: 20px;
+            color: #ffffff;
+        }
+    
+        span{
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-left: 10px;
+        }
+      
+    }
+
+    // .bottom{
+    //     display: flex;
+    //     align-items: center;
+    //     margin: 10px;
+        
+    //     .colorOption{
+    //         width: 20px;
+    //         height: 20px;
+    //         border-radius: 5px;
+    //         margin: 5px;
+    //         border:  1px solid #dc778f;
+    //         cursor: pointer;
+
+    //         &:nth-child(1){
+    //             background-color: white;
+    //         }
+    //         &:nth-child(2){
+    //             background-color: rgb(145, 31, 31);
+    //         }
+    //     }
+    // }
+}
