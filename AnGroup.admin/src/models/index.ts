@@ -6,3 +6,5 @@ export * from './role'
 export * from './dto/searchRoleDto'
 export * from './dto/searchUserHistoryDto'
 export * from './userHistory'
+
+export * from './dto/importPrice/importpriceDto'

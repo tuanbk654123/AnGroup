@@ -17,8 +17,8 @@ const Featured = () => {
         <div className="featuredChart">
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5}  />
         </div>
-        <p className="title">Số người dùng đăng nhập hôm nay</p>
-        <p className="amount">420k</p>
+        <p className="title">Tổng số tiền nhập hôm nay (vnđ)</p>
+        <p className="amount">250000000</p>
         <p className="desc">
           Sự thay đổi
         </p>
