@@ -1,38 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LisResponse, searchUserHistoryDto,userHistory } from "../../models";
+import { LisResponse, searchUserHistoryDto, userHistory } from "../../models";
 
 
-export interface UserHistoryState{
+export interface UserHistoryState {
     lstRespone: LisResponse<userHistory>,
-    respone:{
-    status: number,
-    data:string
+    respone: {
+        status: number,
+        data: string
     }
 }
 
-const initialState : UserHistoryState = {
+const initialState: UserHistoryState = {
     lstRespone: {
         pageIndex: 0,
         totalItem: 0,
-        content : []
-      },
-    respone:{
-    status: 0,
-    data:""
+        content: []
+    },
+    respone: {
+        status: 0,
+        data: ""
     }
-  };
-  
+};
+
 
 const UserHistorySlice = createSlice({
     name: 'UserHistory',
     initialState,
-    reducers:{
-        searchUserHistory(state, action: PayloadAction<searchUserHistoryDto>){
+    reducers: {
+        searchUserHistory(state, action: PayloadAction<searchUserHistoryDto>) {
             // state.lstRespone = action.payload;
             // state.isLoggedIn = true;
-            
+
         },
-        searchUserHistorySuccess(state, action: PayloadAction<LisResponse<userHistory>>){
+        searchUserHistorySuccess(state, action: PayloadAction<LisResponse<userHistory>>) {
             state.lstRespone = action.payload;
         },
 

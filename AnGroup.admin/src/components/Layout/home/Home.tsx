@@ -24,16 +24,22 @@ function Home() {
     <Sidebar/>
     <div className='homeContainer'>
         < Navbar/>
+        <h2 style={{margin:"10px"}}>GIÁ NHẬP HÔM NAY</h2>
         <div className="widgets">
-          <Widget type="user" />
-      
-          <Widget type="userActive" />
-          <Widget type="userOline" />
+          <Widget type="Kem1" />
+          <Widget type="Kem2" />
+          <Widget type="Kem3" />
+          <Widget type="RXo" />
+          <Widget type="R1" />
+          <Widget type="R2" />
+          <Widget type="R3" />
+        
         </div>
         <div className="charts">
           <Featured />
-          <Chart title="6 tháng trước ( tần xuất đăng nhập )" aspect={2 / 1} />
+          <Chart title="Biểu đồ giá nhập " aspect={2 / 1} />
         </div>
+      
   
     </div>
   </div>

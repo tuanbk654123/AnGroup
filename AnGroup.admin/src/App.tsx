@@ -11,6 +11,7 @@ import { NotFound, PrivateRoute} from './components/common'
 import SigninOidc from './components/Layout/login/signin-oidc';
 import Role from './components/Layout/role/Role';
 import History from './components/Layout/history/History';
+import ImportPrice from './components/Layout/importPrice/ImportPrice';
 
 
 function App() {
@@ -30,6 +31,10 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <PrivateRoute path="/importPrice">
+            <ImportPrice />
+          </PrivateRoute>
+          
           <PrivateRoute path="/home">
             <Home />
           </PrivateRoute>
