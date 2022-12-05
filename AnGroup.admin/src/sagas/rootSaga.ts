@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects';
 import {  Login, Logout  } from './authSaga'; 
+import { postSearchImportPrice } from './importPriceSaga';
 import {  postGetAllRole,postSearchRole, postAddRole,postUpdateRole,postDeleteRole  } from './roleSaga'; 
 import {  postSearchUserHistory } from './userHistorySaga'; 
 import {  postSearchUser,postAddUser, postDeleteUser,postUpdateUser  } from './userSaga'; 
@@ -24,5 +25,8 @@ export default function* rootSaga() {
 
      // history 
      postSearchUserHistory(),
+
+     //ImportPrice
+     postSearchImportPrice()
      ]);
 }

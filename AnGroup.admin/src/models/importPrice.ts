@@ -1,4 +1,5 @@
-export interface ImportpriceDto{
+export interface importPrice{
+    id: string;
     PriceKemLon?: number;
     PriceKem2?: number;
     PriceKem3?:number;
@@ -13,5 +14,6 @@ export interface ImportpriceDto{
     RateR1?: number;
     RateR2?: number;
     RateR3?:number;
-    DateImport:string;
+   
+  
 }

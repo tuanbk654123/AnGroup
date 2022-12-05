@@ -9,7 +9,7 @@ type Props = {
 const Widget = (props: Props) => {
   let data = {
     title: "string",
-    number: 1,
+    number: "",
     link: "",
     icon: {}
   };
@@ -32,7 +32,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ KEM1",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -49,7 +49,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ KEM2",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -66,7 +66,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ KEM3",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -83,7 +83,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ RXo",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -100,7 +100,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ R1",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -117,7 +117,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ R2",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -134,7 +134,7 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ R3",
 
-        number: amount,
+        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
         link: "VNĐ",
         icon: (
           <UserOutlined

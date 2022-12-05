@@ -18,7 +18,7 @@ const Featured = () => {
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5}  />
         </div>
         <p className="title">Tổng số tiền nhập hôm nay (vnđ)</p>
-        <p className="amount">250000000</p>
+        <p className="amount">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(250000000)}</p>
         <p className="desc">
           Sự thay đổi
         </p>
