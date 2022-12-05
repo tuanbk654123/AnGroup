@@ -16,11 +16,11 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AuthProvider userManager={userManager} store={store} >
+      {/* <AuthProvider userManager={userManager} store={store} > */}
         <ConnectedRouter history ={history}>
           <App />
         </ConnectedRouter>
-      </AuthProvider>
+      {/* </AuthProvider> */}
       
    
     </Provider>

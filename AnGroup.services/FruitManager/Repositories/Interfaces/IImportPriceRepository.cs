@@ -11,5 +11,6 @@ namespace FruitManager.Repositories.Interfaces
     public interface IImportPriceRepository : IMongoDbBase<ImportPrice>
     {
         public Task<IPage<ImportPrice>> Search(IPageable pageable, SearchImportPriceDto searchImportPriceDto);
+        public Task<bool> Delete(string id);
     }
 }

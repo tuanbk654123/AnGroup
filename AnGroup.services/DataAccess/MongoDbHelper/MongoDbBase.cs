@@ -150,10 +150,15 @@ namespace DataAccess.MongoDbHelper
             return (await Collection.FindAsync(filter))?.ToList();
         }
 
-        public Task RemoveAsync(T obj)
+        public async Task RemoveAsync(T Collection)
         {
+            //var filter = Builders<T>.Filter.Eq("Id", Collection.ID);
+            //return await Collection.DeleteOneAsync();
+
             throw new NotImplementedException();
         }
+
+    
 
         public virtual async Task<bool> UpdateAsync(Expression<Func<T, object>> index, T obj, bool isCreate, CancellationToken cancellationToken = default)
         {

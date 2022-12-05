@@ -11,5 +11,7 @@ namespace FruitManager.Services.Interfaces
         Task<IPage<ExportPrice>> Search(IPageable pageable, SearchExportPriceDto searchExportPriceDto );
         
         Task<bool> Create(CreateExportPriceDto createExportPriceDto,  CancellationToken cancellationToken = default);
+        Task<bool> Update(UpdateExportPriceDto updateExportPriceDto, CancellationToken cancellationToken = default);
+        Task<bool> Delete(string id, CancellationToken cancellationToken = default);
     }
 }

@@ -12,6 +12,7 @@ namespace FruitManager.Services
     using DataAccess.Pagination.Base;
     using Interfaces;
     using DataAccess.Models.Dto.ExportProcess;
+    using DataAccess.ExceptionFilter.Exceptions;
 
     internal sealed class BillService : IBillService
     {
@@ -37,6 +38,22 @@ namespace FruitManager.Services
         public async Task<IPage<Bill>> Search(IPageable pageable, SearchBillDto searchBillDto)
         {
             return await billRepository.Search(pageable, searchBillDto);
+        }
+
+        public async Task<bool> Update(UpdateBillDto updateBillDto, CancellationToken cancellationToken = default)
+        {
+            var bill = updateBillDto.Adapt<Bill>();
+            return await billRepository.UpdateAsync(x => x.Id, bill, false, cancellationToken);
+        }
+
+        public async Task<bool> Delete(string id, CancellationToken cancellationToken = default)
+        {
+            var bill = await billRepository.GetByIndexAsync(x => x.Id, id);
+            if (bill != null)
+            {
+                return await billRepository.Delete(id);
+            }
+            throw new NotFoundException("Không tồn tại hóa đơn");
         }
     }
 }

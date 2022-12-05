@@ -12,6 +12,7 @@ namespace FruitManager.Services
     using DataAccess.Pagination.Base;
     using Interfaces;
     using DataAccess.Models.Dto.ExportProcess;
+    using DataAccess.ExceptionFilter.Exceptions;
 
     internal sealed class ImportReportService : IImportReportService
     {
@@ -37,6 +38,21 @@ namespace FruitManager.Services
         public async Task<IPage<ImportReport>> Search(IPageable pageable, SearchImportReportDto searchImportReportDto)
         {
             return await ImportReportRepository.Search(pageable, searchImportReportDto);
+        }
+        public async Task<bool> Update(UpdateImportReportDto updateImportReportDto, CancellationToken cancellationToken = default)
+        {
+            var ImportReport = updateImportReportDto.Adapt<ImportReport>();
+            return await ImportReportRepository.UpdateAsync(x => x.Id, ImportReport, false, cancellationToken);
+        }
+
+        public async Task<bool> Delete(string id, CancellationToken cancellationToken = default)
+        {
+            var ImportReport = await ImportReportRepository.GetByIndexAsync(x => x.Id, id);
+            if (ImportReport != null)
+            {
+                return await ImportReportRepository.Delete(id);
+            }
+            throw new NotFoundException("Không tồn tại hóa đơn");
         }
     }
 }

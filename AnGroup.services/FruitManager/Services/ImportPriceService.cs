@@ -12,6 +12,7 @@ namespace FruitManager.Services
     using DataAccess.Pagination.Base;
     using Interfaces;
     using DataAccess.Models.Dto.ExportProcess;
+    using DataAccess.ExceptionFilter.Exceptions;
 
     internal sealed class ImportPriceService : IImportPriceService
     {
@@ -37,6 +38,21 @@ namespace FruitManager.Services
         public async Task<IPage<ImportPrice>> Search(IPageable pageable, SearchImportPriceDto searchImportPriceDto)
         {
             return await ImportPriceRepository.Search(pageable, searchImportPriceDto);
+        }
+        public async Task<bool> Update(UpdateImportPriceDto updateImportPriceDto, CancellationToken cancellationToken = default)
+        {
+            var ImportPrice = updateImportPriceDto.Adapt<ImportPrice>();
+            return await ImportPriceRepository.UpdateAsync(x => x.Id, ImportPrice, false, cancellationToken);
+        }
+
+        public async Task<bool> Delete(string id, CancellationToken cancellationToken = default)
+        {
+            var ImportPrice = await ImportPriceRepository.GetByIndexAsync(x => x.Id, id);
+            if (ImportPrice != null)
+            {
+                return await ImportPriceRepository.Delete(id);
+            }
+            throw new NotFoundException("Không tồn tại hóa đơn");
         }
     }
 }

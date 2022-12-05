@@ -1,64 +1,60 @@
-//import {PayloadAction} from '@reduxjs/toolkit'
+import { take, call, put, fork } from 'redux-saga/effects';
+import { authAction, LoginPayload } from '../features/auth/authSlice';
 
-import { take,call, put } from 'redux-saga/effects';
-import { authAction } from '../features/auth/authSlice';
-import { signinRedirect,signoutRedirect} from '../api/loginService'
-//import { push } from 'connected-react-router';
 import { history } from '../utils/history';
+import { PayloadAction } from '@reduxjs/toolkit';
 
- function* handleLogin(){
+function* handleLogin(payload: LoginPayload) {
     try {
-        yield call( signinRedirect);
-        // var user = getUser();
-        // console.log("handle login :",user);
-        // redirect to home 
-        history.push('home');
-    //yield put(push('/home'));
-    } catch (error) {
-        yield put(
-            authAction.loginFalse("Lỗi đăng nhập"));
+        console.log("handle Login");
+        localStorage.setItem('access_token', 'Fake');
+        yield history.push('home'); 
+        yield put(authAction.loginSuccess({
+            name: 'admin',
+            access_token: "sdfdf111"
+        }));
+        
     }
+    catch (error) {
+        //yield put(authAction.loginFalse(error.message));
+    }
+
+
 }
 
-export function* Login(){
-    yield take(authAction.login.type );
-    yield call(handleLogin);
-}
 
-function* handleLogout(){
-    signoutRedirect();
+function* handleLogout() {
+
     console.log("handle logout");
     localStorage.removeItem('access_token');
-    // redirect to login page
 
-     //yield put(push('/login'));
-     yield history.push('login'); // bỏ yield đi
+    //yield put(push('/login'));
+    yield history.push('login'); 
 }
 
-export function* Logout(){
-    yield take(authAction.logout.type );
+export function* Logout() {
+    yield take(authAction.logout.type);
     yield call(handleLogout);
 }
 
 
-// function* watchLoginFolow(){
-//     while(true){
-//         const isLoggedIn = localStorage.getItem('access_token');
-//         if(!isLoggedIn ){
-//             //const action: PayloadAction<any> = yield take(authAction.login.type);
-//             yield take(authAction.login.type);
-//             yield call(handleLogin);
-        
-//         }
+function* watchLoginFolow() {
+    while (true) {
+        const isLoggedIn = Boolean(localStorage.getItem('access_token'));
+        if (!isLoggedIn) {
+            const action: PayloadAction<LoginPayload> = yield take(authAction.login.type);
+            yield fork(handleLogin, action.payload);
 
-        
-//         yield take(authAction.logout.type);
-//         yield call(handleLogout);
-//     }
-//     }
-  
+        }
 
-// export default function* authSaga(){
-//     yield call(watchLoginFolow);
-// }
+
+        yield take(authAction.logout.type);
+        yield call(handleLogout);
+    }
+}
+
+
+export default function* authSaga() {
+    yield call(watchLoginFolow);
+}
 

@@ -64,5 +64,26 @@ namespace FruitManager.Controllers
                 return BadRequest("Dữ liệu phân trang không đúng");
             return Ok( await ExportProcessService.Search(pageable, searchExportProcessDto));
         }
+        [HttpPost("Update")]
+        public async Task<bool> Update(UpdateExportProcessDto updateExportProcessDto, CancellationToken cancellationToken)
+        {
+            bool create = await ExportProcessService.Update(updateExportProcessDto, cancellationToken);
+            if (create)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        [HttpPost("Delete")]
+        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        {
+            bool create = await ExportProcessService.Delete(id, cancellationToken);
+            if (create)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

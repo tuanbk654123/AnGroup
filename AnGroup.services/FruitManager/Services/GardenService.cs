@@ -12,6 +12,7 @@ namespace FruitManager.Services
     using DataAccess.Pagination.Base;
     using Interfaces;
     using DataAccess.Models.Dto.ExportProcess;
+    using DataAccess.ExceptionFilter.Exceptions;
 
     internal sealed class GardenService : IGardenService
     {
@@ -37,6 +38,21 @@ namespace FruitManager.Services
         public async Task<IPage<Garden>> Search(IPageable pageable, SearchGardenDto searchGardenDto)
         {
             return await GardenRepository.Search(pageable, searchGardenDto);
+        }
+        public async Task<bool> Update(UpdateGardenDto updateGardenDto, CancellationToken cancellationToken = default)
+        {
+            var Garden = updateGardenDto.Adapt<Garden>();
+            return await GardenRepository.UpdateAsync(x => x.Id, Garden, false, cancellationToken);
+        }
+
+        public async Task<bool> Delete(string id, CancellationToken cancellationToken = default)
+        {
+            var Garden = await GardenRepository.GetByIndexAsync(x => x.Id, id);
+            if (Garden != null)
+            {
+                return await GardenRepository.Delete(id);
+            }
+            throw new NotFoundException("Không tồn tại hóa đơn");
         }
     }
 }

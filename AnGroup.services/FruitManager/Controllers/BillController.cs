@@ -45,7 +45,7 @@ namespace FruitManager.Controllers
 
 
         [HttpPost("Create")]
-        [AllowAnonymous]
+
         public async Task<bool> Create(CreateBillDto createBillDto, CancellationToken cancellationToken)
         {
             bool create = await BillService.Create(createBillDto, cancellationToken);
@@ -63,6 +63,28 @@ namespace FruitManager.Controllers
             if (pageable == null || pageable.PageSize == 0)
                 return BadRequest("Dữ liệu phân trang không đúng");
             return Ok( await BillService.Search(pageable, searchBillDto));
+        }
+
+        [HttpPost("Update")]
+        public async Task<bool> Update(UpdateBillDto updateBillDto, CancellationToken cancellationToken)
+        {
+            bool create = await BillService.Update(updateBillDto, cancellationToken);
+            if (create)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        [HttpPost("Delete")]
+        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        {
+            bool create = await BillService.Delete(id, cancellationToken);
+            if (create)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

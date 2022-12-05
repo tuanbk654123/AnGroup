@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Models.Dto.ExportProcess
 {
-    public class UpdateExportPriceDto
+    public class UpdateExportProcessDto
     {
         public string Id { set; get; } // Id
         public DateTime DateImport { get; set; } // tên

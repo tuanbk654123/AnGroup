@@ -18,7 +18,16 @@ namespace FruitManager.Repositories
         public ImportPriceRepository(IConfiguration configuration, IMongoDatabase mongoDatabase) : base(configuration, mongoDatabase)
         {
         }
+        public async Task<bool> Delete(string id)
+        {
+            var builder = Builders<ImportPrice>.Filter;
+            var filter = builder.Empty;
+            filter &= builder.Where(x => x.Id == id);
 
+            var resultCount = await Collection.DeleteOneAsync(filter);
+
+            return resultCount.DeletedCount > 0;
+        }
         public async Task<IPage<ImportPrice>> Search(IPageable pageable, SearchImportPriceDto searchImportPriceDto)
         {
             var builder = Builders<ImportPrice>.Filter;

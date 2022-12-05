@@ -11,5 +11,6 @@ namespace FruitManager.Repositories.Interfaces
     public interface IGardenRepository : IMongoDbBase<Garden>
     {
         public Task<IPage<Garden>> Search(IPageable pageable, SearchGardenDto searchGardenDto);
+        public Task<bool> Delete(string id);
     }
 }

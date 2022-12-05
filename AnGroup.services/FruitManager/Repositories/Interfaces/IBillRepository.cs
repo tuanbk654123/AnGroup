@@ -11,5 +11,7 @@ namespace FruitManager.Repositories.Interfaces
     public interface IBillRepository : IMongoDbBase<Bill>
     {
         public Task<IPage<Bill>> Search(IPageable pageable, SearchBillDto searchBillDto);
+
+        public Task<bool> Delete(string id);
     }
 }

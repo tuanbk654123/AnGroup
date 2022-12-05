@@ -1,47 +1,73 @@
-.root{
+.root {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     background-color: beige;
-    background-image: linear-gradient(  rgb(179, 179, 157),beige );
-    .middle{
-        width: 250px;
-        height: 150px;
+    background-image: linear-gradient(rgb(179, 179, 157), beige);
+
+    .middle {
+        width: 450px;
+        height: 550px;
         background-color: white;
         box-shadow: 20px 20px 50px 15px grey;
         border-radius: 5px;
-        .top{
+
+        .top {
             display: flex;
-            height: 100px;
+            height: 300px;
             justify-content: center;
             align-items: center;
-            .title{
+
+            .title {
                 display: flex;
-                height: 100px;
+                height: 300px;
                 font-size: 28px;
                 font-weight: bold;
                 justify-content: center;
                 align-items: center;
                 margin-left: 10px;
-           
+
             }
-            .icon{
+
+            .icon {
                 display: flex;
-                height: 100px;
+                height: 300px;
                 justify-content: center;
                 align-items: center;
             }
         }
-       
-        .button{
-            flex: 2;
+
+        .descrip {
             display: flex;
             justify-content: center;
             align-items: center;
+            color: gray;
+        }
+
+        .input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            margin-left: 40px;
+            margin-right: 40px;
+        }
+
+        .button {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
             .ant-button {
                 border-radius: 25px;
-              }
+            }
+
+            margin: 10px;
+            margin-top: 40px;
+            margin-left: 40px;
+            margin-right: 40px;
         }
     }
 }

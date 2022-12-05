@@ -1,6 +1,7 @@
 
 {
     "SERVER_URL": "http://localhost:7202",
+    
     "authority": "http://10.0.0.80:5001",
     "client_id": "apectravele",
     "redirect_uri": "http://localhost:3000/signin-oidc",
