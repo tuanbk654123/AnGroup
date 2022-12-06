@@ -2,7 +2,7 @@
     flex: 1;
     //border-right: 0.5px solid lightgrey;
     min-height: 100vh;
-    background-color: #d32f2f;
+    background-color: #ffffff;
     // margin-top: 5px;
     // margin-bottom: 5px;
     // margin-left: 5px;
@@ -14,7 +14,7 @@
         justify-content: center;
         margin-right: 0px;
         padding-top: 20px;
-        background-color: #d32f2f;
+        background-color: #ffffff;
         .logo{
             font-size: 25px;
             font-weight: bold;
@@ -39,7 +39,7 @@
         .title {
             font-size: 12px;
             font-weight: bold;
-            color: #ffffff;
+            color: #d32f2f;
             margin-top: 15px;
             margin-bottom: 5px;
             margin-left: 5px;
@@ -52,29 +52,29 @@
             height: 40px;
             
             &:hover{
-                background-color: #ffffff;
+                background-color: #d32f2f;
                 border-radius: 10px;
             }
         }
         li:hover{
-            background-color: #ffffff;
+            background-color: #d32f2f;
             .icon{
-                color: #d32f2f;
+                color: #ffffff;
             }
             span{
-                color: #d32f2f;
+                color: #ffffff;
             }
         }
       
         .icon{
             font-size: 20px;
-            color: #ffffff;
+            color: #d32f2f;
         }
     
         span{
             font-size: 13px;
             font-weight: 600;
-            color: #ffffff;
+            color: #d32f2f;
             margin-left: 10px;
         }
       

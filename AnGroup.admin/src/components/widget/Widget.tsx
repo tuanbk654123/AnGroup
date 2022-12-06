@@ -1,7 +1,7 @@
 import React from 'react'
 import "./widget.scss";
 // import { useEffect } from "react";
-import { UserOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, ArrowUpOutlined, UserOutlined } from '@ant-design/icons';
 type Props = {
   type: string,
 }
@@ -11,6 +11,7 @@ const Widget = (props: Props) => {
     title: "string",
     number: "",
     link: "",
+    up: true,
     icon: {}
   };
   // const dispatch = useDispatch();
@@ -32,8 +33,9 @@ const Widget = (props: Props) => {
       data = {
         title: "GIÁ KEM1",
 
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
+        up: true,
         icon: (
           <UserOutlined
             className="icon"
@@ -48,8 +50,8 @@ const Widget = (props: Props) => {
     case "Kem2":
       data = {
         title: "GIÁ KEM2",
-
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        up: false,
+        number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -65,8 +67,8 @@ const Widget = (props: Props) => {
     case "Kem3":
       data = {
         title: "GIÁ KEM3",
-
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        up: true,
+        number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -82,8 +84,8 @@ const Widget = (props: Props) => {
     case "RXo":
       data = {
         title: "GIÁ RXo",
-
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        up: false,
+        number: new Intl.NumberFormat('vi-VN', {  currency: 'VND' }).format(amount),
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -99,8 +101,8 @@ const Widget = (props: Props) => {
     case "R1":
       data = {
         title: "GIÁ R1",
-
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        up: true,
+        number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -116,8 +118,8 @@ const Widget = (props: Props) => {
     case "R2":
       data = {
         title: "GIÁ R2",
-
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        up: true,
+        number: new Intl.NumberFormat('vi-VN', {  currency: 'VND' }).format(amount),
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -133,8 +135,8 @@ const Widget = (props: Props) => {
     case "R3":
       data = {
         title: "GIÁ R3",
-
-        number: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount) ,
+        up: true,
+        number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
         icon: (
           <UserOutlined
@@ -156,11 +158,19 @@ const Widget = (props: Props) => {
   return (
     <div className="widget">
       <div className="left">
-        <span className="title">{data.title}</span>
+        <span className="title"  style={{ color: "#0000ff" }}>{data.title}</span>
         <span className="counter">
           {data.number}
         </span>
-        <span className="link">{data.link}</span>
+
+        <span className="link">
+          <div>
+            {data.up ? <ArrowUpOutlined style={{ color: "#00cc00" }} /> : <ArrowDownOutlined style={{ color: "#d32f2f" }} />}
+          </div>
+
+          {data.link}
+
+        </span>
       </div>
       {/* <div className="right">
       <div className="percentage positive">

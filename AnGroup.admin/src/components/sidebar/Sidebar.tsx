@@ -8,13 +8,13 @@ import "./sidebar.scss"
 // import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Link } from "react-router-dom";
 import {
-    UserOutlined, AppstoreOutlined, LogoutOutlined, HistoryOutlined, LockOutlined, PoundCircleOutlined, EditOutlined, FileTextOutlined
+     AppstoreFilled, PoundCircleFilled, EditFilled, FileTextFilled
     // ,LinkOutlined    
 } from '@ant-design/icons';
 import { useHistory } from "react-router-dom";
 //import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { Image } from 'antd';
-import background from './apec.png'
+import background from './VANAN.png'
 
 import { useAppDispatch } from '../../app/hooks';
 import { authAction } from '../../features/auth/authSlice';
@@ -60,8 +60,8 @@ const Sidebar = (props: Props) => {
                     <Link to="/" style={{ textDecoration: "none" }}>
                         <li>
 
-                            <AppstoreOutlined className='icon' />
-                            <span>Bảng điều khiển</span>
+                            <AppstoreFilled className='icon' />
+                            <span>Biểu đồ</span>
 
                         </li>
                     </Link>
@@ -90,7 +90,7 @@ const Sidebar = (props: Props) => {
                     <p className='title'>Nhập</p>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
                         <li>
-                            <PoundCircleOutlined className='icon' />
+                            <PoundCircleFilled className='icon' />
                             <span>
                                 Giá nhập
                             </span>
@@ -98,7 +98,7 @@ const Sidebar = (props: Props) => {
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
                         <li>
-                            <EditOutlined className='icon' />
+                            <EditFilled className='icon' />
                             <span>
                                 Quá trình nhập
                             </span>
@@ -106,7 +106,7 @@ const Sidebar = (props: Props) => {
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
                         <li>
-                            <FileTextOutlined className='icon' />
+                            <FileTextFilled className='icon' />
                             <span>
                                 Báo cáo nhập
                             </span>
@@ -115,7 +115,7 @@ const Sidebar = (props: Props) => {
                     <p className='title'>Xuất</p>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
                         <li>
-                            <PoundCircleOutlined className='icon' />
+                            <PoundCircleFilled className='icon' />
                             <span>
                                 Giá xuất
                             </span>
@@ -123,7 +123,7 @@ const Sidebar = (props: Props) => {
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
                         <li>
-                            <EditOutlined className='icon' />
+                            <EditFilled className='icon' />
                             <span>
                                 Quá trình xuất
                             </span>
@@ -131,22 +131,19 @@ const Sidebar = (props: Props) => {
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
                         <li>
-                            <FileTextOutlined className='icon' />
+                            <FileTextFilled className='icon' />
                             <span>
                                 Báo cáo xuất
                             </span>
                         </li>
                     </Link>
 
-                    <p className='title'>Hành động</p>
-                    {/* <li>
-                <LinkOutlined  className='icon'/>  
-                <span>Profile</span> 
-            </li>  */}
+                    {/* <p className='title'>Hành động</p>
+          
                     <li onClick={() => signOut()}>
                         <LogoutOutlined className='icon' />
                         <span>Đăng xuất</span>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             <div className='bottom'>

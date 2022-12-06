@@ -7,7 +7,7 @@ import { history } from '../utils/history';
 import userReducer from '../features/user/userSlice';
 import roleReducer from '../features/role/roleSlice';
 import userHistoryReducer  from '../features/history/historySlice';
-import importPriceReducer  from '../features/importPrice/historySlice';
+import importPriceReducer  from '../features/importPrice/importPriceSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,

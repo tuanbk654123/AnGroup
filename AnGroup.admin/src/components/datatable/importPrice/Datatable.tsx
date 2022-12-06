@@ -1,7 +1,7 @@
-import React from 'react'
+
 import "./datatable.scss";
 import { useEffect, useState } from "react";
-import { ImportPriceAction } from '../../../features/importPrice/historySlice';
+import { ImportPriceAction } from '../../../features/importPrice/importPriceSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
 import { ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
@@ -93,13 +93,19 @@ const Datatable = (props: Props) => {
   const onAddOrUpdateUser = async () => {
     // add
     if (addOrUpdate === 1) {
-
-      //await dispatch( userAction.addUser(lstUsers));
+      const importPrice = {
+        ...ImportpriceDto,
+        id: ""
+      }
+      await dispatch(ImportPriceAction.addImportPrice(importPrice));
     }
     // Update
     if (addOrUpdate === 2) {
-
-      //await dispatch(userAction.updateUser(UpdateUser));
+      const importPrice = {
+        ...ImportpriceDto,
+        id: ""
+      }
+      await dispatch(ImportPriceAction.updateImportPrice(importPrice));
 
     }
     await timeout(500);
@@ -130,6 +136,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Giá Kem2',
@@ -137,6 +148,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceKem2',
       key: 'priceKem2',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Giá Kem3',
@@ -144,6 +160,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceKem3',
       key: 'priceKem3',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Giá RXo',
@@ -151,6 +172,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceRXo',
       key: 'priceRXo',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Giá R1',
@@ -158,6 +184,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceR1',
       key: 'priceR1',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Giá R2',
@@ -165,6 +196,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceR2',
       key: 'priceR2',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Giá R3',
@@ -172,6 +208,11 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceR3',
       key: 'priceR3',
       fixed: 'left',
+      render: (value: any) => {
+        return (
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+        );
+      },
     },
     {
       title: 'Tỷ lệ Kem1',
@@ -252,6 +293,7 @@ const Datatable = (props: Props) => {
 
   ];
   const { RangePicker } = DatePicker;
+  //const dateFormat = 'DD-MM-YYYY';
   const dateFormat = 'YYYY-MM-DD';
   const onChangeDate = (dates: any, dateStrings: any) => {
     if (dates) {
@@ -271,22 +313,18 @@ const Datatable = (props: Props) => {
       })
     }
   };
-  // Show Add  
+  // Show Add    
   const showDrawer = () => {
     //init state 
     setImportpriceDto({
       ...ImportpriceDto
     })
-
-
     setTitle("Thêm mới giá nhập");
-
     // setState add or up date
     setaddOrUpdate(1);
     // open TAB
     setOpen(true);
   };
-
   // Show edit  
   const showEditDrawer = (record: any) => {
     //init state 
@@ -298,7 +336,7 @@ const Datatable = (props: Props) => {
         ...ImportpriceDto,
         PriceKemLon: record.priceKemLon,
         PriceKem2: record.priceKem2,
-        PriceKem3:record.priceKem3,
+        PriceKem3: record.priceKem3,
         PriceRXo: record.priceRXo,
         PriceR1: record.priceR1,
         PriceR2: record.priceR2,
@@ -310,7 +348,7 @@ const Datatable = (props: Props) => {
         RateR1: record.rateR1,
         RateR2: record.rateR2,
         RateR3: record.rateR3,
-        DateImport:record.dateImport
+        DateImport: record.dateImport
       }
     )
     // setState add or up date
@@ -328,9 +366,9 @@ const Datatable = (props: Props) => {
       title: 'Xóa giá nhập',
       content: 'Bạn có muốn xóa giá nhập này?',
       async onOk() {
-        const lstId = [id];
+
         setCheckRefresh(true);
-        //await dispatch(userAction.deleteUser(lstId));
+        await dispatch(ImportPriceAction.deleteImportPrice(id));
         await timeout(500);
         refresh();
         setModal1Open(false)
@@ -611,8 +649,8 @@ const Datatable = (props: Props) => {
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Ngày:</label>
-            <DatePicker   defaultValue={moment(ImportpriceDto.DateImport, dateFormat)}  onChange={onChange}  format={dateFormat} style={{ width: '100%' }} />
-          
+            <DatePicker defaultValue={moment(ImportpriceDto.DateImport, dateFormat)} onChange={onChange} format={dateFormat} style={{ width: '100%' }} />
+
           </Col>
           <Col span={12}>
 

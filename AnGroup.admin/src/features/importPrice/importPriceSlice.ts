@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LisResponse, searchImportPriceDto, importPrice } from "../../models";
+
+import { LisResponse, searchImportPriceDto, importPrice ,Respone} from "../../models";
 
 
 export interface ImportPriceState {
@@ -33,7 +34,26 @@ const ImportPriceSlice = createSlice({
         searchImportPriceSuccess(state, action: PayloadAction<LisResponse<importPrice>>) {
             state.lstRespone = action.payload;
         },
+        addImportPrice (state, action: PayloadAction<importPrice>){
+        },
+        
+        addImportPriceSuccess (state, action: PayloadAction<Respone>){
+            state.respone = action.payload;
+        },
 
+        updateImportPrice (state, action: PayloadAction<importPrice>){
+        },
+
+        updateImportPriceSuccess (state, action: PayloadAction<Respone>){
+            state.respone = action.payload;
+        },
+
+        deleteImportPrice (state, action: PayloadAction<string>){
+        },
+
+        deleteImportPriceSuccess (state, action: PayloadAction<Respone>){
+            state.respone = action.payload;
+        }
     }
 
 })

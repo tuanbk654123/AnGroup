@@ -15,6 +15,20 @@ const importPriceService = {
             }
         });
     },
+    addImportPrices( lstImportPrices: importPrice): Promise<any>{
+        const url = '/api/ImportPrices/Create';
+        return axiosClient.post(url,lstImportPrices );
+    },
+
+    updateImportPrice( importPrice: importPrice): Promise<any>{
+        const url = '/api/ImportPrices/Update';
+        return axiosClient.put(url,importPrice );
+    },
+
+    deleteImportPrices( id: string): Promise<any>{
+        const url = '/api/ImportPrices/Delete';
+        return axiosClient.post(url,id );
+    },
 
  
 
