@@ -21,7 +21,8 @@ function Home() {
   return (
      access_token !== null?
     <div className='home'>
-    <Sidebar/>
+    <Sidebar  isActiveHoverChart = {true} isActiveHoverCustomer = {false} isActiveHoverImportPrice = {false} isActiveHoverImportProcess = {false}
+      isActiveHoverImportReport = {false} isActiveHoverExportPrcie = {false} isActiveHoverExportProcess = {false} isActiveHoverExportReport = {false}/>
     <div className='homeContainer'>
         < Navbar/>
         <h2 style={{margin:"10px", color:"#8A3688"}}>GIÁ NHẬP HÔM NAY</h2>

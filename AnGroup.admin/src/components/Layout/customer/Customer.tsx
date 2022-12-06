@@ -8,7 +8,8 @@ type Props = {}
 const Customer = (props: Props) => {
   return (
     <div className="list">
-      <Sidebar/>
+      <Sidebar  isActiveHoverChart = {false} isActiveHoverCustomer = {true} isActiveHoverImportPrice = {false} isActiveHoverImportProcess = {false}
+      isActiveHoverImportReport = {false} isActiveHoverExportPrcie = {false} isActiveHoverExportProcess = {false} isActiveHoverExportReport = {false}/>
       <div className="listContainer">
         <Navbar/>
         <Datatable/>
