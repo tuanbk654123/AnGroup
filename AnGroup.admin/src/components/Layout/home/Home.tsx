@@ -24,7 +24,7 @@ function Home() {
     <Sidebar/>
     <div className='homeContainer'>
         < Navbar/>
-        <h2 style={{margin:"10px", color:"#d32f2f"}}>GIÁ NHẬP HÔM NAY</h2>
+        <h2 style={{margin:"10px", color:"#8A3688"}}>GIÁ NHẬP HÔM NAY</h2>
         <div className="widgets">
           <Widget type="Kem1" />
           <Widget type="Kem2" />

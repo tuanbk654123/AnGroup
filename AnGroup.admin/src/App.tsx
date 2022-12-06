@@ -12,7 +12,8 @@ import SigninOidc from './components/Layout/login/signin-oidc';
 import Role from './components/Layout/role/Role';
 import History from './components/Layout/history/History';
 import ImportPrice from './components/Layout/importPrice/ImportPrice';
-
+import ImportProcess from './components/Layout/importProcess/ImportProcess';
+import Customer from './components/Layout/customer/Customer';
 
 function App() {
   // useEffect( () => {
@@ -34,7 +35,12 @@ function App() {
           <PrivateRoute path="/importPrice">
             <ImportPrice />
           </PrivateRoute>
-          
+          <PrivateRoute path="/importProcess">
+            <ImportProcess />
+          </PrivateRoute>
+          <PrivateRoute path="/customer">
+            <Customer />
+          </PrivateRoute>
           <PrivateRoute path="/home">
             <Home />
           </PrivateRoute>

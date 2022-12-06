@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./sidebar.scss"
 // import DashboardIcon from '@mui/icons-material/Dashboard';
 // import PersonIcon from '@mui/icons-material/Person';
@@ -8,7 +8,7 @@ import "./sidebar.scss"
 // import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Link } from "react-router-dom";
 import {
-     AppstoreFilled, PoundCircleFilled, EditFilled, FileTextFilled
+    AppstoreFilled, PoundCircleFilled, EditFilled, FileTextFilled, UserAddOutlined, UserOutlined
     // ,LinkOutlined    
 } from '@ant-design/icons';
 import { useHistory } from "react-router-dom";
@@ -22,7 +22,80 @@ import { authAction } from '../../features/auth/authSlice';
 type Props = {}
 
 const Sidebar = (props: Props) => {
+    const [isActiveHoverChart, setIsActiveHoverChart] = useState(true);
+    const [isActiveHoverCustomer, setIsActiveHoverCustomer] = useState(false);
+    const [isActiveHoverImportPrice, setIsActiveHoverImportPrice] = useState(false);
+    const [isActiveHoverImportProcess, setIsActiveHoverImportProcess] = useState(false);
+    const [isActiveHoverImportReport, setIsActiveHoverImportReport] = useState(false);
+    const [isActiveHoverExportPrcie, setIsActiveHoverExportPrcie] = useState(false);
+    const [isActiveHoverExportProcess, setIsActiveHoverExportProcess] = useState(false);
+    const [isActiveHoverExportReport, setIsActiveHoverExportReport] = useState(false);
 
+    const resetAll =  () => {
+        setIsActiveHoverChart(false);
+        setIsActiveHoverCustomer(false);
+        setIsActiveHoverImportPrice(false);
+        setIsActiveHoverImportProcess(false);
+        setIsActiveHoverImportReport(false);
+        setIsActiveHoverExportPrcie(false);
+        setIsActiveHoverExportProcess(false);
+        setIsActiveHoverExportReport(false);
+
+    };
+    const handleClickChart =  () => {
+        // 👇️ toggle
+        if (isActiveHoverChart) return;
+         resetAll();
+        setIsActiveHoverChart(true);
+    };
+    const handleClickCustomer =  () => {
+        // 👇️ toggle
+        if (isActiveHoverCustomer) return;
+         resetAll();
+        setIsActiveHoverCustomer(true);
+    };
+    const handleClickImportPrice =  () => {
+        // 👇️ toggle
+        if (isActiveHoverImportPrice) return;
+         resetAll();
+        setIsActiveHoverImportPrice(true);
+    };
+    const handleClickImportProcess =  () => {
+        // 👇️ toggle
+        if (isActiveHoverImportProcess) return;
+         resetAll();
+        setIsActiveHoverImportProcess(true);
+    };
+    const handleClickImportReport =  () => {
+        // 👇️ toggle
+        if (isActiveHoverImportReport) return;
+         resetAll();
+        setIsActiveHoverImportReport(true);
+    };
+    const handleClickExportPrcie =  () => {
+        // 👇️ toggle
+        if (isActiveHoverExportPrcie) return;
+         resetAll();
+        setIsActiveHoverExportPrcie(true);
+    };
+    const handleClickExportProcess =  () => {
+        // 👇️ toggle
+        if (isActiveHoverExportProcess) return;
+         resetAll();
+        setIsActiveHoverExportProcess(true);
+    };
+    const handleClickExportReport =  () => {
+        // 👇️ toggle
+        if (isActiveHoverExportReport) return;
+         resetAll();
+        setIsActiveHoverExportReport(true);
+    };
+    useEffect(() => {
+       
+      }, [ isActiveHoverExportReport, isActiveHoverExportProcess,isActiveHoverExportPrcie,isActiveHoverImportReport, isActiveHoverImportProcess,isActiveHoverImportPrice,
+        isActiveHoverCustomer,isActiveHoverChart
+    ])
+    
     const dispatch = useAppDispatch();
 
     const handleLoginout = () => {
@@ -56,12 +129,12 @@ const Sidebar = (props: Props) => {
             <div className='hr1' />
             <div className='center'>
                 <ul>
-                    <p className='title'>Trang chủ</p>
+                    <p className='title'>Thống kê</p>
                     <Link to="/" style={{ textDecoration: "none" }}>
-                        <li>
+                        <li onClick={ handleClickChart} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
 
-                            <AppstoreFilled className='icon' />
-                            <span>Biểu đồ</span>
+                            <AppstoreFilled className='icon' style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}/>
+                            <span style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}>Biểu đồ</span>
 
                         </li>
                     </Link>
@@ -87,52 +160,61 @@ const Sidebar = (props: Props) => {
                             <span>Lịch sử đăng nhập</span>
                         </li>
                     </Link> */}
+                    <p className='title'>Khách hàng</p>
+                    <Link to="/customer" style={{ textDecoration: "none" }} >
+                        <li onClick={handleClickCustomer} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <UserOutlined className='icon' style={{ color: isActiveHoverCustomer ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverCustomer ? '#ffffff' : '#d32f2f' }} >
+                                Quản lý khách hàng
+                            </span>
+                        </li>
+                    </Link>
                     <p className='title'>Nhập</p>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li>
-                            <PoundCircleFilled className='icon' />
-                            <span>
+                        <li onClick={handleClickImportPrice} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <PoundCircleFilled className='icon' style={{ color: isActiveHoverImportPrice ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverImportPrice ? '#ffffff' : '#d32f2f' }}>
                                 Giá nhập
                             </span>
                         </li>
                     </Link>
-                    <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li>
-                            <EditFilled className='icon' />
-                            <span>
+                    <Link to="/importProcess" style={{ textDecoration: "none" }}>
+                        <li onClick={handleClickImportProcess} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <EditFilled className='icon' style={{ color: isActiveHoverImportProcess ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverImportProcess ? '#ffffff' : '#d32f2f' }}>
                                 Quá trình nhập
                             </span>
                         </li>
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li>
-                            <FileTextFilled className='icon' />
-                            <span>
+                        <li onClick={handleClickImportReport} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <FileTextFilled className='icon' style={{ color: isActiveHoverImportReport ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverImportReport ? '#ffffff' : '#d32f2f' }}>
                                 Báo cáo nhập
                             </span>
                         </li>
                     </Link>
                     <p className='title'>Xuất</p>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li>
-                            <PoundCircleFilled className='icon' />
-                            <span>
+                        <li onClick={handleClickExportPrcie} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <PoundCircleFilled className='icon' style={{ color: isActiveHoverExportPrcie ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverExportPrcie ? '#ffffff' : '#d32f2f' }}>
                                 Giá xuất
                             </span>
                         </li>
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li>
-                            <EditFilled className='icon' />
-                            <span>
+                        <li onClick={handleClickExportProcess} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <EditFilled className='icon' style={{ color: isActiveHoverExportProcess ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverExportProcess ? '#ffffff' : '#d32f2f' }}>
                                 Quá trình xuất
                             </span>
                         </li>
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li>
-                            <FileTextFilled className='icon' />
-                            <span>
+                        <li onClick={handleClickExportReport} style={{ marginLeft: "10px", borderRadius: " 20px 0px 0px 20px", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                            <FileTextFilled className='icon' style={{ color: isActiveHoverExportReport ? '#ffffff' : '#d32f2f' }} />
+                            <span style={{ color: isActiveHoverExportReport ? '#ffffff' : '#d32f2f' }}>
                                 Báo cáo xuất
                             </span>
                         </li>
@@ -150,7 +232,7 @@ const Sidebar = (props: Props) => {
                 <div className='colorOption'></div>
                 <div className='colorOption'></div>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -16,17 +16,17 @@ const importPriceService = {
         });
     },
     addImportPrices( lstImportPrices: importPrice): Promise<any>{
-        const url = '/api/ImportPrices/Create';
+        const url = '/api/ImportPrice/Create';
         return axiosClient.post(url,lstImportPrices );
     },
 
     updateImportPrice( importPrice: importPrice): Promise<any>{
-        const url = '/api/ImportPrices/Update';
-        return axiosClient.put(url,importPrice );
+        const url = '/api/ImportPrice/Update';
+        return axiosClient.post(url,importPrice );
     },
 
     deleteImportPrices( id: string): Promise<any>{
-        const url = '/api/ImportPrices/Delete';
+        const url = '/api/ImportPrice/Delete';
         return axiosClient.post(url,id );
     },
 

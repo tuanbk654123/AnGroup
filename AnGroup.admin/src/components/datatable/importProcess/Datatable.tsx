@@ -1,3 +1,4 @@
+
 import "./datatable.scss";
 import { useEffect, useState } from "react";
 import { ImportPriceAction } from '../../../features/importPrice/importPriceSlice';
@@ -272,7 +273,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
     },
     {
-      title: 'Hành động',
+      title: 'Action',
       dataIndex: 'Action',
 
       key: 'operation',
@@ -532,7 +533,7 @@ const Datatable = (props: Props) => {
   return (
     <div className="background">
       <div className="title">
-        Quản lý giá nhập
+        Quản lý nhập hàng
       </div>
       <div className="datatable">
         <div className="tool">

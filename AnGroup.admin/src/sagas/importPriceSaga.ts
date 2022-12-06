@@ -27,8 +27,9 @@ function* getAddImportPriceSaga(action : any) {
 
     console.log(" ImportPrice saga : ", data);
     openNotification(data);
-  } catch (error) {
-    openNotification("tạo người dùng thất bại");
+  } catch (error : any) {
+    console.log(" ImportPrice saga : ", error);
+    openNotification(""+error.response.data);
   }
 }
 
@@ -39,7 +40,8 @@ export function* postAddImportPrice() {
 function* getUpdateImportPriceSaga(action : any) {
   try {
     const data : Respone  = yield call(importPriceService.updateImportPrice, action.payload);
-    openNotification("Sửa thanhf coong");
+    //openNotification("Sửa thành công");
+    openNotification(data);
     yield put(ImportPriceAction.updateImportPriceSuccess(data));
   } catch (error) {
     //handle error
@@ -56,7 +58,7 @@ function* getDeleteImportPriceSaga(action : any) {
   try {
     const data : Respone  = yield call(importPriceService.deleteImportPrices, action.payload);
     yield put(ImportPriceAction.deleteImportPriceSuccess(data));
-    openNotification("Xoá thành công");
+    openNotification(data);
   } catch (error) {
     //handle error
     openNotification("Xoá thất bại");

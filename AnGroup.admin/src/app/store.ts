@@ -8,6 +8,7 @@ import userReducer from '../features/user/userSlice';
 import roleReducer from '../features/role/roleSlice';
 import userHistoryReducer  from '../features/history/historySlice';
 import importPriceReducer  from '../features/importPrice/importPriceSlice';
+import customerReducer  from '../features/customer/customerSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     role: roleReducer,
     history: userHistoryReducer,
     importPrice: importPriceReducer,
+    customer: customerReducer,
     router: connectRouter(history),
 })
 

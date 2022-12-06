@@ -158,7 +158,7 @@ const Widget = (props: Props) => {
   return (
     <div className="widget">
       <div className="left">
-        <span className="title"  style={{ color: "#0000ff" }}>{data.title}</span>
+        <span className="title"  style={{ color: "#8A3688" }}>{data.title}</span>
         <span className="counter">
           {data.number}
         </span>

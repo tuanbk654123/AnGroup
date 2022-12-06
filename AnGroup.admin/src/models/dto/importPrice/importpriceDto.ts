@@ -14,4 +14,5 @@ export interface ImportpriceDto{
     RateR2?: number;
     RateR3?:number;
     DateImport:string;
+    id:string;
 }

@@ -46,14 +46,14 @@ namespace FruitManager.Controllers
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateGardenDto createGardenDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateGardenDto createGardenDto, CancellationToken cancellationToken)
         {
             bool create = await GardenService.Create(createGardenDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Tạo mới thành công");
             }
-            return false;
+            return BadRequest("Tạo mới thất bại");
         }
 
 
@@ -65,25 +65,25 @@ namespace FruitManager.Controllers
             return Ok( await GardenService.Search(pageable, searchGardenDto));
         }
         [HttpPost("Update")]
-        public async Task<bool> Update(UpdateGardenDto updateGardenDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(UpdateGardenDto updateGardenDto, CancellationToken cancellationToken)
         {
             bool create = await GardenService.Update(updateGardenDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Sửa thành công");
             }
-            return false;
+            return BadRequest("Sửa thất bại");
         }
 
         [HttpPost("Delete")]
-        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromBody] string id, CancellationToken cancellationToken)
         {
             bool create = await GardenService.Delete(id, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Xoá thành công");
             }
-            return false;
+            return BadRequest("Xoá thất bại");
         }
     }
 }

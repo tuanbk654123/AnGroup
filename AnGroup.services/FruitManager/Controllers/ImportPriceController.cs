@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Authorization;
 
 using System.Data;
 using DataAccess.Models.Dto.ExportProcess;
+using DataAccess.Models.Dto.ExportPrice;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FruitManager.Controllers
 {
@@ -46,14 +48,24 @@ namespace FruitManager.Controllers
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateImportPriceDto createImportPriceDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateImportPriceDto createImportPriceDto, CancellationToken cancellationToken)
         {
+            // Kiểm tra đã tồn tại bản ghi giá của ngày hôm đó chưa
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 10;
+            SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
+            searchImportPriceDto.fromDate = createImportPriceDto.DateImport;
+            searchImportPriceDto.toDate = createImportPriceDto.DateImport;
+            var checkHaveItem = await ImportPriceService.Search(pageable, searchImportPriceDto);
+            if(checkHaveItem!= null && checkHaveItem.Content.Count() > 0) return BadRequest("Đã tồn tại bản ghi ngày "+ createImportPriceDto.DateImport.ToString("dd-MM-yyyy"));
+
             bool create = await ImportPriceService.Create(createImportPriceDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Tạo mới thành công");
             }
-            return false;
+            return BadRequest("Tạo mới thất bại");
         }
 
 
@@ -65,25 +77,25 @@ namespace FruitManager.Controllers
             return Ok( await ImportPriceService.Search(pageable, searchImportPriceDto));
         }
         [HttpPost("Update")]
-        public async Task<bool> Update(UpdateImportPriceDto updateImportPriceDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(UpdateImportPriceDto updateImportPriceDto, CancellationToken cancellationToken)
         {
             bool create = await ImportPriceService.Update(updateImportPriceDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Sửa thành công");
             }
-            return false;
+            return BadRequest("Sửa thất bại");
         }
 
         [HttpPost("Delete")]
-        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromBody] string id, CancellationToken cancellationToken)
         {
-            bool create = await ImportPriceService.Delete(id, cancellationToken);
-            if (create)
+            bool delete = await ImportPriceService.Delete(id, cancellationToken);
+            if (delete)
             {
-                return true;
+                return Ok("Xoá thành công");
             }
-            return false;
+            return BadRequest("Xoá thất bại");
         }
     }
 }

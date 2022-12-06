@@ -12,6 +12,7 @@ namespace DataAccess.Models.Dto.ExportProcess
         public string AccountNumber { get; set; } // số tài khoản
         public string BankName { get; set; } // số tài khoản
         public string Address { get; set; } // địa chỉ 
+        public string NameGarden { get; set; } // địa chỉ 
         public string PhoneNumber { get; set; } // số điện thoại
 
     }

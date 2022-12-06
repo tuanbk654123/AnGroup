@@ -8,7 +8,7 @@ export const openNotification = (respone) => {
 
         duration: 2,
         description:
-          respone,
+        respone,
         icon: (
           <CheckCircleTwoTone twoToneColor="#52c41a" />
         ),
@@ -20,7 +20,37 @@ export const openNotification = (respone) => {
         message: 'Thất bại',
         duration: 2,
         description:
-          respone,
+        respone,
+        icon: (
+          <ExclamationCircleOutlined 
+            style={{
+              color: 'red',
+            }}
+          />
+        ),
+      });
+    }
+    else if(respone.includes("tồn tại")){
+      notification.open({
+        message: 'Thất bại',
+        duration: 2,
+        description:
+        respone,
+        icon: (
+          <ExclamationCircleOutlined 
+            style={{
+              color: 'red',
+            }}
+          />
+        ),
+      });
+    }
+    else{
+      notification.open({
+        message: 'Thất bại',
+        duration: 2,
+        description:
+        respone,
         icon: (
           <ExclamationCircleOutlined 
             style={{
