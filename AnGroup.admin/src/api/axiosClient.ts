@@ -22,7 +22,7 @@ axiosClient.interceptors.request.use(function (config: AxiosRequestConfig) {
 axiosClient.interceptors.response.use(function (response: AxiosResponse) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    console.log("client :", response.status);
+
     if(response.status === 200)
       return response.data;
     else return response

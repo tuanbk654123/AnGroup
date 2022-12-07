@@ -13,6 +13,7 @@ namespace FruitManager.Services
     using Interfaces;
     using DataAccess.Models.Dto.ExportProcess;
     using DataAccess.ExceptionFilter.Exceptions;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     internal sealed class GardenService : IGardenService
     {
@@ -53,6 +54,11 @@ namespace FruitManager.Services
                 return await GardenRepository.Delete(id);
             }
             throw new NotFoundException("Không tồn tại hóa đơn");
+        }
+
+        public async Task<Garden> GetByGardenName(string gardenName, CancellationToken cancellationToken = default)
+        {
+            return await GardenRepository.GetByIndexAsync(x => x.NameGarden, gardenName);
         }
     }
 }

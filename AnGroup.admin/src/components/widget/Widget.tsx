@@ -31,7 +31,7 @@ const Widget = (props: Props) => {
   switch (props.type) {
     case "Kem1":
       data = {
-        title: "GIÁ KEM1",
+        title: "Giá kem1",
 
         number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
@@ -49,7 +49,7 @@ const Widget = (props: Props) => {
       break;
     case "Kem2":
       data = {
-        title: "GIÁ KEM2",
+        title: "Giá kem2",
         up: false,
         number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
@@ -66,7 +66,7 @@ const Widget = (props: Props) => {
       break;
     case "Kem3":
       data = {
-        title: "GIÁ KEM3",
+        title: "Giá kem3",
         up: true,
         number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
@@ -83,7 +83,7 @@ const Widget = (props: Props) => {
       break;
     case "RXo":
       data = {
-        title: "GIÁ RXo",
+        title: "Giá RXo",
         up: false,
         number: new Intl.NumberFormat('vi-VN', {  currency: 'VND' }).format(amount),
         link: "VNĐ",
@@ -100,7 +100,7 @@ const Widget = (props: Props) => {
       break;
     case "R1":
       data = {
-        title: "GIÁ R1",
+        title: "Giá R1",
         up: true,
         number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",
@@ -117,7 +117,7 @@ const Widget = (props: Props) => {
       break;
     case "R2":
       data = {
-        title: "GIÁ R2",
+        title: "Giá R2",
         up: true,
         number: new Intl.NumberFormat('vi-VN', {  currency: 'VND' }).format(amount),
         link: "VNĐ",
@@ -134,7 +134,7 @@ const Widget = (props: Props) => {
       break;
     case "R3":
       data = {
-        title: "GIÁ R3",
+        title: "Giá R3",
         up: true,
         number: new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(amount),
         link: "VNĐ",

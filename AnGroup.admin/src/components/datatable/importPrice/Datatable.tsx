@@ -13,8 +13,7 @@ import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, 
 import { importPrice, searchImportPriceDto, ImportpriceDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
 import moment from "moment";
-import { stringify } from "querystring";
-import { isDifferentPointerPosition } from "@testing-library/user-event/dist/types/system/pointer/shared";
+
 import { openNotification } from "../../notice/notification";
 
 type Props = {}
@@ -63,7 +62,7 @@ const Datatable = (props: Props) => {
   // lấy data từ reducer 
   const importPrices = useAppSelector((state) => state.importPrice.lstRespone);
 
-  console.log("Datatable history = " + JSON.stringify(importPrices));
+  
 
   //Thay đổi Size chage
   const onShowSizeChange = (current: number, pageSize: number) => {

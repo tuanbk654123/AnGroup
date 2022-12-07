@@ -37,7 +37,7 @@ const Datatable = (props: Props) => {
     BankName: "",
     Address: "",
     PhoneNumber: "",
-    NameGarden: ""
+    nameGarden: ""
   });
   // add or Update
   const [addOrUpdate, setaddOrUpdate] = useState(0);// 1 is add , 2 is update
@@ -54,7 +54,7 @@ const Datatable = (props: Props) => {
   // lấy data từ reducer 
   const importPrices = useAppSelector((state) => state.customer.lstRespone);
 
-  console.log("Datatable history = " + JSON.stringify(importPrices));
+  
 
   //Thay đổi Size chage
   const onShowSizeChange = (current: number, pageSize: number) => {
@@ -86,7 +86,7 @@ const Datatable = (props: Props) => {
 
   const onAddOrUpdate = async () => {
     //validate
-    if (customerDto.NameGarden === "" || customerDto.NameGarden === undefined) {
+    if (customerDto.nameGarden === "" || customerDto.nameGarden === undefined) {
       openNotification("Tên vựa không được để trống");
       return;
     }
@@ -236,7 +236,7 @@ const Datatable = (props: Props) => {
       BankName: "",
       Address: "",
       PhoneNumber: "",
-      NameGarden: ""
+      nameGarden: ""
     })
     setTitle("Thêm mới giá nhập");
     // setState add or up date
@@ -258,7 +258,7 @@ const Datatable = (props: Props) => {
         BankName: record.bankName,
         Address: record.address,
         PhoneNumber: record.phoneNumber,
-        NameGarden: record.nameGarden
+        nameGarden: record.nameGarden
       }
     )
     // setState add or up date
@@ -314,11 +314,11 @@ const Datatable = (props: Props) => {
       }
     )
   }
-  const onChangeNameGarden = (e: any) => {
+  const onChangenameGarden = (e: any) => {
     setcustomerDto(
       {
         ...customerDto,
-        NameGarden: e.target.value
+        nameGarden: e.target.value
       }
     )
   }
@@ -422,7 +422,7 @@ const Datatable = (props: Props) => {
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Tên vựa:</label>
-            <Input placeholder="Nhập tên vựa" value={customerDto.NameGarden} onChange={onChangeNameGarden} />
+            <Input placeholder="Nhập tên vựa" value={customerDto.nameGarden} onChange={onChangenameGarden} />
           </Col>
           <Col span={12}>
             <label >Số tài khoản:</label>

@@ -46,14 +46,29 @@ namespace FruitManager.Controllers
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateImportProcessDto createImportProcessDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateImportProcessDto createImportProcessDto, CancellationToken cancellationToken)
         {
             bool create = await ImportProcessService.Create(createImportProcessDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Tạo mới thành công");
             }
-            return false;
+            return BadRequest("Tạo mới thất bại");
+        }
+
+        [HttpPost("CreateList")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Create(List< CreateImportProcessDto> createImportProcessDtos, CancellationToken cancellationToken)
+        {
+            foreach (var process in createImportProcessDtos)
+            {
+                bool create = await ImportProcessService.Create(process, cancellationToken);
+                if (!create)
+                {
+                    return BadRequest("Tạo mới thất bại");
+                }
+            }
+            return Ok("Tạo mới thành công");
         }
 
 
@@ -65,25 +80,25 @@ namespace FruitManager.Controllers
             return Ok( await ImportProcessService.Search(pageable, searchImportProcessDto));
         }
         [HttpPost("Update")]
-        public async Task<bool> Update(UpdateImportProcessDto updateImportProcessDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(UpdateImportProcessDto updateImportProcessDto, CancellationToken cancellationToken)
         {
             bool create = await ImportProcessService.Update(updateImportProcessDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Sửa thành công");
             }
-            return false;
+            return BadRequest("Sửa thất bại");
         }
 
         [HttpPost("Delete")]
-        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
         {
             bool create = await ImportProcessService.Delete(id, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Xoá thành công");
             }
-            return false;
+            return BadRequest("Xoá thất bại");
         }
     }
 }

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { UserLogin } from "../../models";
-import { setAuthHeader } from "../../utils/axiosHeaders";
 
 
 export interface AuthState{

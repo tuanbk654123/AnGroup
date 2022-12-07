@@ -112,9 +112,9 @@ const Sidebar = (props: Props) => {
             <div className='hr1' />
             <div className='center'>
                 <ul>
-                    <p className='title'>Thống kê</p>
+                    <p className='title'>THỐNG KẾ</p>
                     <Link to="/" style={{ textDecoration: "none" }}>
-                        <li onClick={ handleClickChart} style={{borderRadius: isActiveHoverChart ?" 20px 0px 0px 20px":"", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={ handleClickChart} style={{  marginLeft:isActiveHoverChart? "20px" : "",  padding:isActiveHoverChart? "20px" : "", borderRadius: isActiveHoverChart ?" 20px 0px 0px 20px":"", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
 
                             <AppstoreFilled className='icon' style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}/>
                             <span style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}>Biểu đồ</span>
@@ -143,18 +143,18 @@ const Sidebar = (props: Props) => {
                             <span>Lịch sử đăng nhập</span>
                         </li>
                     </Link> */}
-                    <p className='title'>Khách hàng</p>
+                    <p className='title'>KHÁCH HÀNG</p>
                     <Link to="/customer" style={{ textDecoration: "none" }} >
-                        <li onClick={handleClickCustomer} style={{ borderRadius: isActiveHoverCustomer ? " 20px 0px 0px 20px":"", background: isActiveHoverCustomer ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickCustomer} style={{ marginLeft:isActiveHoverCustomer? "20px" : "",  padding:isActiveHoverCustomer? "20px" : "", borderRadius: isActiveHoverCustomer ? " 20px 0px 0px 20px":"", background: isActiveHoverCustomer ? '#d32f2f' : '#ffffff' }} >
                             <UserOutlined className='icon' style={{ color: isActiveHoverCustomer ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverCustomer ? '#ffffff' : '#d32f2f' }} >
                                 Quản lý khách hàng
                             </span>
                         </li>
                     </Link>
-                    <p className='title'>Nhập</p>
+                    <p className='title'>NHẬP</p>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li onClick={handleClickImportPrice} style={{ borderRadius: isActiveHoverImportPrice ? " 20px 0px 0px 20px":"", background: isActiveHoverImportPrice ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickImportPrice} style={{ marginLeft:isActiveHoverImportPrice? "20px" : "",  padding:isActiveHoverImportPrice? "20px" : "",borderRadius: isActiveHoverImportPrice ? " 20px 0px 0px 20px":"", background: isActiveHoverImportPrice ? '#d32f2f' : '#ffffff' }} >
                             <PoundCircleFilled className='icon' style={{ color: isActiveHoverImportPrice ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverImportPrice ? '#ffffff' : '#d32f2f' }}>
                                 Giá nhập
@@ -162,7 +162,7 @@ const Sidebar = (props: Props) => {
                         </li>
                     </Link>
                     <Link to="/importProcess" style={{ textDecoration: "none" }}>
-                        <li onClick={handleClickImportProcess} style={{ borderRadius: isActiveHoverImportProcess?" 20px 0px 0px 20px":"", background: isActiveHoverImportProcess ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickImportProcess} style={{ marginLeft:isActiveHoverImportProcess? "20px" : "",  padding:isActiveHoverImportProcess? "20px" : "",borderRadius: isActiveHoverImportProcess?" 20px 0px 0px 20px":"", background: isActiveHoverImportProcess ? '#d32f2f' : '#ffffff' }} >
                             <EditFilled className='icon' style={{ color: isActiveHoverImportProcess ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverImportProcess ? '#ffffff' : '#d32f2f' }}>
                                 Quá trình nhập
@@ -170,16 +170,16 @@ const Sidebar = (props: Props) => {
                         </li>
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li onClick={handleClickImportReport} style={{ borderRadius: isActiveHoverImportReport? " 20px 0px 0px 20px":"", background: isActiveHoverImportReport ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickImportReport} style={{ marginLeft:isActiveHoverImportReport? "20px" : "", padding:isActiveHoverImportReport? "20px" : "", borderRadius: isActiveHoverImportReport? " 20px 0px 0px 20px":"", background: isActiveHoverImportReport ? '#d32f2f' : '#ffffff' }} >
                             <FileTextFilled className='icon' style={{ color: isActiveHoverImportReport ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverImportReport ? '#ffffff' : '#d32f2f' }}>
                                 Báo cáo nhập
                             </span>
                         </li>
                     </Link>
-                    <p className='title'>Xuất</p>
+                    <p className='title'>XUẤT</p>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li onClick={handleClickExportPrcie} style={{ borderRadius:isActiveHoverExportPrcie? " 20px 0px 0px 20px":"", background: isActiveHoverExportPrcie ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickExportPrcie} style={{ marginLeft:isActiveHoverExportPrcie? "20px" : "", padding:isActiveHoverExportPrcie? "20px" : "", borderRadius:isActiveHoverExportPrcie? " 20px 0px 0px 20px":"", background: isActiveHoverExportPrcie ? '#d32f2f' : '#ffffff' }} >
                             <PoundCircleFilled className='icon' style={{ color: isActiveHoverExportPrcie ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverExportPrcie ? '#ffffff' : '#d32f2f' }}>
                                 Giá xuất
@@ -187,7 +187,7 @@ const Sidebar = (props: Props) => {
                         </li>
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li onClick={handleClickExportProcess} style={{ borderRadius:isActiveHoverExportProcess?" 20px 0px 0px 20px":"", background: isActiveHoverExportProcess ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickExportProcess} style={{ marginLeft:isActiveHoverExportProcess? "20px" : "", padding:isActiveHoverExportProcess? "20px" : "", borderRadius:isActiveHoverExportProcess?" 20px 0px 0px 20px":"", background: isActiveHoverExportProcess ? '#d32f2f' : '#ffffff' }} >
                             <EditFilled className='icon' style={{ color: isActiveHoverExportProcess ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverExportProcess ? '#ffffff' : '#d32f2f' }}>
                                 Quá trình xuất
@@ -195,7 +195,7 @@ const Sidebar = (props: Props) => {
                         </li>
                     </Link>
                     <Link to="/importPrice" style={{ textDecoration: "none" }}>
-                        <li onClick={handleClickExportReport} style={{ borderRadius: isActiveHoverExportReport?" 20px 0px 0px 20px":"", background: isActiveHoverExportReport ? '#d32f2f' : '#ffffff' }} >
+                        <li onClick={handleClickExportReport} style={{ marginLeft:isActiveHoverExportReport? "20px" : "",  padding:isActiveHoverExportReport? "20px" : "",borderRadius: isActiveHoverExportReport?" 20px 0px 0px 20px":"", background: isActiveHoverExportReport ? '#d32f2f' : '#ffffff' }} >
                             <FileTextFilled className='icon' style={{ color: isActiveHoverExportReport ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverExportReport ? '#ffffff' : '#d32f2f' }}>
                                 Báo cáo xuất

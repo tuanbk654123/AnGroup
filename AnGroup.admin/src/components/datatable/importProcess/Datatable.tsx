@@ -1,7 +1,7 @@
-
 import "./datatable.scss";
 import { useEffect, useState } from "react";
-import { ImportPriceAction } from '../../../features/importPrice/importPriceSlice';
+import { ImportProcessAction } from '../../../features/importProcess/importProcessSlice';
+import { CustomerAction } from '../../../features/customer/customerSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
 import { ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
@@ -9,62 +9,133 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, DatePickerProps, Modal } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag } from 'antd';
 
-import { importPrice, searchImportPriceDto, ImportpriceDto } from '../../../models/index'
+import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
-import moment from "moment";
-import { stringify } from "querystring";
-import { isDifferentPointerPosition } from "@testing-library/user-event/dist/types/system/pointer/shared";
+
 import { openNotification } from "../../notice/notification";
+
+
+export interface Option {
+  value: string,
+  label: string,
+}
 
 type Props = {}
 const Datatable = (props: Props) => {
 
   //Innit state
-  const [SearchParam, setSearchParam] = useState<searchImportPriceDto>({
+  const [SearchParam, setSearchParam] = useState<SearchImportProcessDto>({
     pageNumber: 1,
     pageSize: 10,
-
     fromDate: "",
     toDate: ""
   });
+  const [SearchParamCustomer, setSearchParamCustomer] = useState<searchCustomerDto>({
+    pageNumber: 1,
+    pageSize: 200,
+    Name: "",
+    AccountNumber: "",
+    fromDate: "",
+    toDate: ""
+  });
+  const [customerDto, setcustomerDto] = useState<CustomerDto>({
+    id: "",
+    Name: "",
+    AccountNumber: "",
+    BankName: "",
+    Address: "",
+    PhoneNumber: "",
+    nameGarden: ""
+  });
   const [CheckRefresh, setCheckRefresh] = useState(false);
   const [Title, setTitle] = useState("");
-  const [ImportpriceDto, setImportpriceDto] = useState<ImportpriceDto>({
+  const [ImportpriceDto, setImportpriceDto] = useState<ImportProcessDto>({
+    weighKemLon: [],
+    weighKem2: [],
+    weighKem1: [],
+    weighRXo: [],
+    weighR1: [],
+    weighR2: [],
+    weighR3: [],
+    DateImport: "",
+    IdGarden: "",
+    statusBill: "",
     id: "",
-    PriceKemLon: undefined,
-    PriceKem2: undefined,
-    PriceKem3: undefined,
-    PriceRXo: undefined,
-    PriceR1: undefined,
-    PriceR2: undefined,
-    PriceR3: undefined,
-    RateKemLon: undefined,
-    RateKem2: undefined,
-    RateKem3: undefined,
-    RateRXo: undefined,
-    RateR1: undefined,
-    RateR2: undefined,
-    RateR3: undefined,
-    DateImport: ""
   });
+  const [importProcessDto, setImportProcessDto] = useState<ImportProcessDto[]>([
+    {
+      weighKemLon: [],
+      weighKem2: [],
+      weighKem1: [],
+      weighRXo: [],
+      weighR1: [],
+      weighR2: [],
+      weighR3: [],
+      DateImport: "",
+      IdGarden: "",
+      statusBill: "",
+      id: "1",
+    }
+  ]);
+  const [SelectCustomer, setSelectCustomer] = useState<Option[]>([]);
   // add or Update
   const [addOrUpdate, setaddOrUpdate] = useState(0);// 1 is add , 2 is update
   //state open adduser
+  const [openAdd, setOpenAdd] = useState(false);
+  //state open adduser
   const [open, setOpen] = useState(false);
+  const [countAdd, setcountAdd] = useState<number>(2);
+  const [modal2Open, setModal2Open] = useState(false);
   //================================================================
+  const onAddOrUpdateCustomer = async () => {
+    //validate
+    if (customerDto.nameGarden === "" || customerDto.nameGarden === undefined) {
+      openNotification("Tên vựa không được để trống");
+      return;
+    }
+    if (customerDto.AccountNumber === "" || customerDto.AccountNumber === undefined) {
+      openNotification("Số tài khoản không được để trống");
+      return;
+    }
+    if (customerDto.Name === "" || customerDto.Name === undefined) {
+      openNotification("Tên tài khoản không được để trống");
+      return;
+    }
+    if (customerDto.BankName === "" || customerDto.BankName === undefined) {
+      openNotification("Tên ngân hàng không được để trống");
+      return;
+    }
+    if (customerDto.Address === "" || customerDto.Address === undefined) {
+      openNotification("Địa chỉ không được để trống");
+      return;
+    }
+    if (customerDto.PhoneNumber === "" || customerDto.PhoneNumber === undefined) {
+      openNotification("Số điện thoại không được để trống");
+      return;
+    }
 
+    const customer = {
+      ...customerDto,
+
+    }
+    await dispatch(CustomerAction.addCustomer(customer));
+    await timeout(500);
+    refreshCustomer();
+    setModal2Open(false)
+  };
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(ImportPriceAction.searchImportPrice(SearchParam));// init Role select
-  }, [dispatch, SearchParam, CheckRefresh])
+    dispatch(ImportProcessAction.searchImportProcess(SearchParam));// 
+    dispatch(CustomerAction.searchCustomer(SearchParamCustomer));// 
+  }, [dispatch, SearchParam, CheckRefresh, SearchParamCustomer, importProcessDto])
 
   // lấy data từ reducer 
-  const importPrices = useAppSelector((state) => state.importPrice.lstRespone);
+  const importProcesss = useAppSelector((state) => state.importProcess.lstRespone);
+  const customers = useAppSelector((state) => state.customer.lstRespone);
 
-  console.log("Datatable history = " + JSON.stringify(importPrices));
 
   //Thay đổi Size chage
   const onShowSizeChange = (current: number, pageSize: number) => {
@@ -77,13 +148,31 @@ const Datatable = (props: Props) => {
 
   };
 
-
+  //select 
+  const options: SelectProps['options'] = [];
+  for (let i = 1; i < 200; i++) {
+    const value = `${i}`;
+    options.push({
+      label: value,
+      value
+    });
+  }
+  for (let i = 1; i < 200; i++) {
+    const value = `${i}`;
+    options.push({
+      label: value,
+      value
+    });
+  }
+  const handleChange = (value: string[]) => {
+    console.log(`selected ${value}`);
+  };
   //==========================================
   //search
 
 
   const Search = () => {
-    dispatch(ImportPriceAction.searchImportPrice(SearchParam));
+    dispatch(ImportProcessAction.searchImportProcess(SearchParam));
   }
   //Refresh 
 
@@ -92,29 +181,34 @@ const Datatable = (props: Props) => {
     setSearchParam(SearchParamChange)
 
   }
+  const refreshCustomer = async () => {
+    const SearchParamChange = { ...SearchParamCustomer }
+    setSearchParamCustomer(SearchParamChange)
+
+  }
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
     //validate
-    if(ImportpriceDto.DateImport === "" || ImportpriceDto.DateImport === undefined){
+    if (ImportpriceDto.DateImport === "" || ImportpriceDto.DateImport === undefined) {
       openNotification("Ngày tạo không được để trống");
       return;
     }
     // add
     if (addOrUpdate === 1) {
-      const importPrice = {
-        ...ImportpriceDto,
-       
-      }
-      await dispatch(ImportPriceAction.addImportPrice(importPrice));
+      // const importProcess = {
+      //   ...ImportpriceDto,
+
+      // }
+      // await dispatch(ImportProcessAction.addImportProcess([importProcess]));
     }
     // Update
     if (addOrUpdate === 2) {
-      const importPrice = {
+      const importProcess = {
         ...ImportpriceDto,
-      
+
       }
-      await dispatch(ImportPriceAction.updateImportPrice(importPrice));
+      await dispatch(ImportProcessAction.updateImportProcess(importProcess));
 
     }
     await timeout(500);
@@ -130,7 +224,7 @@ const Datatable = (props: Props) => {
     return dateAndTime[0].split('-').reverse().join('-');
   };
   // cột của Bảng==================================================================================
-  const roleColumns: ColumnsType<importPrice> = [
+  const roleColumns: ColumnsType<importProcess> = [
     {
       title: 'Ngày',
       width: 60,
@@ -140,140 +234,36 @@ const Datatable = (props: Props) => {
       render: ((date: string) => getFullDate(date))
     },
     {
-      title: 'Giá Kem1',
+      title: 'trọng lượng Kem Lớn',
       width: 50,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
       fixed: 'left',
-      render: (value: any) => {
+      render: (_, record) => {
+
+        const listItems = record.weighKem1.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
+          <div>
+            {listItems}
+          </div>
+        )
+       
+        
+        // return (
+        //   (record.weighKemLon) ?
+        //     <Tag color='success' key={record}>
+        //       Active
+        //     </Tag>
+        //     :
+        //     <Tag color='error' key={record}>
+        //       InActive
+        //     </Tag>
+        // );
+      }
     },
+
     {
-      title: 'Giá Kem2',
-      width: 50,
-      dataIndex: 'priceKem2',
-      key: 'priceKem2',
-      fixed: 'left',
-      render: (value: any) => {
-        return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
-    },
-    {
-      title: 'Giá Kem3',
-      width: 50,
-      dataIndex: 'priceKem3',
-      key: 'priceKem3',
-      fixed: 'left',
-      render: (value: any) => {
-        return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
-    },
-    {
-      title: 'Giá RXo',
-      width: 50,
-      dataIndex: 'priceRXo',
-      key: 'priceRXo',
-      fixed: 'left',
-      render: (value: any) => {
-        return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
-    },
-    {
-      title: 'Giá R1',
-      width: 50,
-      dataIndex: 'priceR1',
-      key: 'priceR1',
-      fixed: 'left',
-      render: (value: any) => {
-        return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
-    },
-    {
-      title: 'Giá R2',
-      width: 50,
-      dataIndex: 'priceR2',
-      key: 'priceR2',
-      fixed: 'left',
-      render: (value: any) => {
-        return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
-    },
-    {
-      title: 'Giá R3',
-      width: 50,
-      dataIndex: 'priceR3',
-      key: 'priceR3',
-      fixed: 'left',
-      render: (value: any) => {
-        return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
-        );
-      },
-    },
-    {
-      title: 'Tỷ lệ Kem1',
-      width: 50,
-      dataIndex: 'rateKemLon',
-      key: 'rateKemLon',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ Kem2',
-      width: 50,
-      dataIndex: 'rateKem2',
-      key: 'rateKem2',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ Kem3',
-      width: 50,
-      dataIndex: 'rateKem3',
-      key: 'rateKem3',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ RXo',
-      width: 50,
-      dataIndex: 'rateRXo',
-      key: 'rateRXo',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ R1',
-      width: 50,
-      dataIndex: 'rateR1',
-      key: 'rateR1',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ R2',
-      width: 50,
-      dataIndex: 'rateR2',
-      key: 'rateR2',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ R3',
-      width: 50,
-      dataIndex: 'rateR3',
-      key: 'rateR3',
-      fixed: 'left',
-    },
-    {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'Action',
 
       key: 'operation',
@@ -325,35 +315,21 @@ const Datatable = (props: Props) => {
   // Show Add    
   const showDrawer = () => {
     //init state 
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    
-    var todays =  yyyy +'-'+ mm+'-'+dd;
-    setImportpriceDto({
-      id:"",
-      PriceKemLon: undefined,
-      PriceKem2: undefined,
-      PriceKem3: undefined,
-      PriceRXo: undefined,
-      PriceR1: undefined,
-      PriceR2: undefined,
-      PriceR3: undefined,
-      RateKemLon: undefined,
-      RateKem2: undefined,
-      RateKem3: undefined,
-      RateRXo: undefined,
-      RateR1: undefined,
-      RateR2: undefined,
-      RateR3: undefined,
-      DateImport: todays
-    })
-    setTitle("Thêm mới giá nhập");
+    const tempMockData = [];
+    for (let i = 0; i < customers?.content?.length; i++) {
+      const data = {
+        value: customers.content[i].id,
+        label: customers.content[i].nameGarden,
+      };
+      tempMockData.push(data);
+    }
+    setSelectCustomer(tempMockData);
+
+    setTitle("Thêm mới ");
     // setState add or up date
     setaddOrUpdate(1);
     // open TAB
-    setOpen(true);
+    setOpenAdd(true);
   };
   // Show edit  
   const showEditDrawer = (record: any) => {
@@ -363,22 +339,17 @@ const Datatable = (props: Props) => {
 
     setImportpriceDto(
       {
-        id:record.id,
-        PriceKemLon: record.priceKemLon,
-        PriceKem2: record.priceKem2,
-        PriceKem3: record.priceKem3,
-        PriceRXo: record.priceRXo,
-        PriceR1: record.priceR1,
-        PriceR2: record.priceR2,
-        PriceR3: record.priceR3,
-        RateKemLon: record.rateKemLon,
-        RateKem2: record.rateKem2,
-        RateKem3: record.rateKem3,
-        RateRXo: record.rateRXo,
-        RateR1: record.rateR1,
-        RateR2: record.rateR2,
-        RateR3: record.rateR3,
-        DateImport: record.dateImport.substring(0, 10)
+        id: record.id,
+        weighKemLon: record.weighKemLon,
+        weighKem2: record.weighKem2,
+        weighKem1: record.weighKem1,
+        weighRXo: record.weighRXo,
+        weighR1: record.weighR1,
+        weighR2: record.weighR2,
+        weighR3: record.weighR3,
+        DateImport: record.DateImport,
+        IdGarden: record.IdGarden,
+        statusBill: record.statusBill,
       }
     )
     // setState add or up date
@@ -398,7 +369,7 @@ const Datatable = (props: Props) => {
       async onOk() {
 
         setCheckRefresh(true);
-        await dispatch(ImportPriceAction.deleteImportPrice(id));
+        await dispatch(ImportProcessAction.deleteImportProcess(id));
         await timeout(500);
         refresh();
         setModal1Open(false)
@@ -407,128 +378,121 @@ const Datatable = (props: Props) => {
     });
   };
 
+  const onCloseAdd = () => {
+    setImportProcessDto([{
+      weighKemLon: [],
+      weighKem2: [],
+      weighKem1: [],
+      weighRXo: [],
+      weighR1: [],
+      weighR2: [],
+      weighR3: [],
+      DateImport: "",
+      IdGarden: "",
+      statusBill: "",
+      id: "1",
+    }]);
+    setcountAdd(2);
+    setOpenAdd(false);
+  };
+
+  const onAddComponent = () => {
+    setcountAdd(current => current + 1);
+    var importProcessDtos: ImportProcessDto = {
+      weighKemLon: [],
+      weighKem2: [],
+      weighKem1: [],
+      weighRXo: [],
+      weighR1: [],
+      weighR2: [],
+      weighR3: [],
+      DateImport: "",
+      IdGarden: "",
+      statusBill: "",
+      id: countAdd + "",
+    }
+    importProcessDto.push(importProcessDtos);
+    //setImportProcessDto(importProcessDto);
+    console.log("TUAN:" + JSON.stringify(importProcessDto));
+  };
+
+  const onDeleteComponent = (object: ImportProcessDto, index: any) => {
+
+    if (index > -1) { // only splice array when item is found
+      importProcessDto.splice(index, 1); // remove one item only
+    }
+    //const temp = { ...importProcessDto };
+    setImportProcessDto([...importProcessDto]);
+
+    console.log("TUAN:" + JSON.stringify(importProcessDto));
+  };
+
   const onClose = () => {
     setOpen(false);
   };
-  const onChangePriceKemLon = (e: any) => {
-    setImportpriceDto(
+  // const onChangeProcessKemLon = (e: any) => {
+  //   setImportpriceDto(
+  //     {
+  //       ...ImportpriceDto,
+  //       ProcessKemLon: e.target.value
+  //     }
+  //   )
+  // }
+  const onChangeAccountNumber = (e: any) => {
+    setcustomerDto(
       {
-        ...ImportpriceDto,
-        PriceKemLon: e.target.value
+        ...customerDto,
+        AccountNumber: e.target.value
       }
     )
   }
-  const onChangePriceKem3 = (e: any) => {
-    setImportpriceDto(
+  const onChangeAddress = (e: any) => {
+    setcustomerDto(
       {
-        ...ImportpriceDto,
-        PriceKem3: e.target.value
+        ...customerDto,
+        Address: e.target.value
       }
     )
   }
-  const onChangePriceKem2 = (e: any) => {
-    setImportpriceDto(
+  const onChangeBankName = (e: any) => {
+    setcustomerDto(
       {
-        ...ImportpriceDto,
-        PriceKem2: e.target.value
+        ...customerDto,
+        BankName: e.target.value
       }
     )
   }
-  const onChangePriceRXo = (e: any) => {
-    setImportpriceDto(
+  const onChangenameGarden = (e: any) => {
+    setcustomerDto(
       {
-        ...ImportpriceDto,
-        PriceRXo: e.target.value
+        ...customerDto,
+        nameGarden: e.target.value
       }
     )
   }
-  const onChangePriceR1 = (e: any) => {
-    setImportpriceDto(
+  const onChangePhoneNumber = (e: any) => {
+    setcustomerDto(
       {
-        ...ImportpriceDto,
-        PriceR1: e.target.value
+        ...customerDto,
+        PhoneNumber: e.target.value
       }
     )
   }
-  const onChangePriceR2 = (e: any) => {
-    setImportpriceDto(
+  const onChangeName = (e: any) => {
+    setcustomerDto(
       {
-        ...ImportpriceDto,
-        PriceR2: e.target.value
+        ...customerDto,
+        Name: e.target.value
       }
     )
   }
-  const onChangePriceR3 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        PriceR3: e.target.value
-      }
-    )
-  }
-  const onChangeRateKemLon = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateKemLon: e.target.value
-      }
-    )
-  }
-  const onChangeRateR1 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateR1: e.target.value
-      }
-    )
-  }
-  const onChangeRateR2 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateR2: e.target.value
-      }
-    )
-  }
-  const onChangeRateR3 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateR3: e.target.value
-      }
-    )
-  }
-  const onChangeRateRXo = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateRXo: e.target.value
-      }
-    )
-  }
-  const onChangeRateKem2 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateKem2: e.target.value
-      }
-    )
-  }
-  const onChangeRateKem3 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateKem3: e.target.value
-      }
-    )
-  }
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        DateImport: dateString
-      })
+
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value: string) => {
+    console.log('search:', value);
   };
   return (
     <div className="background">
@@ -537,10 +501,6 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-
-          {/* <div style={{width:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor: 'pointer',fontWeight:'bold'}}>
-            <AppstoreAddOutlined style= {{paddingInline:'5px', color:'#d32f2f' }}/> <div style= {{paddingInline:'5px', color:'#d32f2f' ,fontFamily:'Arial' }}>Cấu hình hiển thị</div>
-          </div> */}
           <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
@@ -552,7 +512,7 @@ const Datatable = (props: Props) => {
           </div>
         </div>
         <div className="datatableTitle">
-          <div className="total" >Tổng số :<b>{importPrices.totalItem}</b> </div>
+          <div className="total" >Tổng số :<b>{importProcesss.totalItem}</b> </div>
 
           <div className="search">
             <div className="inputsearch">
@@ -576,7 +536,7 @@ const Datatable = (props: Props) => {
         <Table
           style={{ padding: '10px' }}
           columns={roleColumns}
-          dataSource={importPrices.content}
+          dataSource={importProcesss.content}
           pagination={false}
           rowKey={record => record.id}
           scroll={{
@@ -593,7 +553,7 @@ const Datatable = (props: Props) => {
             //onShowSizeChange={onShowSizeChange}
             onChange={onShowSizeChange}
             defaultCurrent={1}
-            total={importPrices.totalItem}
+            total={importProcesss.totalItem}
           />
 
         </div>
@@ -609,89 +569,17 @@ const Datatable = (props: Props) => {
           paddingBottom: 80,
         }}
       >
-
         <Row className="row" gutter={16}>
-          <Col span={12}>
+          {/* <Col span={12}>
             <label >Giá kem lớn (vnđ):</label>
-            <Input placeholder="Nhập giá kem lớn(vnđ)" value={ImportpriceDto.PriceKemLon} onChange={onChangePriceKemLon} />
+            <Input placeholder="Nhập giá kem lớn(vnđ)" value={ImportpriceDto.ProcessKemLon} onChange={onChangeProcessKemLon} />
           </Col>
           <Col span={12}>
             <label >Giá kem 2 (vnđ):</label>
-            <Input placeholder="Nhập giá kem 2 (vnđ)" value={ImportpriceDto.PriceKem2} onChange={onChangePriceKem2} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá kem 3 (vnđ):</label>
-            <Input placeholder="Nhập giá kem 3 (vnđ)" value={ImportpriceDto.PriceKem3} onChange={onChangePriceKem3} />
-          </Col>
-          <Col span={12}>
-            <label >Giá R1 (vnđ):</label>
-            <Input placeholder="Nhập giá R1 (vnđ) " value={ImportpriceDto.PriceR1} onChange={onChangePriceR1} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá R2 (vnđ):</label>
-            <Input placeholder="Nhập giá R2 (vnđ)" value={ImportpriceDto.PriceR2} onChange={onChangePriceR2} />
-          </Col>
-          <Col span={12}>
-            <label >Giá R3 (vnđ):</label>
-            <Input placeholder="Nhập giá R3 (vnđ) " value={ImportpriceDto.PriceR3} onChange={onChangePriceR3} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá RXo (vnđ):</label>
-            <Input placeholder="Nhập giá RXo (vnđ)" value={ImportpriceDto.PriceRXo} onChange={onChangePriceRXo} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ RXo (%):</label>
-            <Input placeholder="Tỷ lệ RXo  (%) " value={ImportpriceDto.RateRXo} onChange={onChangeRateRXo} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Tỷ lệ kem lớn (%):</label>
-            <Input placeholder="Nhập Tỷ lệ kem lớn (%)" value={ImportpriceDto.RateKemLon} onChange={onChangeRateKemLon} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ kem 2 (%):</label>
-            <Input placeholder="Nhập giá kem 2 (%)" value={ImportpriceDto.RateKem2} onChange={onChangeRateKem2} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Tỷ lệ kem 3 (%):</label>
-            <Input placeholder="Nhập giá kem 3 (%)" value={ImportpriceDto.RateKem3} onChange={onChangeRateKem3} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ R1 (%):</label>
-            <Input placeholder="Nhập giá R1 (%) " value={ImportpriceDto.RateR1} onChange={onChangeRateR1} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Tỷ lệ R2 (%):</label>
-            <Input placeholder="Nhập giá R2 (%)" value={ImportpriceDto.RateR2} onChange={onChangeRateR2} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ R3 (%):</label>
-            <Input placeholder="Nhập giá R3 (%) " value={ImportpriceDto.RateR3} onChange={onChangeRateR3} />
-          </Col>
+            <Input placeholder="Nhập giá kem 2 (vnđ)" value={ImportpriceDto.ProcessKem2} onChange={onChangeProcessKem2} />
+          </Col> */}
         </Row>
 
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Ngày:</label>
-            <DatePicker value={moment(ImportpriceDto.DateImport, dateFormat)} onChange={onChange} format={dateFormat} style={{ width: '100%' }} />
-
-          </Col>
-          <Col span={12}>
-
-          </Col>
-        </Row>
-        {/* </Form> */}
         <div className="Submit">
           <Space style={{ display: 'flex' }}>
             <Button onClick={onClose}>Huỷ</Button>
@@ -701,6 +589,187 @@ const Datatable = (props: Props) => {
           </Space>
         </div>
       </Drawer>
+
+      <Drawer
+        title={Title}
+        width={720}
+        onClose={onCloseAdd}
+
+        open={openAdd}
+        bodyStyle={{
+          paddingBottom: 80,
+        }}
+      >
+        {importProcessDto.map((anObjectMapped, index) => {
+          return (
+            <div>
+              <div className="widget2">
+                <Row className="row" gutter={16}>
+                  <Col span={12}>
+                    <label ><b>Tên vựa:</b></label>
+                    <Select
+                      showSearch
+                      style={{ width: '100%' }}
+                      placeholder="Select a person"
+                      optionFilterProp="children"
+                      onChange={onChange}
+                      onSearch={onSearch}
+                      filterOption={(input, option) =>
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                      }
+                      options={SelectCustomer}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <label >Kem lớn:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                </Row>
+                <Row className="row" gutter={16}>
+                  <Col span={12}>
+                    <label >Kem 2:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <label >Kem 3:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                </Row>
+                <Row className="row" gutter={16}>
+                  <Col span={12}>
+                    <label >RXo:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <label >R1:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                </Row>
+                <Row className="row" gutter={16}>
+                  <Col span={12}>
+                    <label >R2:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <label >R3:</label>
+                    <Select
+                      mode="multiple"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                      defaultValue={[]}
+                      onChange={handleChange}
+                      options={options}
+                    />
+                  </Col>
+                </Row>
+                <br />
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Space style={{ display: 'flex' }}>
+                    <Button icon={<PlusOutlined />} style={{ background: '#339966', borderColor: '#339966' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
+                    <Button style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary">Lưu</Button>
+                    <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={() => onDeleteComponent(anObjectMapped, index)} type="primary">
+                      Xoá
+                    </Button>
+                  </Space>
+                </div>
+
+              </div>
+              <br />
+            </div>
+          );
+        })}
+
+
+        <div className="Submit">
+          <Space style={{ display: 'flex' }}>
+            <Button icon={<PlusOutlined />} style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary"></Button>
+            <Button onClick={onCloseAdd}>Huỷ</Button>
+            <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAddOrUpdateUser} type="primary">
+              Lưu
+            </Button>
+          </Space>
+        </div>
+      </Drawer>
+
+      <Modal
+        title="Thêm mới khách hàng"
+        centered
+        open={modal2Open}
+        onOk={() => onAddOrUpdateCustomer()}
+        onCancel={() => setModal2Open(false)}
+      >
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Tên vựa:</label>
+            <Input placeholder="Nhập tên vựa" value={customerDto.nameGarden} onChange={onChangenameGarden} />
+          </Col>
+          <Col span={12}>
+            <label >Số tài khoản:</label>
+            <Input placeholder="Nhập số tài khoản" value={customerDto.AccountNumber} onChange={onChangeAccountNumber} />
+          </Col>
+        </Row>
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Tên tài khoản:</label>
+            <Input placeholder="Nhập tên tài khoản" value={customerDto.Name} onChange={onChangeName} />
+          </Col>
+          <Col span={12}>
+            <label >Tên ngân hàng:</label>
+            <Input placeholder="Nhập tên ngân hàng" value={customerDto.BankName} onChange={onChangeBankName} />
+          </Col>
+        </Row>  <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Địa chỉ:</label>
+            <Input placeholder="Nhập địa chỉ" value={customerDto.Address} onChange={onChangeAddress} />
+          </Col>
+          <Col span={12}>
+            <label >Số điện thoại:</label>
+            <Input placeholder="Nhập số điện thoại" value={customerDto.PhoneNumber} onChange={onChangePhoneNumber} />
+          </Col>
+        </Row>
+      </Modal>
     </div>
   )
 }

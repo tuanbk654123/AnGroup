@@ -15,7 +15,7 @@ import Widget from '../../widget/Widget';
 
 function Home() {
    const access_token = localStorage.getItem('access_token');
-   console.log('home : ',access_token)
+   //console.log('home : ',access_token)
   
 
   return (

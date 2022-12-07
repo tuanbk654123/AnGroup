@@ -12,9 +12,7 @@ function Login() {
     // console.log('login : ',isLogging)
     const dispatch = useAppDispatch();
     const handleLogin = () => {
-        const a = {
-            username:"tt", password:"uu"
-        }
+
         dispatch(
             authAction.login({
                 username:"tt", password:"uu"

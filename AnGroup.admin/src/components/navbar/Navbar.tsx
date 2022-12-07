@@ -6,7 +6,7 @@ type Props = {}
 const Navbar = (props: Props) => {
     //const userLogin = useAppSelector(state => state.auth.currentUser)  ;
     const userLogin =localStorage.getItem("user_name")  ;
-    console.log('Nav: ', JSON.stringify(userLogin) )
+
     return (
         <div className="navbar">
           <div className="wrapper">

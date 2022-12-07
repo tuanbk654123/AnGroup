@@ -5,6 +5,6 @@ export interface customer{
     BankName: string;
     Address: string;
     PhoneNumber: string;
-    NameGarden:string;
+    nameGarden:string;
   
 }

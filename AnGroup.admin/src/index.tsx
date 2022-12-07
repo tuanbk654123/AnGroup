@@ -7,8 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { history } from './utils/history';
 import { ConnectedRouter  } from 'connected-react-router';
- import AuthProvider from './utils/authProvider';
- import userManager from './api/loginService';
+
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -16,13 +15,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <AuthProvider userManager={userManager} store={store} > */}
         <ConnectedRouter history ={history}>
           <App />
         </ConnectedRouter>
-      {/* </AuthProvider> */}
-      
-   
     </Provider>
   </React.StrictMode>
 );

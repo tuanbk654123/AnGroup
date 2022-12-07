@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using System.Data;
 using DataAccess.Models.Dto.ExportProcess;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FruitManager.Controllers
 {
@@ -45,9 +46,10 @@ namespace FruitManager.Controllers
 
 
         [HttpPost("Create")]
-        [AllowAnonymous]
         public async Task<IActionResult> Create(CreateGardenDto createGardenDto, CancellationToken cancellationToken)
         {
+            // kiểm tra tên vựa dã tồn tại
+            if(await GardenService.GetByGardenName(createGardenDto.NameGarden) != null) return BadRequest("Đã tồn tại tên vựa");
             bool create = await GardenService.Create(createGardenDto, cancellationToken);
             if (create)
             {
@@ -55,6 +57,20 @@ namespace FruitManager.Controllers
             }
             return BadRequest("Tạo mới thất bại");
         }
+
+
+        //[HttpGet("GetAll")]
+        //public async Task<IActionResult> GetAll( CancellationToken cancellationToken)
+        //{
+        //    Pageable pageable = new Pageable();
+        //    pageable.PageSize = 10;
+        //    pageable.PageNumber = 1;
+        //    SearchGardenDto searchGardenDto = new SearchGardenDto();
+          
+        //    if (pageable == null || pageable.PageSize == 0)
+        //        return BadRequest("Dữ liệu phân trang không đúng");
+        //    return Ok(await GardenService.Search(pageable, searchGardenDto));
+        //}
 
 
         [HttpGet("Search")]

@@ -1,6 +1,6 @@
 export interface CustomerDto{
     Name: string;
-    NameGarden: string;
+    nameGarden: string;
     AccountNumber: string;
     BankName: string;
     Address: string;
