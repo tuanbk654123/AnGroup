@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag } from 'antd';
 
-import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto } from '../../../models/index'
+import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto, customer } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
 
 import { openNotification } from "../../notice/notification";
@@ -54,13 +54,13 @@ const Datatable = (props: Props) => {
   const [ImportpriceDto, setImportpriceDto] = useState<ImportProcessDto>({
     weighKemLon: [],
     weighKem2: [],
-    weighKem1: [],
+    weighKem3: [],
     weighRXo: [],
     weighR1: [],
     weighR2: [],
     weighR3: [],
     DateImport: "",
-    IdGarden: "",
+    idGarden: "",
     statusBill: "",
     id: "",
   });
@@ -68,13 +68,13 @@ const Datatable = (props: Props) => {
     {
       weighKemLon: [],
       weighKem2: [],
-      weighKem1: [],
+      weighKem3: [],
       weighRXo: [],
       weighR1: [],
       weighR2: [],
       weighR3: [],
       DateImport: "",
-      IdGarden: "",
+      idGarden: "",
       statusBill: "",
       id: "1",
     }
@@ -234,34 +234,152 @@ const Datatable = (props: Props) => {
       render: ((date: string) => getFullDate(date))
     },
     {
-      title: 'trọng lượng Kem Lớn',
+      title: 'Tên vựa',
+      width: 50,
+      dataIndex: 'idGarden',
+      key: 'idGarden',
+      fixed: 'left',
+      render: (_, record) => {
+        function findArrayElementByTitle(array:any, title:any) {
+          for (let i = 0; i < array?.length; i++) {
+            if(array[i].id === title)  return array[i].nameGarden
+          }
+        return null;
+        }
+        return (
+          <div>
+            {findArrayElementByTitle(customers?.content, record.idGarden)}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'Trọng lượng Kem Lớn',
       width: 50,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighKem1.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighKemLon?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
           </div>
         )
-       
-        
-        // return (
-        //   (record.weighKemLon) ?
-        //     <Tag color='success' key={record}>
-        //       Active
-        //     </Tag>
-        //     :
-        //     <Tag color='error' key={record}>
-        //       InActive
-        //     </Tag>
-        // );
       }
     },
+    {
+      title: 'trọng lượng Kem 2',
+      width: 50,
+      dataIndex: 'weighKem2',
+      key: 'weighKem2',
+      fixed: 'left',
+      render: (_, record) => {
 
+        const listItems = record.weighKem2?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        return (
+          <div>
+            {listItems}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'trọng lượng Kem 3',
+      width: 50,
+      dataIndex: 'weighKem3',
+      key: 'weighKem3',
+      fixed: 'left',
+      render: (_, record) => {
+
+        const listItems = record.weighKem3?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        return (
+          <div>
+            {listItems}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'trọng lượng RXo',
+      width: 50,
+      dataIndex: 'weighRXo',
+      key: 'weighRXo',
+      fixed: 'left',
+      render: (_, record) => {
+
+        const listItems = record.weighRXo?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        return (
+          <div>
+            {listItems}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'trọng lượng R1',
+      width: 50,
+      dataIndex: 'weighR1',
+      key: 'weighR1',
+      fixed: 'left',
+      render: (_, record) => {
+
+        const listItems = record.weighR1?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        return (
+          <div>
+            {listItems}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'trọng lượng R2',
+      width: 50,
+      dataIndex: 'weighR2',
+      key: 'weighR2',
+      fixed: 'left',
+      render: (_, record) => {
+
+        const listItems = record.weighR2?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        return (
+          <div>
+            {listItems}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'trọng lượng R3',
+      width: 50,
+      dataIndex: 'weighR3',
+      key: 'weighR3',
+      fixed: 'left',
+      render: (_, record) => {
+
+        const listItems = record.weighR3?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        return (
+          <div>
+            {listItems}
+          </div>
+        )
+      }
+    },
+    {
+      title: 'trạng thái',
+      width: 70,
+      dataIndex: 'statusBill',
+      key: 'statusBill',
+      fixed: 'left',
+      render: (_, record) => {
+
+        return (
+          <div>
+            {record.statusBill}
+          </div>
+        )
+      }
+    },
     {
       title: 'Hành động',
       dataIndex: 'Action',
@@ -342,13 +460,13 @@ const Datatable = (props: Props) => {
         id: record.id,
         weighKemLon: record.weighKemLon,
         weighKem2: record.weighKem2,
-        weighKem1: record.weighKem1,
+        weighKem3: record.weighKem3,
         weighRXo: record.weighRXo,
         weighR1: record.weighR1,
         weighR2: record.weighR2,
         weighR3: record.weighR3,
         DateImport: record.DateImport,
-        IdGarden: record.IdGarden,
+        idGarden: record.idGarden,
         statusBill: record.statusBill,
       }
     )
@@ -382,13 +500,13 @@ const Datatable = (props: Props) => {
     setImportProcessDto([{
       weighKemLon: [],
       weighKem2: [],
-      weighKem1: [],
+      weighKem3: [],
       weighRXo: [],
       weighR1: [],
       weighR2: [],
       weighR3: [],
       DateImport: "",
-      IdGarden: "",
+      idGarden: "",
       statusBill: "",
       id: "1",
     }]);
@@ -401,13 +519,13 @@ const Datatable = (props: Props) => {
     var importProcessDtos: ImportProcessDto = {
       weighKemLon: [],
       weighKem2: [],
-      weighKem1: [],
+      weighKem3: [],
       weighRXo: [],
       weighR1: [],
       weighR2: [],
       weighR3: [],
       DateImport: "",
-      IdGarden: "",
+      idGarden: "",
       statusBill: "",
       id: countAdd + "",
     }
