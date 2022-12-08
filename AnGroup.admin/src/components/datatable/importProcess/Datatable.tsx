@@ -15,6 +15,7 @@ import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, 
 import type { ColumnsType } from 'antd/es/table';
 
 import { openNotification } from "../../notice/notification";
+import { log } from "console";
 
 
 export interface Option {
@@ -120,7 +121,9 @@ const Datatable = (props: Props) => {
       ...customerDto,
 
     }
+    setCheckRefresh(true);
     await dispatch(CustomerAction.addCustomer(customer));
+    //await dispatch(CustomerAction.searchCustomer(SearchParamCustomer));
     await timeout(500);
     refreshCustomer();
     setModal2Open(false)
@@ -129,13 +132,17 @@ const Datatable = (props: Props) => {
 
   useEffect(() => {
     dispatch(ImportProcessAction.searchImportProcess(SearchParam));// 
-    dispatch(CustomerAction.searchCustomer(SearchParamCustomer));// 
+    dispatch(CustomerAction.searchCustomer(SearchParamCustomer));
+
+
+
   }, [dispatch, SearchParam, CheckRefresh, SearchParamCustomer, importProcessDto])
 
   // lấy data từ reducer 
   const importProcesss = useAppSelector((state) => state.importProcess.lstRespone);
   const customers = useAppSelector((state) => state.customer.lstRespone);
-
+  console.log("TUANNNN: " + JSON.stringify(importProcesss));
+  console.log("TUANNNN: " + JSON.stringify(customers));
 
   //Thay đổi Size chage
   const onShowSizeChange = (current: number, pageSize: number) => {
@@ -167,19 +174,65 @@ const Datatable = (props: Props) => {
   const handleChange = (value: string[]) => {
     console.log(`selected ${value}`);
   };
-  const handleChangeKemLonAddElement = ( object:any, value: number[]) => {
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.id}`);
-
+  const handleChangeKemLonAddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
-      if (importProcessDto[i].id === object.id) 
+      if (importProcessDto[i].id === object.id){
         importProcessDto[i].weighKemLon = value
+      }
+       
     }
-    
-    // return null;
-    
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
   };
-  
+  const handleChangeKem2AddElement = (object: any, value: number[]) => {
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id)
+        importProcessDto[i].weighKem2 = value
+    }
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
+  };
+  const handleChangeKem3AddElement = (object: any, value: number[]) => {
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id)
+        importProcessDto[i].weighKem3 = value
+    }
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
+  };
+  const handleChangeRXoAddElement = (object: any, value: number[]) => {
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id)
+        importProcessDto[i].weighRXo = value
+    }
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
+  };
+  const handleChangeR1AddElement = (object: any, value: number[]) => {
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id)
+        importProcessDto[i].weighR1 = value
+    }
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
+  };
+  const handleChangeR2AddElement = (object: any, value: number[]) => {
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id)
+        importProcessDto[i].weighR2 = value
+    }
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
+  };
+  const handleChangeR3AddElement = (object: any, value: number[]) => {
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id)
+        importProcessDto[i].weighR3 = value
+    }
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.weighKemLon}`);
+  };
+
   //==========================================
   //search
 
@@ -197,7 +250,6 @@ const Datatable = (props: Props) => {
   const refreshCustomer = async () => {
     const SearchParamChange = { ...SearchParamCustomer }
     setSearchParamCustomer(SearchParamChange)
-
   }
   const onAdd = async () => {
 
@@ -234,6 +286,19 @@ const Datatable = (props: Props) => {
   function timeout(delay: any) {
     return new Promise(res => setTimeout(res, delay));
   }
+  const setOption = () => {
+    const temp: Option[] = []
+
+    for (let i = 0; i < customers?.content?.length; i++) {
+      const a: Option = {
+        value: customers?.content[i].id,
+        label: customers?.content[i].nameGarden
+      }
+      temp.push(a);
+    }
+    return temp;
+  }
+
   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
@@ -339,7 +404,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR1',
       key: 'weighR1',
       fixed: 'left',
-      
+
       render: (_, record) => {
 
         const listItems = record.weighR1?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -457,15 +522,15 @@ const Datatable = (props: Props) => {
   // Show Add    
   const showDrawer = () => {
     //init state 
-    const tempMockData = [];
-    for (let i = 0; i < customers?.content?.length; i++) {
-      const data = {
-        value: customers.content[i].id,
-        label: customers.content[i].nameGarden,
-      };
-      tempMockData.push(data);
-    }
-    setSelectCustomer(tempMockData);
+    // const tempMockData = [];
+    // for (let i = 0; i < customers?.content?.length; i++) {
+    //   const data = {
+    //     value: customers.content[i].id,
+    //     label: customers.content[i].nameGarden,
+    //   };
+    //   tempMockData.push(data);
+    // }
+    // setSelectCustomer(tempMockData);
 
     setTitle("Thêm mới ");
     // setState add or up date
@@ -474,10 +539,10 @@ const Datatable = (props: Props) => {
     setOpenAdd(true);
   };
   //exportFile
-  
+
   const exportFile = async (id: any) => {
     //init state 
-   
+
     setCheckRefresh(true);
     await dispatch(ImportProcessAction.exportBillImportProcess(id));
     await timeout(500);
@@ -571,7 +636,7 @@ const Datatable = (props: Props) => {
   const onDeleteComponent = (object: ImportProcessDto, index: any) => {
 
     if (index > -1) { // only splice array when item is found
-      importProcessDto.splice(index,1); // remove one item only
+      importProcessDto.splice(index, 1); // remove one item only
     }
     //const temp = { ...importProcessDto };
     setImportProcessDto([...importProcessDto]);
@@ -766,10 +831,12 @@ const Datatable = (props: Props) => {
                       optionFilterProp="children"
                       onChange={onChange}
                       onSearch={onSearch}
+                      //options={SelectCustomer}
+                      options={setOption()}
                       filterOption={(input, option) =>
                         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                       }
-                      options={SelectCustomer}
+
                     />
                   </Col>
                   <Col span={12}>
@@ -778,8 +845,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={anObjectMapped.weighKemLon}
-                      onChange={(a)=>handleChangeKemLonAddElement(anObjectMapped,a)}
+                      value={anObjectMapped.weighKemLon}
+                      onChange={(a) => handleChangeKemLonAddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -791,8 +858,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      //value={anObjectMapped.weighKem2}
+                      //onChange={(a) => handleChangeKem2AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -802,8 +869,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      //value={anObjectMapped.weighKem3}
+                      //onChange={(a) => handleChangeKem3AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -815,8 +882,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      //value={anObjectMapped.weighRXo}
+                      //onChange={(a) => handleChangeRXoAddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -826,8 +893,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      //value={anObjectMapped.weighR1}
+                      //onChange={(a) => handleChangeR1AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -839,8 +906,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      //value={anObjectMapped.weighR2}
+                      //onChange={(a) => handleChangeR2AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -850,8 +917,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      //value={anObjectMapped.weighR3}
+                     // onChange={(a) => handleChangeR3AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -859,7 +926,7 @@ const Datatable = (props: Props) => {
                 <br />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Space style={{ display: 'flex' }}>
-                    <Button icon={<PlusOutlined />} style={{ background: '#87d068', borderColor: '#87d068' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
+
                     <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAdd} type="primary">Lưu</Button>
                     <Button onClick={() => onDeleteComponent(anObjectMapped, index)} >
                       Xoá
@@ -877,7 +944,7 @@ const Datatable = (props: Props) => {
         <div className="Submit">
           <Space style={{ display: 'flex' }}>
             <Button icon={<PlusOutlined />} style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary"></Button>
-
+            <Button icon={<PlusOutlined />} style={{ background: '#87d068', borderColor: '#87d068' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
             <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAddOrUpdateUser} type="primary">
               Lưu
             </Button>
