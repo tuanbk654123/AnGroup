@@ -114,7 +114,15 @@
         padding: 2px 5px;
         border-radius: 5px;
         color: darkblue;
-        border: 1px dotted rgba(0, 0, 139, 0.596);
+        border: 1px dotted rgba(0, 0, 139, 0.6);
+        cursor: pointer;
+      }
+      
+      .exportFile {
+        padding: 2px 5px;
+        border-radius: 5px;
+        color: rgba(39, 209, 201, 0.815);
+        border: 1px dotted rgba(39, 209, 201, 0.815);
         cursor: pointer;
       }
       

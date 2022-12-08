@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import { LisResponse, SearchImportProcessDto,importProcess } from "../models";
 import axiosClient from "./axiosClient";
 
@@ -30,7 +31,11 @@ const importProcessService = {
         return axiosClient.post(url,id );
     },
 
- 
+    exportImportProcesss( id: string): Promise<any>{
+        const url = '/api/ImportProcess/ExportBill';
+        const config:AxiosRequestConfig = { responseType: 'blob' };
+        return axiosClient.post(url,id,config  );
+    },
 
 }
 

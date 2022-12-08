@@ -3,7 +3,7 @@ import "./sidebar.scss"
 
 import { Link } from "react-router-dom";
 import {
-    AppstoreFilled, PoundCircleFilled, EditFilled, FileTextFilled, UserOutlined
+    AppstoreFilled, PoundCircleFilled, EditFilled, FileTextFilled, UserOutlined, AreaChartOutlined
  
 } from '@ant-design/icons';
 import { Image } from 'antd';
@@ -112,11 +112,11 @@ const Sidebar = (props: Props) => {
             <div className='hr1' />
             <div className='center'>
                 <ul>
-                    <p className='title'>THỐNG KẾ</p>
+                    <p className='title'>THỐNG KÊ</p>
                     <Link to="/" style={{ textDecoration: "none" }}>
                         <li onClick={ handleClickChart} style={{  marginLeft:isActiveHoverChart? "20px" : "",  padding:isActiveHoverChart? "20px" : "", borderRadius: isActiveHoverChart ?" 20px 0px 0px 20px":"", background: isActiveHoverChart ? '#d32f2f' : '#ffffff' }} >
 
-                            <AppstoreFilled className='icon' style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}/>
+                            <AreaChartOutlined  className='icon' style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}/>
                             <span style={{ color: isActiveHoverChart ? '#ffffff' : '#d32f2f' }}>Biểu đồ</span>
 
                         </li>

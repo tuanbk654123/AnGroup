@@ -53,7 +53,16 @@ const ImportProcessSlice = createSlice({
 
         deleteImportProcessSuccess (state, action: PayloadAction<Respone>){
             state.respone = action.payload;
+        },
+
+        exportBillImportProcess (state, action: PayloadAction<string>){
+        },
+
+        exportBillImportProcessSuccess (state, action: PayloadAction<Blob>){
+           // state.respone = action.payload;
+            
         }
+        
     }
 
 })

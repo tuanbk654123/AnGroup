@@ -69,3 +69,33 @@ export function* postDeleteImportProcess() {
   yield takeLatest(ImportProcessAction.deleteImportProcess.type, getDeleteImportProcessSaga);
 }
 
+function* getExportBillImportProcess(action : any) {
+  try {
+    const data : Blob  = yield call(importProcessService.exportImportProcesss, action.payload);
+    yield put(ImportProcessAction.exportBillImportProcessSuccess(data));
+   
+    //var csvURL = window.URL.createObjectURL(data);   
+    const href = URL.createObjectURL(data);
+     // create "a" HTML element with href to file & click
+     const link = document.createElement('a');
+     link.href = href;
+     link.setAttribute('download', 'Bill.xlsx'); //or any other extension
+     document.body.appendChild(link);
+     link.click();
+ 
+     // clean up "a" element & remove ObjectURL
+     document.body.removeChild(link);
+     URL.revokeObjectURL(href);
+    //  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    openNotification("Xuất hoá đơn thành công");
+  } catch (error) {
+    //handle error
+    openNotification("Export thất bại");
+  }
+}
+
+export function* postExportBillImportProcess() {
+  yield takeLatest(ImportProcessAction.exportBillImportProcess.type, getExportBillImportProcess);
+}
+
+

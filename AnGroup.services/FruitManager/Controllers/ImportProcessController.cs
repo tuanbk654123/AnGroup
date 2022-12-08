@@ -90,8 +90,31 @@ namespace FruitManager.Controllers
             return BadRequest("Sửa thất bại");
         }
 
+        [HttpPost("ExportBill")]
+        public async Task<IActionResult> ExportBill([FromBody] string id, CancellationToken cancellationToken)
+        {
+            byte[] fileContent = await ImportProcessService.ExportBill(id);
+            if (fileContent != null)
+            {
+                return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Bill.xlsx");
+
+            }
+            return BadRequest("Xuất hoá đơn lỗi");
+        }
+
+        [HttpPost("ExportReport")]
+        public async Task<IActionResult> ExportReport(UpdateImportProcessDto updateImportProcessDto, CancellationToken cancellationToken)
+        {
+            bool create = await ImportProcessService.Update(updateImportProcessDto, cancellationToken);
+            if (create)
+            {
+                return Ok("Sửa thành công");
+            }
+            return BadRequest("Sửa thất bại");
+        }
+
         [HttpPost("Delete")]
-        public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromBody] string id, CancellationToken cancellationToken)
         {
             bool create = await ImportProcessService.Delete(id, cancellationToken);
             if (create)

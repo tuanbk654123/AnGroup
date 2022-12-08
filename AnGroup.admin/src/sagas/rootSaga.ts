@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
 
 import { postSearchImportPrice, postAddImportPrice, postDeleteImportPrice, postUpdateImportPrice } from './importPriceSaga';
-import { postSearchImportProcess, postAddImportProcess, postDeleteImportProcess, postUpdateImportProcess } from './importProcessSaga';
+import { postSearchImportProcess, postAddImportProcess, postDeleteImportProcess, postUpdateImportProcess,postExportBillImportProcess } from './importProcessSaga';
 import { postSearchCustomer, postAddCustomer, postDeleteCustomer, postUpdateCustomer } from './customerSaga';
 import authSaga, { Logout } from './authSaga';
 import { postGetAllRole, postSearchRole, postAddRole, postUpdateRole, postDeleteRole } from './roleSaga';
@@ -40,6 +40,7 @@ export default function* rootSaga() {
           postAddImportProcess(),
           postDeleteImportProcess(),
           postUpdateImportProcess(),
+          postExportBillImportProcess(),
 
           //customer
           postSearchCustomer(),

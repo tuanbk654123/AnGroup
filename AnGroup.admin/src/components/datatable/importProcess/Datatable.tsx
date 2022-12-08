@@ -167,6 +167,19 @@ const Datatable = (props: Props) => {
   const handleChange = (value: string[]) => {
     console.log(`selected ${value}`);
   };
+  const handleChangeKemLonAddElement = ( object:any, value: number[]) => {
+    console.log(`selected K1 ${value}`);
+    console.log(`selected K1 ${object.id}`);
+
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id) 
+        importProcessDto[i].weighKemLon = value
+    }
+    
+    // return null;
+    
+  };
+  
   //==========================================
   //search
 
@@ -186,8 +199,11 @@ const Datatable = (props: Props) => {
     setSearchParamCustomer(SearchParamChange)
 
   }
-  // add or up date 
+  const onAdd = async () => {
 
+
+  }
+  // add or up date 
   const onAddOrUpdateUser = async () => {
     //validate
     if (ImportpriceDto.DateImport === "" || ImportpriceDto.DateImport === undefined) {
@@ -227,7 +243,7 @@ const Datatable = (props: Props) => {
   const roleColumns: ColumnsType<importProcess> = [
     {
       title: 'Ngày',
-      width: 60,
+      width: 80,
       dataIndex: 'dateImport',
       key: 'dateImport',
       fixed: 'left',
@@ -235,16 +251,16 @@ const Datatable = (props: Props) => {
     },
     {
       title: 'Tên vựa',
-      width: 50,
+      width: 80,
       dataIndex: 'idGarden',
       key: 'idGarden',
       fixed: 'left',
       render: (_, record) => {
-        function findArrayElementByTitle(array:any, title:any) {
+        function findArrayElementByTitle(array: any, title: any) {
           for (let i = 0; i < array?.length; i++) {
-            if(array[i].id === title)  return array[i].nameGarden
+            if (array[i].id === title) return array[i].nameGarden
           }
-        return null;
+          return null;
         }
         return (
           <div>
@@ -254,14 +270,14 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'Trọng lượng Kem Lớn',
-      width: 50,
+      title: 'Kem Lớn',
+      width: 90,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighKemLon?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighKemLon?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -270,14 +286,14 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trọng lượng Kem 2',
-      width: 50,
+      title: ' Kem 2',
+      width: 90,
       dataIndex: 'weighKem2',
       key: 'weighKem2',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighKem2?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighKem2?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -286,14 +302,14 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trọng lượng Kem 3',
-      width: 50,
+      title: ' Kem 3',
+      width: 90,
       dataIndex: 'weighKem3',
       key: 'weighKem3',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighKem3?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighKem3?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -302,14 +318,14 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trọng lượng RXo',
-      width: 50,
+      title: ' RXo',
+      width: 90,
       dataIndex: 'weighRXo',
       key: 'weighRXo',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighRXo?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighRXo?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -318,14 +334,15 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trọng lượng R1',
-      width: 50,
+      title: ' R1',
+      width: 90,
       dataIndex: 'weighR1',
       key: 'weighR1',
       fixed: 'left',
+      
       render: (_, record) => {
 
-        const listItems = record.weighR1?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighR1?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -334,14 +351,14 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trọng lượng R2',
-      width: 50,
+      title: ' R2',
+      width: 90,
       dataIndex: 'weighR2',
       key: 'weighR2',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighR2?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighR2?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -350,14 +367,14 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trọng lượng R3',
-      width: 50,
+      title: ' R3',
+      width: 90,
       dataIndex: 'weighR3',
       key: 'weighR3',
       fixed: 'left',
       render: (_, record) => {
 
-        const listItems = record.weighR3?.map((d) =>  <Tag color='success' key={d}>{d}</Tag>);
+        const listItems = record.weighR3?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
         return (
           <div>
             {listItems}
@@ -366,18 +383,23 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'trạng thái',
-      width: 70,
+      title: 'Trạng thái',
+      width: 80,
       dataIndex: 'statusBill',
       key: 'statusBill',
       fixed: 'left',
       render: (_, record) => {
-
-        return (
-          <div>
-            {record.statusBill}
-          </div>
-        )
+        switch (record.statusBill) {
+          case "CHUA_THANH_TOAN":
+            return (<Tag color='#e70103' >Chưa thanh toán</Tag>)
+          case "DA_THANH_TOAN":
+            return (<Tag color='#87d068' >Đã thanh toán</Tag>)
+        }
+        // return (
+        //   <div>
+        //     {record.statusBill}
+        //   </div>
+        // )
       }
     },
     {
@@ -395,7 +417,9 @@ const Datatable = (props: Props) => {
             <div className="viewButton"
               onClick={() => showEditDrawer(record)}
             >Sửa</div>
-
+            <div className="exportFile"
+              onClick={() => exportFile(record.id)}
+            >Xuất</div>
             <div
               className="deleteButton"
               onClick={() => handleDelete(record.id)}
@@ -448,6 +472,16 @@ const Datatable = (props: Props) => {
     setaddOrUpdate(1);
     // open TAB
     setOpenAdd(true);
+  };
+  //exportFile
+  
+  const exportFile = async (id: any) => {
+    //init state 
+   
+    setCheckRefresh(true);
+    await dispatch(ImportProcessAction.exportBillImportProcess(id));
+    await timeout(500);
+    refresh();
   };
   // Show edit  
   const showEditDrawer = (record: any) => {
@@ -537,7 +571,7 @@ const Datatable = (props: Props) => {
   const onDeleteComponent = (object: ImportProcessDto, index: any) => {
 
     if (index > -1) { // only splice array when item is found
-      importProcessDto.splice(index, 1); // remove one item only
+      importProcessDto.splice(index,1); // remove one item only
     }
     //const temp = { ...importProcessDto };
     setImportProcessDto([...importProcessDto]);
@@ -744,8 +778,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      defaultValue={[]}
-                      onChange={handleChange}
+                      defaultValue={anObjectMapped.weighKemLon}
+                      onChange={(a)=>handleChangeKemLonAddElement(anObjectMapped,a)}
                       options={options}
                     />
                   </Col>
@@ -825,9 +859,9 @@ const Datatable = (props: Props) => {
                 <br />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Space style={{ display: 'flex' }}>
-                    <Button icon={<PlusOutlined />} style={{ background: '#339966', borderColor: '#339966' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
-                    <Button style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary">Lưu</Button>
-                    <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={() => onDeleteComponent(anObjectMapped, index)} type="primary">
+                    <Button icon={<PlusOutlined />} style={{ background: '#87d068', borderColor: '#87d068' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
+                    <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAdd} type="primary">Lưu</Button>
+                    <Button onClick={() => onDeleteComponent(anObjectMapped, index)} >
                       Xoá
                     </Button>
                   </Space>
@@ -843,10 +877,11 @@ const Datatable = (props: Props) => {
         <div className="Submit">
           <Space style={{ display: 'flex' }}>
             <Button icon={<PlusOutlined />} style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary"></Button>
-            <Button onClick={onCloseAdd}>Huỷ</Button>
+
             <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAddOrUpdateUser} type="primary">
               Lưu
             </Button>
+            <Button onClick={onCloseAdd}>Huỷ</Button>
           </Space>
         </div>
       </Drawer>
