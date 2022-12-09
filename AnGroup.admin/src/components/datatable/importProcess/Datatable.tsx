@@ -179,8 +179,10 @@ const Datatable = (props: Props) => {
       if (importProcessDto[i].id === object.id){
         importProcessDto[i].weighKemLon = value
       }
-       
+    
     }
+    const importProcessDtoChange = [...importProcessDto ] 
+    setImportProcessDto(importProcessDtoChange)
     console.log(`selected K1 ${value}`);
     console.log(`selected K1 ${object.weighKemLon}`);
   };
