@@ -60,7 +60,7 @@ const Datatable = (props: Props) => {
     weighR1: [],
     weighR2: [],
     weighR3: [],
-    DateImport: "",
+    dateImport: "",
     idGarden: "",
     statusBill: "",
     id: "",
@@ -74,7 +74,7 @@ const Datatable = (props: Props) => {
       weighR1: [],
       weighR2: [],
       weighR3: [],
-      DateImport: "",
+      dateImport: "",
       idGarden: "",
       statusBill: "",
       id: "1",
@@ -176,63 +176,69 @@ const Datatable = (props: Props) => {
   };
   const handleChangeKemLonAddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
-      if (importProcessDto[i].id === object.id){
+      if (importProcessDto[i].id === object.id) {
         importProcessDto[i].weighKemLon = value
       }
-    
+
     }
-    const importProcessDtoChange = [...importProcessDto ] 
+    const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+    // console.log(`selected K1 ${value}`);
+    // console.log(`selected K1 ${object.weighKemLon}`);
   };
   const handleChangeKem2AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighKem2 = value
     }
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange)
   };
   const handleChangeKem3AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighKem3 = value
     }
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange)
   };
   const handleChangeRXoAddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighRXo = value
     }
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange);
   };
   const handleChangeR1AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighR1 = value
     }
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange)
   };
   const handleChangeR2AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighR2 = value
     }
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange)
   };
   const handleChangeR3AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighR3 = value
     }
-    console.log(`selected K1 ${value}`);
-    console.log(`selected K1 ${object.weighKemLon}`);
+
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange)
   };
 
   //==========================================
@@ -253,14 +259,32 @@ const Datatable = (props: Props) => {
     const SearchParamChange = { ...SearchParamCustomer }
     setSearchParamCustomer(SearchParamChange)
   }
-  const onAdd = async () => {
+  const onAdd = async (object: any, index: any) => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm: any = today.getMonth() + 1; // Months start at 0!
+    let dd: any = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = yyyy + '-' + mm + '-' + dd;
+    object.dateImport = formattedToday;
+    object.statusBill = "CHUA_THANH_TOAN";
+
+    dispatch(ImportProcessAction.addImportProcess([object]));
+    // Xoá khỏi list
+    if (index > -1) { // only splice array when item is found
+      importProcessDto.splice(index, 1); // remove one item only
+    }
+    setImportProcessDto([...importProcessDto]);
 
 
   }
   // add or up date 
   const onAddOrUpdateUser = async () => {
     //validate
-    if (ImportpriceDto.DateImport === "" || ImportpriceDto.DateImport === undefined) {
+    if (ImportpriceDto.dateImport === "" || ImportpriceDto.dateImport === undefined) {
       openNotification("Ngày tạo không được để trống");
       return;
     }
@@ -566,7 +590,7 @@ const Datatable = (props: Props) => {
         weighR1: record.weighR1,
         weighR2: record.weighR2,
         weighR3: record.weighR3,
-        DateImport: record.DateImport,
+        dateImport: record.dateImport,
         idGarden: record.idGarden,
         statusBill: record.statusBill,
       }
@@ -606,7 +630,7 @@ const Datatable = (props: Props) => {
       weighR1: [],
       weighR2: [],
       weighR3: [],
-      DateImport: "",
+      dateImport: "",
       idGarden: "",
       statusBill: "",
       id: "1",
@@ -625,7 +649,7 @@ const Datatable = (props: Props) => {
       weighR1: [],
       weighR2: [],
       weighR3: [],
-      DateImport: "",
+      dateImport: "",
       idGarden: "",
       statusBill: "",
       id: countAdd + "",
@@ -860,8 +884,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      //value={anObjectMapped.weighKem2}
-                      //onChange={(a) => handleChangeKem2AddElement(anObjectMapped, a)}
+                      value={anObjectMapped.weighKem2}
+                      onChange={(a) => handleChangeKem2AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -871,8 +895,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      //value={anObjectMapped.weighKem3}
-                      //onChange={(a) => handleChangeKem3AddElement(anObjectMapped, a)}
+                      value={anObjectMapped.weighKem3}
+                      onChange={(a) => handleChangeKem3AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -884,8 +908,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      //value={anObjectMapped.weighRXo}
-                      //onChange={(a) => handleChangeRXoAddElement(anObjectMapped, a)}
+                      value={anObjectMapped.weighRXo}
+                      onChange={(a) => handleChangeRXoAddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -895,8 +919,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      //value={anObjectMapped.weighR1}
-                      //onChange={(a) => handleChangeR1AddElement(anObjectMapped, a)}
+                      value={anObjectMapped.weighR1}
+                      onChange={(a) => handleChangeR1AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -908,8 +932,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      //value={anObjectMapped.weighR2}
-                      //onChange={(a) => handleChangeR2AddElement(anObjectMapped, a)}
+                      value={anObjectMapped.weighR2}
+                      onChange={(a) => handleChangeR2AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -919,8 +943,8 @@ const Datatable = (props: Props) => {
                       mode="multiple"
                       style={{ width: '100%' }}
                       placeholder="Please select"
-                      //value={anObjectMapped.weighR3}
-                     // onChange={(a) => handleChangeR3AddElement(anObjectMapped, a)}
+                      value={anObjectMapped.weighR3}
+                      onChange={(a) => handleChangeR3AddElement(anObjectMapped, a)}
                       options={options}
                     />
                   </Col>
@@ -929,7 +953,7 @@ const Datatable = (props: Props) => {
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Space style={{ display: 'flex' }}>
 
-                    <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAdd} type="primary">Lưu</Button>
+                    <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={() => onAdd(anObjectMapped, index)} type="primary">Lưu</Button>
                     <Button onClick={() => onDeleteComponent(anObjectMapped, index)} >
                       Xoá
                     </Button>
@@ -948,7 +972,7 @@ const Datatable = (props: Props) => {
             <Button icon={<PlusOutlined />} style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary"></Button>
             <Button icon={<PlusOutlined />} style={{ background: '#87d068', borderColor: '#87d068' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
             <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAddOrUpdateUser} type="primary">
-              Lưu
+              Lưu tất cả
             </Button>
             <Button onClick={onCloseAdd}>Huỷ</Button>
           </Space>

@@ -7,7 +7,7 @@ export interface importProcess{
     weighR1: number[];
     weighR2: number[];
     weighR3: number[];
-    DateImport: string;
+    dateImport: string;
     idGarden: string;
     statusBill: string;
    
