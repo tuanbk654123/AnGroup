@@ -1,11 +1,11 @@
 export interface ImportProcessDto{
-    weighKemLon: number[];
-    weighKem2: number[];
-    weighKem3: number[];
-    weighRXo: number[];
-    weighR1: number[];
-    weighR2: number[];
-    weighR3: number[];
+    weighKemLon?: number[];
+    weighKem2?: number[];
+    weighKem3?: number[];
+    weighRXo?: number[];
+    weighR1?: number[];
+    weighR2?: number[];
+    weighR3?: number[];
     dateImport: string;
     idGarden: string;
     statusBill: string;

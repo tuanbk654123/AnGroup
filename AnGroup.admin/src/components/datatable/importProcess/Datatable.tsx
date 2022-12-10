@@ -9,13 +9,14 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag, DatePickerProps } from 'antd';
 
 import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto, customer } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
 
 import { openNotification } from "../../notice/notification";
 import { log } from "console";
+import moment from "moment";
 
 
 export interface Option {
@@ -80,6 +81,21 @@ const Datatable = (props: Props) => {
       id: "1",
     }
   ]);
+  const [UpdateImportProcessDto, setUpdateImportProcessDto] = useState<ImportProcessDto>(
+    {
+      weighKemLon: undefined,
+      weighKem2: undefined,
+      weighKem3: undefined,
+      weighRXo: undefined,
+      weighR1: undefined,
+      weighR2: undefined,
+      weighR3: undefined,
+      dateImport: "",
+      idGarden: "",
+      statusBill: "",
+      id: "",
+    }
+  );
   const [SelectCustomer, setSelectCustomer] = useState<Option[]>([]);
   // add or Update
   const [addOrUpdate, setaddOrUpdate] = useState(0);// 1 is add , 2 is update
@@ -171,8 +187,61 @@ const Datatable = (props: Props) => {
       value
     });
   }
-  const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
+  const handleChangeKemLonAddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighKemLon: value
+      }
+    )
+  };
+  const handleChangeKem2AddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighKem2: value
+      }
+    )
+  };
+  const handleChangeKem3AddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighKem3: value
+      }
+    )
+  };
+  const handleChangeRXoAddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighRXo: value
+      }
+    )
+  };
+  const handleChangeR1AddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighR1: value
+      }
+    )
+  };
+  const handleChangeR2AddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighR2: value
+      }
+    )
+  };
+  const handleChangeR3AddElementUpdate = (value: number[]) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        weighR3: value
+      }
+    )
   };
   const handleChangeKemLonAddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
@@ -183,15 +252,12 @@ const Datatable = (props: Props) => {
     }
     const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
-    // console.log(`selected K1 ${value}`);
-    // console.log(`selected K1 ${object.weighKemLon}`);
   };
   const handleChangeKem2AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighKem2 = value
     }
-
     const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
   };
@@ -200,7 +266,6 @@ const Datatable = (props: Props) => {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighKem3 = value
     }
-
     const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
   };
@@ -209,16 +274,14 @@ const Datatable = (props: Props) => {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighRXo = value
     }
-
     const importProcessDtoChange = [...importProcessDto]
-    setImportProcessDto(importProcessDtoChange);
+    setImportProcessDto(importProcessDtoChange)
   };
   const handleChangeR1AddElement = (object: any, value: number[]) => {
     for (let i = 0; i < importProcessDto?.length; i++) {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighR1 = value
     }
-
     const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
   };
@@ -227,7 +290,6 @@ const Datatable = (props: Props) => {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighR2 = value
     }
-
     const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
   };
@@ -236,7 +298,6 @@ const Datatable = (props: Props) => {
       if (importProcessDto[i].id === object.id)
         importProcessDto[i].weighR3 = value
     }
-
     const importProcessDtoChange = [...importProcessDto]
     setImportProcessDto(importProcessDtoChange)
   };
@@ -259,48 +320,76 @@ const Datatable = (props: Props) => {
     const SearchParamChange = { ...SearchParamCustomer }
     setSearchParamCustomer(SearchParamChange)
   }
-  const onAdd = async (object: any, index: any) => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm: any = today.getMonth() + 1; // Months start at 0!
-    let dd: any = today.getDate();
+  const onAdd = async (anObjectMapped: any, index: any) => {
 
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
+    var date = new Date();
 
-    const formattedToday = yyyy + '-' + mm + '-' + dd;
-    object.dateImport = formattedToday;
-    object.statusBill = "CHUA_THANH_TOAN";
+    // Get year, month, and day part from the date
+    var year = date.toLocaleString("default", { year: "numeric" });
+    var month = date.toLocaleString("default", { month: "2-digit" });
+    var day = date.toLocaleString("default", { day: "2-digit" });
 
-    dispatch(ImportProcessAction.addImportProcess([object]));
-    // Xoá khỏi list
+    // Generate yyyy-mm-dd date string
+    var formattedDate = year + "-" + month + "-" + month;
+    console.log(formattedDate);  // Prints: 04-05-2022
+    anObjectMapped.dateImport = formattedDate;
+    anObjectMapped.statusBill = "CHUA_THANH_TOAN";
+    await dispatch(ImportProcessAction.addImportProcess([anObjectMapped]));
+
+    //
+
     if (index > -1) { // only splice array when item is found
       importProcessDto.splice(index, 1); // remove one item only
     }
+    //const temp = { ...importProcessDto };
     setImportProcessDto([...importProcessDto]);
+    // Nếu hết phần tử thì đóng tab
+    if (importProcessDto.length === 0) {
+      onCloseAdd();
+    }
 
 
+  }
+  const onAddAll = async () => {
+
+    var date = new Date();
+    // Get year, month, and day part from the date
+    var year = date.toLocaleString("default", { year: "numeric" });
+    var month = date.toLocaleString("default", { month: "2-digit" });
+    var day = date.toLocaleString("default", { day: "2-digit" });
+
+    // Generate yyyy-mm-dd date string
+    var formattedDate = year + "-" + month + "-" + month;
+
+
+    for (let i = 0; i < importProcessDto?.length; i++) {
+
+      importProcessDto[i].dateImport = formattedDate;
+      importProcessDto[i].statusBill = "CHUA_THANH_TOAN";
+    }
+
+
+    dispatch(ImportProcessAction.addImportProcess(importProcessDto));
+
+    // đóng tab
+    await timeout(500);
+    refresh();
+    onCloseAdd();
   }
   // add or up date 
   const onAddOrUpdateUser = async () => {
     //validate
-    if (ImportpriceDto.dateImport === "" || ImportpriceDto.dateImport === undefined) {
+    if (UpdateImportProcessDto.dateImport === "" || UpdateImportProcessDto.dateImport === undefined) {
       openNotification("Ngày tạo không được để trống");
       return;
     }
     // add
     if (addOrUpdate === 1) {
-      // const importProcess = {
-      //   ...ImportpriceDto,
-
-      // }
-      // await dispatch(ImportProcessAction.addImportProcess([importProcess]));
     }
     // Update
     if (addOrUpdate === 2) {
       const importProcess = {
-        ...ImportpriceDto,
-
+        ...UpdateImportProcessDto,
       }
       await dispatch(ImportProcessAction.updateImportProcess(importProcess));
 
@@ -323,6 +412,25 @@ const Datatable = (props: Props) => {
       temp.push(a);
     }
     return temp;
+  }
+
+  const setValueOption = (object: any) => {
+
+    for (let i = 0; i < customers?.content?.length; i++) {
+      if (customers?.content[i].id === object.idGarden) {
+        return customers?.content[i].nameGarden
+      }
+    }
+    return "";
+  }
+
+  const setValueOptionUpdate = (object: any) => {
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        idGarden: object
+      }
+    )
   }
 
   const getFullDate = (date: string): string => {
@@ -547,17 +655,6 @@ const Datatable = (props: Props) => {
   };
   // Show Add    
   const showDrawer = () => {
-    //init state 
-    // const tempMockData = [];
-    // for (let i = 0; i < customers?.content?.length; i++) {
-    //   const data = {
-    //     value: customers.content[i].id,
-    //     label: customers.content[i].nameGarden,
-    //   };
-    //   tempMockData.push(data);
-    // }
-    // setSelectCustomer(tempMockData);
-
     setTitle("Thêm mới ");
     // setState add or up date
     setaddOrUpdate(1);
@@ -578,9 +675,8 @@ const Datatable = (props: Props) => {
   const showEditDrawer = (record: any) => {
     //init state 
     console.log("showEditDrawer: ", record);
-    setTitle("Sửa giá nhập");
-
-    setImportpriceDto(
+    setTitle("Sửa quá trình nhập");
+    setUpdateImportProcessDto(
       {
         id: record.id,
         weighKemLon: record.weighKemLon,
@@ -595,6 +691,7 @@ const Datatable = (props: Props) => {
         statusBill: record.statusBill,
       }
     )
+
     // setState add or up date
     setaddOrUpdate(2);
     // open TAB
@@ -730,10 +827,38 @@ const Datatable = (props: Props) => {
     )
   }
 
-  const onChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const onChange = (value: string, object: any) => {
+    //console.log(`selected ${value}`);
+
+    for (let i = 0; i < importProcessDto?.length; i++) {
+      if (importProcessDto[i].id === object.id) {
+        importProcessDto[i].idGarden = value
+      }
+
+    }
+    const importProcessDtoChange = [...importProcessDto]
+    setImportProcessDto(importProcessDtoChange)
   };
 
+  const onChangeUpdate = (value: string) => {
+
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        idGarden: value
+      }
+    )
+
+  };
+  const onChangeDateUpdate: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(date, dateString);
+    setUpdateImportProcessDto(
+      {
+        ...UpdateImportProcessDto,
+        dateImport: dateString
+      }
+    )
+  };
   const onSearch = (value: string) => {
     console.log('search:', value);
   };
@@ -812,17 +937,122 @@ const Datatable = (props: Props) => {
           paddingBottom: 80,
         }}
       >
+
         <Row className="row" gutter={16}>
-          {/* <Col span={12}>
-            <label >Giá kem lớn (vnđ):</label>
-            <Input placeholder="Nhập giá kem lớn(vnđ)" value={ImportpriceDto.ProcessKemLon} onChange={onChangeProcessKemLon} />
+          <Col span={12}>
+            <label ><b>Tên vựa:</b></label>
+            <Select
+              showSearch
+              style={{ width: '100%' }}
+              placeholder="Select a person"
+              optionFilterProp="children"
+              onChange={onChangeUpdate}
+              onSearch={onSearch}
+              value={UpdateImportProcessDto.idGarden}
+              options={setOption()}
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+
+            />
           </Col>
           <Col span={12}>
-            <label >Giá kem 2 (vnđ):</label>
-            <Input placeholder="Nhập giá kem 2 (vnđ)" value={ImportpriceDto.ProcessKem2} onChange={onChangeProcessKem2} />
-          </Col> */}
+            <label >Kem lớn:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighKemLon}
+              onChange={handleChangeKemLonAddElementUpdate}
+              options={options}
+            />
+          </Col>
         </Row>
 
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Kem 2:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighKem2}
+              onChange={handleChangeKem2AddElementUpdate}
+              options={options}
+            />
+          </Col>
+          <Col span={12}>
+            <label >Kem 3:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighKem3}
+              onChange={handleChangeKem3AddElementUpdate}
+              options={options}
+            />
+          </Col>
+        </Row>
+   
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >RXo:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighRXo}
+              onChange={handleChangeRXoAddElementUpdate}
+              options={options}
+            />
+          </Col>
+          <Col span={12}>
+            <label >R1:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighR1}
+              onChange={handleChangeR1AddElementUpdate}
+              options={options}
+            />
+          </Col>
+        </Row>
+       
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >R2:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighR2}
+              onChange={handleChangeR2AddElementUpdate}
+              options={options}
+            />
+          </Col>
+          <Col span={12}>
+            <label >R3:</label>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              value={UpdateImportProcessDto.weighR3}
+              onChange={handleChangeR3AddElementUpdate}
+              options={options}
+            />
+          </Col>
+        </Row>
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Ngày:</label>
+            <DatePicker value={moment(UpdateImportProcessDto.dateImport, dateFormat)} onChange={onChangeDateUpdate} format={dateFormat} style={{ width: '100%' }} />
+
+          </Col>
+          <Col span={12}>
+
+          </Col>
+        </Row>
         <div className="Submit">
           <Space style={{ display: 'flex' }}>
             <Button onClick={onClose}>Huỷ</Button>
@@ -855,9 +1085,9 @@ const Datatable = (props: Props) => {
                       style={{ width: '100%' }}
                       placeholder="Select a person"
                       optionFilterProp="children"
-                      onChange={onChange}
+                      onChange={(a) => onChange(a, anObjectMapped)}
                       onSearch={onSearch}
-                      //options={SelectCustomer}
+                      value={setValueOption(anObjectMapped)}
                       options={setOption()}
                       filterOption={(input, option) =>
                         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -971,7 +1201,7 @@ const Datatable = (props: Props) => {
           <Space style={{ display: 'flex' }}>
             <Button icon={<PlusOutlined />} style={{ background: '#57a4da', borderColor: '#57a4da' }} onClick={onAddComponent} type="primary"></Button>
             <Button icon={<PlusOutlined />} style={{ background: '#87d068', borderColor: '#87d068' }} onClick={() => setModal2Open(true)} type="primary">Thêm vựa</Button>
-            <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAddOrUpdateUser} type="primary">
+            <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} onClick={onAddAll} type="primary">
               Lưu tất cả
             </Button>
             <Button onClick={onCloseAdd}>Huỷ</Button>

@@ -400,7 +400,7 @@ namespace FruitManager.Services
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighKemLon);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
                     CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
-                    string price = double.Parse(importPrice.PriceKemLon.ToString()).ToString("#,###", cul.NumberFormat);
+                    string price = importPrice != null ? double.Parse(importPrice.PriceKemLon.ToString()).ToString("#,###", cul.NumberFormat): "0";
                     string pricesum = double.Parse(importProcess.SumPriceKemLon.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -410,7 +410,7 @@ namespace FruitManager.Services
                     row = excelSheet.GetRow(31);
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighKem2);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
-                    price = double.Parse(importPrice.PriceKem2.ToString()).ToString("#,###", cul.NumberFormat);
+                    price = importPrice != null ? double.Parse(importPrice.PriceKem2.ToString()).ToString("#,###", cul.NumberFormat) : "0";
                     pricesum = double.Parse(importProcess.SumPriceKem2.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -420,7 +420,7 @@ namespace FruitManager.Services
                     row = excelSheet.GetRow(32);
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighKem3);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
-                    price = double.Parse(importPrice.PriceKem3.ToString()).ToString("#,###", cul.NumberFormat);
+                    price = importPrice != null ? double.Parse(importPrice.PriceKem3.ToString()).ToString("#,###", cul.NumberFormat) : "0";
                     pricesum = double.Parse(importProcess.SumPriceKem3.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -430,7 +430,7 @@ namespace FruitManager.Services
                     row = excelSheet.GetRow(33);
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighRXo);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
-                    price = double.Parse(importPrice.PriceRXo.ToString()).ToString("#,###", cul.NumberFormat);
+                    price = importPrice != null ? double.Parse(importPrice.PriceRXo.ToString()).ToString("#,###", cul.NumberFormat) : "0";
                     pricesum = double.Parse(importProcess.SumPriceRXo.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -440,7 +440,7 @@ namespace FruitManager.Services
                     row = excelSheet.GetRow(34);
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighR1);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
-                    price = double.Parse(importPrice.PriceR1.ToString()).ToString("#,###", cul.NumberFormat);
+                    price = importPrice != null ? double.Parse(importPrice.PriceR1.ToString()).ToString("#,###", cul.NumberFormat) : "0";
                     pricesum = double.Parse(importProcess.SumPriceR1.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -450,7 +450,7 @@ namespace FruitManager.Services
                     row = excelSheet.GetRow(35);
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighR2);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
-                    price = double.Parse(importPrice.PriceR2.ToString()).ToString("#,###", cul.NumberFormat);
+                    price = importPrice != null ? double.Parse(importPrice.PriceR2.ToString()).ToString("#,###", cul.NumberFormat) : "0";
                     pricesum = double.Parse(importProcess.SumPriceR2.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -460,7 +460,7 @@ namespace FruitManager.Services
                     row = excelSheet.GetRow(36);
                     row.CreateCell(1).SetCellValue(importProcess.SumWeighR3);
                     row.GetCell(1).CellStyle = styleBlodWithBorder;
-                    price = double.Parse(importPrice.PriceR3.ToString()).ToString("#,###", cul.NumberFormat);
+                    price = importPrice != null ? double.Parse(importPrice.PriceR3.ToString()).ToString("#,###", cul.NumberFormat) : "0";
                     pricesum = double.Parse(importProcess.SumPriceR3.ToString()).ToString("#,###", cul.NumberFormat);
                     row.CreateCell(2).SetCellValue(price);
                     row.GetCell(2).CellStyle = styleWithBorder;
@@ -486,6 +486,10 @@ namespace FruitManager.Services
 
 
                     workbook.Write(memoryStream);
+                    // update trạng thái
+                    // update
+                    importProcess.statusBill = DataAccess.Models.Enum.StatusBill.DA_THANH_TOAN;
+                    var a =  await ImportProcessRepository.UpdateAsync(x => x.Id, importProcess, false);
                     return memoryStream.ToArray();
                 }
             }
