@@ -37,7 +37,7 @@ namespace DataAccess.Models.Dto.ExportProcess
         public List<float> WeighKem2 { get; set; } // số kg mỗi lần cân
         public List<float> WeighKem3 { get; set; } // số kg mỗi lần cân
         public List<float> WeighRXo { get; set; } // số kg mỗi lần cân
-        public List<float> WeighR1 { get; set; } // số kg mỗi lần cân
+        public List<float> WeighR1 { get; set; } // số kg mỗi lần cân s
         public List<float> WeighR2 { get; set; } // số kg mỗi lần cân
         public List<float> WeighR3 { get; set; } // số kg mỗi lần cân
 
