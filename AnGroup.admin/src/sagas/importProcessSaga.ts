@@ -99,3 +99,32 @@ export function* postExportBillImportProcess() {
 }
 
 
+function* getExportReportImportProcess(action : any) {
+  try {
+    const data : Blob  = yield call(importProcessService.exportReportProcesss, action.payload);
+    yield put(ImportProcessAction.exportBillImportProcessSuccess(data));
+   
+    //var csvURL = window.URL.createObjectURL(data);   
+    const href = URL.createObjectURL(data);
+     // create "a" HTML element with href to file & click
+     const link = document.createElement('a');
+     link.href = href;
+     link.setAttribute('download', 'Report.xlsx'); //or any other extension
+     document.body.appendChild(link);
+     link.click();
+ 
+     // clean up "a" element & remove ObjectURL
+     document.body.removeChild(link);
+     URL.revokeObjectURL(href);
+    //  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    openNotification("Xuất hoá đơn thành công");
+  } catch (error) {
+    //handle error
+    openNotification("Export thất bại");
+  }
+}
+
+export function* postExportReportImportProcess() {
+  yield takeLatest(ImportProcessAction.exportReportImportProcess.type, getExportReportImportProcess);
+}
+

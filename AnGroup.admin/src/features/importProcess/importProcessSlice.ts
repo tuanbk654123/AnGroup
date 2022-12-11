@@ -61,8 +61,14 @@ const ImportProcessSlice = createSlice({
         exportBillImportProcessSuccess (state, action: PayloadAction<Blob>){
            // state.respone = action.payload;
             
+        },
+        exportReportImportProcess (state, action: PayloadAction<string>){
+        },
+
+        exportReportImportProcessSuccess (state, action: PayloadAction<Blob>){
+           // state.respone = action.payload;
+            
         }
-        
     }
 
 })

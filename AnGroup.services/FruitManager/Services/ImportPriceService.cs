@@ -31,7 +31,7 @@ namespace FruitManager.Services
             ImportPrice? ImportPrice = new ImportPrice();
             ImportPrice = createImportPriceDto?.Adapt<ImportPrice>();
             ImportPrice.Id = Guid.NewGuid().ToString();
-            ImportPrice.DateImport = ImportPrice.DateImport.AddHours(7).AddMilliseconds(1);
+            ImportPrice.DateImport = ImportPrice.DateImport.AddHours(7);
             var result = await ImportPriceRepository.UpdateAsync(x => x.Id, ImportPrice, true);
             return result;
         }
@@ -43,7 +43,7 @@ namespace FruitManager.Services
         public async Task<bool> Update(UpdateImportPriceDto updateImportPriceDto, CancellationToken cancellationToken = default)
         {
             var ImportPrice = updateImportPriceDto.Adapt<ImportPrice>();
-            ImportPrice.DateImport = ImportPrice.DateImport.AddHours(7).AddMilliseconds(1);
+            ImportPrice.DateImport = ImportPrice.DateImport.AddHours(7);
             return await ImportPriceRepository.UpdateAsync(x => x.Id, ImportPrice, false, cancellationToken);
         }
 

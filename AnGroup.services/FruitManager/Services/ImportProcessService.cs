@@ -23,14 +23,16 @@ namespace FruitManager.Services
     internal sealed class ImportProcessService : IImportProcessService
     {
         private readonly IImportProcessRepository ImportProcessRepository;
+        private readonly IImportReportRepository importReportRepository;
         private readonly IImportPriceRepository importPriceRepository;
         private readonly IGardenRepository gardenRepository;
 
-        public ImportProcessService(IImportProcessRepository ImportProcessRepository, IImportPriceRepository importPriceRepository, IGardenRepository gardenRepository)
+        public ImportProcessService(IImportProcessRepository ImportProcessRepository, IImportPriceRepository importPriceRepository, IGardenRepository gardenRepository, IImportReportRepository importReportRepository)
         {
             this.ImportProcessRepository = ImportProcessRepository;
             this.importPriceRepository = importPriceRepository;
             this.gardenRepository = gardenRepository;
+            this.importReportRepository = importReportRepository;
         }
 
         public async Task<bool> Create(CreateImportProcessDto createImportProcessDto, CancellationToken cancellationToken = default)
@@ -92,6 +94,7 @@ namespace FruitManager.Services
             var ImportProcess = updateImportProcessDto.Adapt<ImportProcess>();
 
             // Tính tổng 
+            ImportProcess.DateImport = updateImportProcessDto.DateImport.AddDays(1);
             ImportProcess.SumWeighKemLon = (float)(ImportProcess.WeighKemLon?.Sum(x => x));
             ImportProcess.SumWeighKem2 = (float)(ImportProcess.WeighKem2?.Sum(x => x));
             ImportProcess.SumWeighKem3 = (float)(ImportProcess.WeighKem3?.Sum(x => x));
@@ -151,7 +154,17 @@ namespace FruitManager.Services
             string fileName = @"Bill.xlsx";
             ImportProcess importProcess = await ImportProcessRepository.GetByIndexAsync(x => x.Id, id);
             Garden garden  = await gardenRepository.GetByIndexAsync(x => x.Id, importProcess.IdGarden);
-            ImportPrice importPrice = await importPriceRepository.GetByIndexAsync(x => x.Id, importProcess.IdImportPrice);
+
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 1000;
+            SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
+            searchImportPriceDto.fromDate = importProcess.DateImport;
+            searchImportPriceDto.toDate = importProcess.DateImport;
+            var content = await importPriceRepository.Search(pageable, searchImportPriceDto);
+            List<ImportPrice> importPrices = (List<ImportPrice>)content.Content;
+
+            ImportPrice importPrice = importPrices[0];
 
             if (importProcess == null )
             {
@@ -494,6 +507,275 @@ namespace FruitManager.Services
                 }
             }
             
+        }
+
+        public async Task<byte[]> ExportRepost(DateTime date)
+        {
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
+            using var memoryStream = new MemoryStream();
+            string fileName = @"Report_Import.xlsx";
+            List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date.AddDays(1));
+
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 1000;
+            SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
+            searchImportPriceDto.fromDate = date;
+            searchImportPriceDto.toDate = date;
+            var a = await importPriceRepository.Search(pageable, searchImportPriceDto);
+            List<ImportPrice> importPrices = (List<ImportPrice>)a.Content;
+
+            ImportPrice importPrice = importPrices[0];
+
+            //ImportPrice importPrice = await importPriceRepository.GetByIndexAsync(x => x.DateImport, date);
+
+            if (importProcess == null)
+            {
+                return null;
+            }
+            else
+            {
+                // --- Below code would create excel file with dummy data----  
+                //file.OpenRead();
+                using (var fs = new FileStream(Path.Combine(pathToSave, fileName), FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    fs.Position = 0;
+                    XSSFWorkbook workbook = new XSSFWorkbook(fs);
+                    ISheet excelSheet = workbook.GetSheetAt(0);
+
+
+                    ICellStyle styleBlodWithBorder = workbook.CreateCellStyle();
+                    IFont fontBoldWithBorder = workbook.CreateFont();
+                    fontBoldWithBorder.FontName = "Times New Roman";
+                    fontBoldWithBorder.FontHeightInPoints = 18;
+                    fontBoldWithBorder.Boldweight = (short)FontBoldWeight.Bold;
+                    styleBlodWithBorder.SetFont(fontBoldWithBorder);
+                    styleBlodWithBorder.WrapText = true;
+                    styleBlodWithBorder.VerticalAlignment = VerticalAlignment.Center;
+                    styleBlodWithBorder.Alignment = HorizontalAlignment.Center;
+                    styleBlodWithBorder.BorderTop = BorderStyle.Thin;
+                    styleBlodWithBorder.BorderLeft = BorderStyle.Thin;
+                    styleBlodWithBorder.BorderRight = BorderStyle.Thin;
+                    styleBlodWithBorder.BorderBottom = BorderStyle.Thin;
+    
+                    IRow row;
+                    float sKemLon = 0;
+                    float sKem2 = 0;
+                    float sKem3 = 0;
+                    float sRXo = 0;
+                    float sR1 = 0;
+                    float sR2 = 0;
+                    float sR3 = 0;
+                    for (int i = 0 ; i < importProcess.Count; i ++){
+                        sKemLon += importProcess[i].SumWeighKemLon;
+                        sKem2 += importProcess[i].SumWeighKem2;
+                        sKem3 += importProcess[i].SumWeighKem3;
+                        sRXo += importProcess[i].SumWeighRXo;
+                        sR1 += importProcess[i].SumWeighR1;
+                        sR2 += importProcess[i].SumWeighR2;
+                        sR3 += importProcess[i].SumWeighR3;
+                    }
+                    row = excelSheet.GetRow(0);
+                    string formatted = date.ToString("dd.MM.yyyy");
+                    row.CreateCell(1).SetCellValue(formatted);
+                    row.GetCell(1).CellStyle = styleBlodWithBorder;
+                    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");   // try with "en-US"
+                    //
+                    string price = importPrice != null ? double.Parse(importPrice.PriceKemLon.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2);
+                    row.CreateCell(2).SetCellValue(price);
+                    row.GetCell(2).CellStyle = styleBlodWithBorder;
+                    //
+                     price = importPrice != null ? double.Parse(importPrice.PriceKem2.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2); row.CreateCell(3).SetCellValue(price);
+                    row.GetCell(3).CellStyle = styleBlodWithBorder;
+                    //
+                     price = importPrice != null ? double.Parse(importPrice.PriceKem3.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2); row.CreateCell(4).SetCellValue(price);
+                    row.GetCell(4).CellStyle = styleBlodWithBorder;
+                    //
+                     price = importPrice != null ? double.Parse(importPrice.PriceRXo.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2); row.CreateCell(5).SetCellValue(price);
+                    row.GetCell(5).CellStyle = styleBlodWithBorder;
+                    //
+                     price = importPrice != null ? double.Parse(importPrice.PriceR1.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2); row.CreateCell(6).SetCellValue(price);
+                    row.GetCell(6).CellStyle = styleBlodWithBorder;
+                    //
+                     price = importPrice != null ? double.Parse(importPrice.PriceR2.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2); row.CreateCell(7).SetCellValue(price);
+                    row.GetCell(7).CellStyle = styleBlodWithBorder;
+                    //
+                     price = importPrice != null ? double.Parse(importPrice.PriceR3.ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row = excelSheet.GetRow(2); row.CreateCell(8).SetCellValue(price);
+                    row.GetCell(8).CellStyle = styleBlodWithBorder;
+
+                    //============================
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(2).SetCellValue(sKemLon);
+                    row.GetCell(2).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(3).SetCellValue(sKem2);
+                    row.GetCell(3).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(4).SetCellValue(sKem3);
+                    row.GetCell(4).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(5).SetCellValue(sRXo);
+                    row.GetCell(5).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(6).SetCellValue(sR1);
+                    row.GetCell(6).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(7).SetCellValue(sR2);
+                    row.GetCell(7).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(4);
+                    row.CreateCell(8).SetCellValue(sR3);
+                    row.GetCell(8).CellStyle = styleBlodWithBorder;
+
+                    //============================
+                    if(sKemLon + sKem2 + sKem3 != 0)
+                    {
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(2).SetCellValue(Math.Round(sKemLon / (sKemLon + sKem2 + sKem3) * 100, 2) + "%");
+                        row.GetCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(3).SetCellValue(Math.Round(sKem2 / (sKemLon + sKem2 + sKem3) * 100, 2) + "%");
+                        row.GetCell(3).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(4).SetCellValue(Math.Round(sKem3 / (sKemLon + sKem2 + sKem3) * 100, 2) + "%");
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                    }
+                    else
+                    {
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(2).SetCellValue( "0%");
+                        row.GetCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(3).SetCellValue( "0%");
+                        row.GetCell(3).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(4).SetCellValue( "0%");
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                    }
+                    if (sRXo + sR1 + sR2 + sR3 != 0){
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(5).SetCellValue(Math.Round(sRXo / (sRXo + sR1 + sR2 + sR3) * 100, 2) + "%");
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(6).SetCellValue(Math.Round(sR1 / (sRXo + sR1 + sR2 + sR3) * 100, 2) + "%");
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(7).SetCellValue(Math.Round(sR2 / (sRXo + sR1 + sR2 + sR3) * 100, 2) + "%");
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(8).SetCellValue(Math.Round(sR3 / (sRXo + sR1 + sR2 + sR3) * 100, 2) + "%");
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                    }
+                    else
+                    {
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(5).SetCellValue( "0%");
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(6).SetCellValue( "0%");
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(7).SetCellValue("0%");
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        row = excelSheet.GetRow(3);
+                        row.CreateCell(8).SetCellValue("0%");
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                    }
+
+                    //============================================================
+                    row = excelSheet.GetRow(5);
+                    row.CreateCell(2).SetCellValue(sKemLon+ sKem2+ sKem3);
+                    row.GetCell(2).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(5);
+                    row.CreateCell(5).SetCellValue(sRXo + sR1 + sR2 + sR3);
+                    row.GetCell(5).CellStyle = styleBlodWithBorder;
+
+                    //
+                    row = excelSheet.GetRow(6);
+                    price = importPrice != null ? double.Parse((sKemLon * importPrice.PriceKemLon + sKem2 * importPrice.PriceKem2 + sKem3 * importPrice.PriceKem3).ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row.CreateCell(2).SetCellValue(price);
+                    row.GetCell(2).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(6);
+                    price = importPrice != null ? double.Parse((sRXo * importPrice.PriceRXo + sR1 * importPrice.PriceR1 + sR2 * importPrice.PriceR2 + sR3 * importPrice.PriceR3).ToString()).ToString("#,###", cul.NumberFormat) : "0";
+
+                    row.CreateCell(5).SetCellValue(price);
+                    row.GetCell(5).CellStyle = styleBlodWithBorder;
+
+                    //
+                    row = excelSheet.GetRow(7);
+                    price = importPrice != null ? double.Parse((sKemLon + sKem2 + sKem3 + sRXo + sR1 + sR2 + sR3).ToString()).ToString("#,###", cul.NumberFormat) : "0";
+                    row.CreateCell(7).SetCellValue(price);
+                    row.GetCell(7).CellStyle = styleBlodWithBorder;
+                    //
+                    row = excelSheet.GetRow(8);
+
+                    price = importPrice != null ? double.Parse((sKemLon * importPrice.PriceKemLon + sKem2 * importPrice.PriceKem2 + sKem3 * importPrice.PriceKem3 +
+                        sRXo * importPrice.PriceRXo + sR1 * importPrice.PriceR1 + sR2 * importPrice.PriceR2 + sR3 * importPrice.PriceR3).ToString()).ToString("#,###", cul.NumberFormat) : "0";
+
+                    row.CreateCell(7).SetCellValue(price);
+                    row.GetCell(7).CellStyle = styleBlodWithBorder;
+
+
+                    // check nếu có bản ghi báo cáo ngày hôm đó rồi thì xóa đi ghi lại bản ghi mới
+                    ImportReport importReport = await importReportRepository.GetByIndexAsync(x => x.DateImport, date);
+                    if (importReport != null)
+                    {
+                        await importReportRepository.Delete(importReport.Id);
+
+                    }
+                    CreateImportReportDto createImportReportDto = new CreateImportReportDto();
+                    createImportReportDto.DateImport = date;
+                    createImportReportDto.PriceKemLon = sKemLon;
+                    createImportReportDto.PriceKem2 = sKem2;
+                    createImportReportDto.PriceKem3 = sKem3;
+                    createImportReportDto.PriceRXo = sRXo;
+                    createImportReportDto.PriceR1 = sR1;
+                    createImportReportDto.PriceR2 = sR2;
+                    createImportReportDto.PriceR3 = sR3;
+                    createImportReportDto.RateKemLon = (float)Math.Round(sKemLon / (sKemLon + sKem2 + sKem3), 2);
+                    createImportReportDto.RateKem2 = (float)Math.Round(sKem2 / (sKemLon + sKem2 + sKem3), 2);
+                    createImportReportDto.RateKem3 = (float)Math.Round(sKem3 / (sKemLon + sKem2 + sKem3), 2);
+                    createImportReportDto.RateRXo = (float)Math.Round(sRXo / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateR1 = (float)Math.Round(sR1 / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateR2 = (float)Math.Round(sR2 / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateR3 = (float)Math.Round(sR3 / (sRXo + sR1 + sR2 + sR3), 2);
+
+                    ImportReport? ImportReport = new ImportReport();
+                    ImportReport = createImportReportDto?.Adapt<ImportReport>();
+                    ImportReport.Id = Guid.NewGuid().ToString();
+                    var result = await importReportRepository.UpdateAsync(x => x.Id, ImportReport, true);
+                    
+
+                    workbook.Write(memoryStream);
+   
+                    return memoryStream.ToArray();
+                }
+            }
         }
     }
 }

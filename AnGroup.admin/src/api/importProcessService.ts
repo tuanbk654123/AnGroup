@@ -36,7 +36,11 @@ const importProcessService = {
         const config:AxiosRequestConfig = { responseType: 'blob' };
         return axiosClient.post(url,id,config  );
     },
-
+    exportReportProcesss( date: string): Promise<any>{
+        const url = '/api/ImportProcess/ExportReport';
+        const config:AxiosRequestConfig = { responseType: 'blob' };
+        return axiosClient.post(url,date,config  );
+    },
 }
 
 

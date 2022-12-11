@@ -4,12 +4,12 @@ import { ImportProcessAction } from '../../../features/importProcess/importProce
 import { CustomerAction } from '../../../features/customer/customerSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
-import { ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, ExportOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag, DatePickerProps } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag, DatePickerProps, Tooltip, Popconfirm, Popover } from 'antd';
 
 import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto, customer } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -862,6 +862,19 @@ const Datatable = (props: Props) => {
   const onSearch = (value: string) => {
     console.log('search:', value);
   };
+  const onChangeDatea: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(date, dateString);
+    setCheckRefresh(true);
+     dispatch(ImportProcessAction.exportReportImportProcess(dateString));
+     timeout(500);
+    refresh();
+  };
+  const content = (
+    <div>
+       <DatePicker onChange={onChangeDatea} />
+    </div>
+  );
+
   return (
     <div className="background">
       <div className="title">
@@ -872,6 +885,12 @@ const Datatable = (props: Props) => {
           <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
+          <Popover content={content} title="Chọn ngày">
+
+            <div style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
+              <ExportOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Xuất báo cáo</div>
+            </div>
+          </Popover>
           <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
@@ -993,7 +1012,7 @@ const Datatable = (props: Props) => {
             />
           </Col>
         </Row>
-   
+
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >RXo:</label>
@@ -1018,7 +1037,7 @@ const Datatable = (props: Props) => {
             />
           </Col>
         </Row>
-       
+
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >R2:</label>

@@ -44,7 +44,7 @@ const Datatable = (props: Props) => {
     RateR2: undefined,
     RateR3: undefined,
     DateImport: "",
-    id:""
+    id: ""
   });
   // add or Update
   const [addOrUpdate, setaddOrUpdate] = useState(0);// 1 is add , 2 is update
@@ -98,15 +98,14 @@ const Datatable = (props: Props) => {
         ...ImportpriceDto,
         id: ""
       }
-      await dispatch(ImportPriceAction.addImportPrice(importPrice));
+       dispatch(ImportPriceAction.addImportPrice(importPrice));
     }
     // Update
     if (addOrUpdate === 2) {
       const importPrice = {
         ...ImportpriceDto,
-        id: ""
       }
-      await dispatch(ImportPriceAction.updateImportPrice(importPrice));
+       dispatch(ImportPriceAction.updateImportPrice(importPrice));
 
     }
     await timeout(500);
@@ -215,55 +214,55 @@ const Datatable = (props: Props) => {
         );
       },
     },
-    {
-      title: 'Tỷ lệ Kem1',
-      width: 50,
-      dataIndex: 'rateKemLon',
-      key: 'rateKemLon',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ Kem2',
-      width: 50,
-      dataIndex: 'rateKem2',
-      key: 'rateKem2',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ Kem3',
-      width: 50,
-      dataIndex: 'rateKem3',
-      key: 'rateKem3',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ RXo',
-      width: 50,
-      dataIndex: 'rateRXo',
-      key: 'rateRXo',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ R1',
-      width: 50,
-      dataIndex: 'rateR1',
-      key: 'rateR1',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ R2',
-      width: 50,
-      dataIndex: 'rateR2',
-      key: 'rateR2',
-      fixed: 'left',
-    },
-    {
-      title: 'Tỷ lệ R3',
-      width: 50,
-      dataIndex: 'rateR3',
-      key: 'rateR3',
-      fixed: 'left',
-    },
+    // {
+    //   title: 'Tỷ lệ Kem1',
+    //   width: 50,
+    //   dataIndex: 'rateKemLon',
+    //   key: 'rateKemLon',
+    //   fixed: 'left',
+    // },
+    // {
+    //   title: 'Tỷ lệ Kem2',
+    //   width: 50,
+    //   dataIndex: 'rateKem2',
+    //   key: 'rateKem2',
+    //   fixed: 'left',
+    // },
+    // {
+    //   title: 'Tỷ lệ Kem3',
+    //   width: 50,
+    //   dataIndex: 'rateKem3',
+    //   key: 'rateKem3',
+    //   fixed: 'left',
+    // },
+    // {
+    //   title: 'Tỷ lệ RXo',
+    //   width: 50,
+    //   dataIndex: 'rateRXo',
+    //   key: 'rateRXo',
+    //   fixed: 'left',
+    // },
+    // {
+    //   title: 'Tỷ lệ R1',
+    //   width: 50,
+    //   dataIndex: 'rateR1',
+    //   key: 'rateR1',
+    //   fixed: 'left',
+    // },
+    // {
+    //   title: 'Tỷ lệ R2',
+    //   width: 50,
+    //   dataIndex: 'rateR2',
+    //   key: 'rateR2',
+    //   fixed: 'left',
+    // },
+    // {
+    //   title: 'Tỷ lệ R3',
+    //   width: 50,
+    //   dataIndex: 'rateR3',
+    //   key: 'rateR3',
+    //   fixed: 'left',
+    // },
     {
       title: 'Action',
       dataIndex: 'Action',
@@ -318,7 +317,22 @@ const Datatable = (props: Props) => {
   const showDrawer = () => {
     //init state 
     setImportpriceDto({
-      ...ImportpriceDto
+      ...ImportpriceDto,
+      PriceKemLon: undefined,
+      PriceKem2: undefined,
+      PriceKem3:undefined,
+      PriceRXo:undefined,
+      PriceR1: undefined,
+      PriceR2: undefined,
+      PriceR3: undefined,
+      RateKemLon: undefined,
+      RateKem2: undefined,
+      RateKem3: undefined,
+      RateRXo: undefined,
+      RateR1:undefined,
+      RateR2: undefined,
+      RateR3: undefined,
+      DateImport: ""
     })
     setTitle("Thêm mới giá nhập");
     // setState add or up date
@@ -349,7 +363,8 @@ const Datatable = (props: Props) => {
         RateR1: record.rateR1,
         RateR2: record.rateR2,
         RateR3: record.rateR3,
-        DateImport: record.dateImport
+        DateImport: record.dateImport,
+        id : record.id,
       }
     )
     // setState add or up date
@@ -385,7 +400,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKemLon: e
+        PriceKemLon: parseInt(e.target.value)
       }
     )
   }
@@ -393,7 +408,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKem3: e
+        PriceKem3: parseInt(e.target.value)
       }
     )
   }
@@ -401,7 +416,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKem2: e
+        PriceKem2: parseInt(e.target.value)
       }
     )
   }
@@ -409,7 +424,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceRXo: e
+        PriceRXo: parseInt(e.target.value)
       }
     )
   }
@@ -417,7 +432,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR1: e
+        PriceR1: parseInt(e.target.value)
       }
     )
   }
@@ -425,7 +440,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR2: e
+        PriceR2:  parseInt(e.target.value)
       }
     )
   }
@@ -433,7 +448,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR3: e
+        PriceR3:  parseInt(e.target.value)
       }
     )
   }
@@ -441,7 +456,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateKemLon: e
+        RateKemLon: e.target.value
       }
     )
   }
@@ -449,7 +464,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateR1: e
+        RateR1: e.target.value
       }
     )
   }
@@ -457,7 +472,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateR2: e
+        RateR2: e.target.value
       }
     )
   }
@@ -465,7 +480,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateR3: e
+        RateR3: e.target.value
       }
     )
   }
@@ -473,7 +488,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateRXo: e
+        RateRXo: e.target.value
       }
     )
   }
@@ -481,7 +496,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateKem2: e
+        RateKem2: e.target.value
       }
     )
   }
@@ -489,12 +504,18 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        RateKem3: e
+        RateKem3: e.target.value
       }
     )
   }
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
+    //console.log(date, dateString);
+    setImportpriceDto(
+      {
+        ...ImportpriceDto,
+        DateImport: dateString
+      }
+    )
   };
   return (
     <div className="background">
@@ -612,11 +633,13 @@ const Datatable = (props: Props) => {
             <Input placeholder="Nhập giá RXo" value={ImportpriceDto.PriceRXo} onChange={onChangePriceRXo} />
           </Col>
           <Col span={12}>
-            <label >Tỷ lệ RXo:</label>
-            <Input placeholder="Tỷ lệ RXo " value={ImportpriceDto.RateRXo} onChange={onChangeRateRXo} />
+            <label >Ngày:</label>
+            <DatePicker value={moment(ImportpriceDto.DateImport, dateFormat)} onChange={onChange} format={dateFormat} style={{ width: '100%' }} />
+          </Col>
+          <Col span={12}>
           </Col>
         </Row>
-        <Row className="row" gutter={16}>
+        {/* <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Tỷ lệ kem lớn:</label>
             <Input placeholder="Nhập Tỷ lệ kem lớn" value={ImportpriceDto.RateKemLon} onChange={onChangeRateKemLon} />
@@ -645,17 +668,10 @@ const Datatable = (props: Props) => {
             <label >Tỷ lệ R3:</label>
             <Input placeholder="Nhập giá R3 " value={ImportpriceDto.RateR3} onChange={onChangeRateR3} />
           </Col>
-        </Row>
+        </Row> */}
 
         <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Ngày:</label>
-            <DatePicker defaultValue={moment(ImportpriceDto.DateImport, dateFormat)} onChange={onChange} format={dateFormat} style={{ width: '100%' }} />
 
-          </Col>
-          <Col span={12}>
-
-          </Col>
         </Row>
         {/* </Form> */}
         <div className="Submit">

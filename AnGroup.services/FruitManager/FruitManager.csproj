@@ -35,6 +35,9 @@
     <None Update="ExcelFileTemplate\Bill.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="ExcelFileTemplate\Report_Import.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

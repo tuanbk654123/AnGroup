@@ -103,14 +103,15 @@ namespace FruitManager.Controllers
         }
 
         [HttpPost("ExportReport")]
-        public async Task<IActionResult> ExportReport(UpdateImportProcessDto updateImportProcessDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> ExportReport([FromBody] DateTime date, CancellationToken cancellationToken)
         {
-            bool create = await ImportProcessService.Update(updateImportProcessDto, cancellationToken);
-            if (create)
+            byte[] fileContent = await ImportProcessService.ExportRepost(date);
+            if (fileContent != null)
             {
-                return Ok("Sửa thành công");
+                return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Bill.xlsx");
+
             }
-            return BadRequest("Sửa thất bại");
+            return BadRequest("Xuất báo cáo lỗi");
         }
 
         [HttpPost("Delete")]
