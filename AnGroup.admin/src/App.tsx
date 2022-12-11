@@ -12,6 +12,7 @@ import SigninOidc from './components/Layout/login/signin-oidc';
 import Role from './components/Layout/role/Role';
 import History from './components/Layout/history/History';
 import ImportPrice from './components/Layout/importPrice/ImportPrice';
+import ImportReport from './components/Layout/importReport/ImportReport';
 import ImportProcess from './components/Layout/importProcess/ImportProcess';
 import Customer from './components/Layout/customer/Customer';
 
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <PrivateRoute path="/importPrice">
             <ImportPrice />
+          </PrivateRoute>
+          <PrivateRoute path="/importReport">
+            <ImportReport />
           </PrivateRoute>
           <PrivateRoute path="/importProcess">
             <ImportProcess />

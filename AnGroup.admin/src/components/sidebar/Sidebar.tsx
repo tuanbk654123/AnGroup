@@ -169,7 +169,7 @@ const Sidebar = (props: Props) => {
                             </span>
                         </li>
                     </Link>
-                    <Link to="/importPrice" style={{ textDecoration: "none" }}>
+                    <Link to="/importReport" style={{ textDecoration: "none" }}>
                         <li onClick={handleClickImportReport} style={{ marginLeft:isActiveHoverImportReport? "20px" : "", padding:isActiveHoverImportReport? "20px" : "", borderRadius: isActiveHoverImportReport? " 20px 0px 0px 20px":"", background: isActiveHoverImportReport ? '#d32f2f' : '#ffffff' }} >
                             <FileTextFilled className='icon' style={{ color: isActiveHoverImportReport ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverImportReport ? '#ffffff' : '#d32f2f' }}>

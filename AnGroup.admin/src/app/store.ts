@@ -8,6 +8,7 @@ import userReducer from '../features/user/userSlice';
 import roleReducer from '../features/role/roleSlice';
 import userHistoryReducer  from '../features/history/historySlice';
 import importPriceReducer  from '../features/importPrice/importPriceSlice';
+import importReportReducer  from '../features/importReport/importReportSlice';
 import importProcessReducer  from '../features/importProcess/importProcessSlice';
 import customerReducer  from '../features/customer/customerSlice';
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     role: roleReducer,
     history: userHistoryReducer,
     importPrice: importPriceReducer,
+    importReport: importReportReducer,
     importProcess: importProcessReducer,
     customer: customerReducer,
     router: connectRouter(history),

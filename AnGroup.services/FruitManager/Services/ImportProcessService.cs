@@ -757,13 +757,21 @@ namespace FruitManager.Services
                     createImportReportDto.PriceR1 = sR1;
                     createImportReportDto.PriceR2 = sR2;
                     createImportReportDto.PriceR3 = sR3;
-                    createImportReportDto.RateKemLon = (float)Math.Round(sKemLon / (sKemLon + sKem2 + sKem3), 2);
-                    createImportReportDto.RateKem2 = (float)Math.Round(sKem2 / (sKemLon + sKem2 + sKem3), 2);
-                    createImportReportDto.RateKem3 = (float)Math.Round(sKem3 / (sKemLon + sKem2 + sKem3), 2);
-                    createImportReportDto.RateRXo = (float)Math.Round(sRXo / (sRXo + sR1 + sR2 + sR3), 2);
-                    createImportReportDto.RateR1 = (float)Math.Round(sR1 / (sRXo + sR1 + sR2 + sR3), 2);
-                    createImportReportDto.RateR2 = (float)Math.Round(sR2 / (sRXo + sR1 + sR2 + sR3), 2);
-                    createImportReportDto.RateR3 = (float)Math.Round(sR3 / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateKemLon = (sKemLon + sKem2 + sKem3) == 0 ?  0  :(float)Math.Round(sKemLon / (sKemLon + sKem2 + sKem3), 2);
+                    createImportReportDto.RateKem2 = (sKemLon + sKem2 + sKem3) == 0 ? 0 : (float)Math.Round(sKem2 / (sKemLon + sKem2 + sKem3), 2);
+                    createImportReportDto.RateKem3 = (sKemLon + sKem2 + sKem3) == 0 ? 0 : (float)Math.Round(sKem3 / (sKemLon + sKem2 + sKem3), 2);
+                    createImportReportDto.RateRXo = (sRXo + sR1 + sR2 + sR3) == 0 ? 0 : (float)Math.Round(sRXo / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateR1 = (sRXo + sR1 + sR2 + sR3) == 0 ? 0 : (float)Math.Round(sR1 / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateR2 = (sRXo + sR1 + sR2 + sR3) == 0 ? 0 : (float)Math.Round(sR2 / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.RateR3 = (sRXo + sR1 + sR2 + sR3) == 0 ? 0 : (float)Math.Round(sR3 / (sRXo + sR1 + sR2 + sR3), 2);
+                    createImportReportDto.SumKgK = sKemLon + sKem2 + sKem3;
+                    createImportReportDto.SumKgR = sRXo + sR1 + sR2 + sR3;
+                    createImportReportDto.SumKg = sRXo + sR1 + sR2 + sR3 + sKemLon + sKem2 + sKem3;
+                    createImportReportDto.SumMoneyR = sKemLon * importPrice.PriceKemLon + sKem2 * importPrice.PriceKem2 + sKem3 * importPrice.PriceKem3;
+                    createImportReportDto.SumMoneyK = sRXo * importPrice.PriceRXo + sR1 * importPrice.PriceR1 + sR2 * importPrice.PriceR2 + sR3 * importPrice.PriceR3;
+                    createImportReportDto.SumMoney = sKemLon * importPrice.PriceKemLon + sKem2 * importPrice.PriceKem2 + sKem3 * importPrice.PriceKem3 +
+                        sRXo * importPrice.PriceRXo + sR1 * importPrice.PriceR1 + sR2 * importPrice.PriceR2 + sR3 * importPrice.PriceR3;
+
 
                     ImportReport? ImportReport = new ImportReport();
                     ImportReport = createImportReportDto?.Adapt<ImportReport>();

@@ -62,6 +62,7 @@ namespace FruitManager.Controllers
         {
             if (pageable == null || pageable.PageSize == 0)
                 return BadRequest("Dữ liệu phân trang không đúng");
+     
             return Ok( await ImportReportService.Search(pageable, searchImportReportDto));
         }
         [HttpPost("Update")]
