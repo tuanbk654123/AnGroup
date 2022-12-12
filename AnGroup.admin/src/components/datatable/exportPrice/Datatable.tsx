@@ -9,7 +9,7 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, DatePickerProps, Modal } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, DatePickerProps, Modal, Tag } from 'antd';
 
 import { exportPrice, searchExportPriceDto, exportPriceDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -129,7 +129,8 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          <Tag color='orange' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+         
         );
       },
     },
@@ -141,7 +142,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          <Tag color='red' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
         );
       },
     },
@@ -153,7 +154,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          <Tag color='blue' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
         );
       },
     },
@@ -165,7 +166,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          <Tag color='green' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
         );
       },
     },

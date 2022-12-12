@@ -46,14 +46,14 @@ namespace FruitManager.Controllers
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateExportReportDto createExportReportDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateExportReportDto createExportReportDto, CancellationToken cancellationToken)
         {
             bool create = await ExportReportService.Create(createExportReportDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Tạo mới thành công");
             }
-            return false;
+            return BadRequest("Tạo mới thất bại");
         }
 
 
@@ -65,25 +65,25 @@ namespace FruitManager.Controllers
             return Ok( await ExportReportService.Search(pageable, searchExportReportDto));
         }
         [HttpPost("Update")]
-        public async Task<bool> Update(UpdateExportReportDto updateExportReportDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(UpdateExportReportDto updateExportReportDto, CancellationToken cancellationToken)
         {
             bool create = await ExportReportService.Update(updateExportReportDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Sửa thành công");
             }
-            return false;
+            return BadRequest("Sửa thất bại");
         }
 
         [HttpPost("Delete")]
-        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromBody]string id, CancellationToken cancellationToken)
         {
             bool create = await ExportReportService.Delete(id, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Xóa thành công");
             }
-            return false;
+            return BadRequest("Xóa thất bại");
         }
     }
 }

@@ -32,6 +32,7 @@ namespace FruitManager.Services
             ExportPrice? ExportPrice = new ExportPrice();
             ExportPrice = createExportPriceDto?.Adapt<ExportPrice>();
             ExportPrice.Id = Guid.NewGuid().ToString();
+            ExportPrice.DateExport = ExportPrice.DateExport.AddDays(1);
             var result = await ExportPriceRepository.UpdateAsync(x => x.Id, ExportPrice, true);
             return result;
         }

@@ -78,7 +78,7 @@ namespace FruitManager.Services
                     ImportProcess.IdImportPrice = importPrice.Id;
                 }
             }
-
+            ImportProcess.DateImport = DateTime.Now.AddHours(7);
 
             //Thêm mới bản ghi importprocess 
             var result = await ImportProcessRepository.UpdateAsync(x => x.Id, ImportProcess, true);
@@ -749,7 +749,7 @@ namespace FruitManager.Services
 
                     }
                     CreateImportReportDto createImportReportDto = new CreateImportReportDto();
-                    createImportReportDto.DateImport = date;
+                    createImportReportDto.DateImport = date.AddDays(1);
                     createImportReportDto.PriceKemLon = sKemLon;
                     createImportReportDto.PriceKem2 = sKem2;
                     createImportReportDto.PriceKem3 = sKem3;
@@ -776,6 +776,7 @@ namespace FruitManager.Services
                     ImportReport? ImportReport = new ImportReport();
                     ImportReport = createImportReportDto?.Adapt<ImportReport>();
                     ImportReport.Id = Guid.NewGuid().ToString();
+
                     var result = await importReportRepository.UpdateAsync(x => x.Id, ImportReport, true);
                     
 

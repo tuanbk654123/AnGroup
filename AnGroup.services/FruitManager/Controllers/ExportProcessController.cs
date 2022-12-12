@@ -46,14 +46,14 @@ namespace FruitManager.Controllers
 
         [HttpPost("Create")]
         [AllowAnonymous]
-        public async Task<bool> Create(CreateExportProcessDto createExportProcessDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateExportProcessDto createExportProcessDto, CancellationToken cancellationToken)
         {
             bool create = await ExportProcessService.Create(createExportProcessDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Tạo mới thành công");
             }
-            return false;
+            return BadRequest("Tạo mới thất bại");
         }
 
 
@@ -65,25 +65,25 @@ namespace FruitManager.Controllers
             return Ok( await ExportProcessService.Search(pageable, searchExportProcessDto));
         }
         [HttpPost("Update")]
-        public async Task<bool> Update(UpdateExportProcessDto updateExportProcessDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(UpdateExportProcessDto updateExportProcessDto, CancellationToken cancellationToken)
         {
             bool create = await ExportProcessService.Update(updateExportProcessDto, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Sửa thành công");
             }
-            return false;
+            return BadRequest("Sửa thất bại");
         }
 
         [HttpPost("Delete")]
-        public async Task<bool> Delete(string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromBody] string id, CancellationToken cancellationToken)
         {
             bool create = await ExportProcessService.Delete(id, cancellationToken);
             if (create)
             {
-                return true;
+                return Ok("Xóa thành công");
             }
-            return false;
+            return BadRequest("Xóa thất bại");
         }
     }
 }
