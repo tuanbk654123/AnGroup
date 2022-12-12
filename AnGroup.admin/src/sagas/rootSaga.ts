@@ -1,7 +1,8 @@
 import { all } from 'redux-saga/effects';
 import { postSearchImportReport, postAddImportReport, postDeleteImportReport, postUpdateImportReport } from './importReportSaga';
+import { postSearchExportPrice, postAddExportPrice, postDeleteExportPrice, postUpdateExportPrice } from './exportPriceSaga';
 import { postSearchImportPrice, postAddImportPrice, postDeleteImportPrice, postUpdateImportPrice } from './importPriceSaga';
-import { postSearchImportProcess, postAddImportProcess, postDeleteImportProcess, postUpdateImportProcess,postExportBillImportProcess, postExportReportImportProcess } from './importProcessSaga';
+import { postSearchImportProcess, postAddImportProcess, postDeleteImportProcess, postUpdateImportProcess, postExportBillImportProcess, postExportReportImportProcess } from './importProcessSaga';
 import { postSearchCustomer, postAddCustomer, postDeleteCustomer, postUpdateCustomer } from './customerSaga';
 import authSaga, { Logout } from './authSaga';
 import { postGetAllRole, postSearchRole, postAddRole, postUpdateRole, postDeleteRole } from './roleSaga';
@@ -48,11 +49,15 @@ export default function* rootSaga() {
           postDeleteCustomer(),
           postUpdateCustomer(),
 
-            //ImportPrice
-            postSearchImportReport(),
-            postAddImportReport(),
-            postDeleteImportReport(),
-            postUpdateImportReport(),
-
+          //ImportPrice
+          postSearchImportReport(),
+          postAddImportReport(),
+          postDeleteImportReport(),
+          postUpdateImportReport(),
+          //ExportPrice
+          postSearchExportPrice(),
+          postAddExportPrice(),
+          postDeleteExportPrice(),
+          postUpdateExportPrice(),
      ]);
 }

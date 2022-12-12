@@ -178,7 +178,7 @@ const Sidebar = (props: Props) => {
                         </li>
                     </Link>
                     <p className='title'>XUẤT</p>
-                    <Link to="/importPrice" style={{ textDecoration: "none" }}>
+                    <Link to="/exportPrice" style={{ textDecoration: "none" }}>
                         <li onClick={handleClickExportPrcie} style={{ marginLeft:isActiveHoverExportPrcie? "20px" : "", padding:isActiveHoverExportPrcie? "20px" : "", borderRadius:isActiveHoverExportPrcie? " 20px 0px 0px 20px":"", background: isActiveHoverExportPrcie ? '#d32f2f' : '#ffffff' }} >
                             <PoundCircleFilled className='icon' style={{ color: isActiveHoverExportPrcie ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverExportPrcie ? '#ffffff' : '#d32f2f' }}>
