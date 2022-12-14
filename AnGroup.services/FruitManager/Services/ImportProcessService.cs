@@ -514,7 +514,7 @@ namespace FruitManager.Services
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
             using var memoryStream = new MemoryStream();
             string fileName = @"Report_Import.xlsx";
-            List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date.AddDays(1));
+           // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date.AddDays(1));
 
             Pageable pageable = new Pageable();
             pageable.PageNumber = 1;
@@ -525,7 +525,15 @@ namespace FruitManager.Services
             var a = await importPriceRepository.Search(pageable, searchImportPriceDto);
             List<ImportPrice> importPrices = (List<ImportPrice>)a.Content;
 
+
             ImportPrice importPrice = importPrices[0];
+
+
+            SearchImportProcessDto searchImportReportDto = new SearchImportProcessDto();
+            searchImportReportDto.fromDate = date;
+            searchImportReportDto.toDate = date;
+            var b = await ImportProcessRepository.Search(pageable, searchImportReportDto);
+            List<ImportProcess> importProcess = (List<ImportProcess>)b.Content;
 
             //ImportPrice importPrice = await importPriceRepository.GetByIndexAsync(x => x.DateImport, date);
 
