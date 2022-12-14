@@ -85,5 +85,17 @@ namespace FruitManager.Controllers
             }
             return BadRequest("Xóa thất bại");
         }
+
+        [HttpPost("ExportReport")]
+        public async Task<IActionResult> ExportReport([FromBody] SearchReportDto searchReportDto, CancellationToken cancellationToken)
+        {
+            byte[] fileContent = await ExportProcessService.ExportReport(searchReportDto.fromDate, searchReportDto.toDate);
+            if (fileContent != null)
+            {
+                return File(fileContent, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Bill.xlsx");
+
+            }
+            return BadRequest("Xuất báo cáo lỗi");
+        }
     }
 }

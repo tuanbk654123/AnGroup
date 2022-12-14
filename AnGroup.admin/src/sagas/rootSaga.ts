@@ -8,6 +8,7 @@ import authSaga, { Logout } from './authSaga';
 import { postGetAllRole, postSearchRole, postAddRole, postUpdateRole, postDeleteRole } from './roleSaga';
 import { postSearchUserHistory } from './userHistorySaga';
 import { postSearchUser, postAddUser, postDeleteUser, postUpdateUser } from './userSaga';
+import { postAddExportProcess, postDeleteExportProcess, postSearchExportProcess, postUpdateExportProcess } from './exportProcessSaga';
 
 export default function* rootSaga() {
      yield all([ // gọi nhiều saga
@@ -59,5 +60,11 @@ export default function* rootSaga() {
           postAddExportPrice(),
           postDeleteExportPrice(),
           postUpdateExportPrice(),
+
+          //ExportProcess
+          postSearchExportProcess(),
+          postAddExportProcess(),
+          postDeleteExportProcess(),
+          postUpdateExportProcess(),
      ]);
 }

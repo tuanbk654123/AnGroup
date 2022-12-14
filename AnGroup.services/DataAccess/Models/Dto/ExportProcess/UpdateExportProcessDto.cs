@@ -9,15 +9,21 @@ namespace DataAccess.Models.Dto.ExportProcess
     {
         public string Id { set; get; } // Id
         public DateTime DateImport { get; set; } // tên
-        public float PriceBlue { get; set; } // số tiền
-        public float PriceGreen { get; set; } // số tiền
-        public float PriceRed { get; set; } // số tiền
-        public float PriceOrange { get; set; } // số tiền
+        public List<float> WeighBlue { get; set; } // số kg mỗi lần cân kem lớn
+        public List<float> WeighGreen { get; set; } // số kg mỗi lần cân
+        public List<float> WeighRed { get; set; } // số kg mỗi lần cân
+        public List<float> WeighOrange { get; set; } // số kg mỗi lần cân
 
-        public float RateBlue { get; set; } // tỷ lệ
-        public float RateGreen { get; set; } //  tỷ lệ
-        public float RateRed { get; set; } //  tỷ lệ
-        public float RateOrange { get; set; } //  tỷ lệ
+
+        public float SumOrange { get; set; } // tổng số 
+        public float SumRed { get; set; } // tổng số 
+        public float SumGreen { get; set; } // tổng số 
+        public float SumBlue { get; set; } // tổng số 
+
+        public float CountOrange { get; set; } // tổng số quả
+        public float CountRed { get; set; } // tổng số quả
+        public float CountGreen { get; set; } // tổng số quả
+        public float CountBlue { get; set; } // tổng số quả
 
     }
 }

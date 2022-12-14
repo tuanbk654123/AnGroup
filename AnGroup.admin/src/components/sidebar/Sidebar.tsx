@@ -186,7 +186,7 @@ const Sidebar = (props: Props) => {
                             </span>
                         </li>
                     </Link>
-                    <Link to="/importPrice" style={{ textDecoration: "none" }}>
+                    <Link to="/exportProcess" style={{ textDecoration: "none" }}>
                         <li onClick={handleClickExportProcess} style={{ marginLeft:isActiveHoverExportProcess? "20px" : "", padding:isActiveHoverExportProcess? "20px" : "", borderRadius:isActiveHoverExportProcess?" 20px 0px 0px 20px":"", background: isActiveHoverExportProcess ? '#d32f2f' : '#ffffff' }} >
                             <EditFilled className='icon' style={{ color: isActiveHoverExportProcess ? '#ffffff' : '#d32f2f' }} />
                             <span style={{ color: isActiveHoverExportProcess ? '#ffffff' : '#d32f2f' }}>

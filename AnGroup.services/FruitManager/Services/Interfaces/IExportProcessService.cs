@@ -9,7 +9,7 @@ namespace FruitManager.Services.Interfaces
     {
 
         Task<IPage<ExportProcess>> Search(IPageable pageable, SearchExportProcessDto searchExportProcessDto);
-        
+        Task<byte[]> ExportReport(DateTime? fromDate, DateTime? toDate);
         Task<bool> Create(CreateExportProcessDto createExportProcessDto ,  CancellationToken cancellationToken = default);
         Task<bool> Update(UpdateExportProcessDto updateExportProcessDto , CancellationToken cancellationToken = default);
         Task<bool> Delete(string id, CancellationToken cancellationToken = default);

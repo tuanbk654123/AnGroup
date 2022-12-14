@@ -12,6 +12,7 @@ import importReportReducer  from '../features/importReport/importReportSlice';
 import importProcessReducer  from '../features/importProcess/importProcessSlice';
 import customerReducer  from '../features/customer/customerSlice';
 import exportPriceReducer  from '../features/exportPrice/exportPriceSlice';
+import ExportProcessReducer from '../features/exportProcess/exportProcessSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     history: userHistoryReducer,
     importPrice: importPriceReducer,
     exportPrice: exportPriceReducer,
+    exportProcess: ExportProcessReducer,
     importReport: importReportReducer,
     importProcess: importProcessReducer,
     customer: customerReducer,
