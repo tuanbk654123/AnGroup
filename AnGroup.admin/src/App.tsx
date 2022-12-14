@@ -15,6 +15,7 @@ import ImportPrice from './components/Layout/importPrice/ImportPrice';
 import ImportReport from './components/Layout/importReport/ImportReport';
 import ImportProcess from './components/Layout/importProcess/ImportProcess';
 import Customer from './components/Layout/customer/Customer';
+import ExportPrice from './components/Layout/exportPrice/ExportPrice';
 
 function App() {
   // useEffect( () => {
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <PrivateRoute path="/importPrice">
             <ImportPrice />
+          </PrivateRoute>
+          <PrivateRoute path="/exportPrice">
+            <ExportPrice />
           </PrivateRoute>
           <PrivateRoute path="/importReport">
             <ImportReport />

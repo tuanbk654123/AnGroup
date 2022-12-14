@@ -31,7 +31,7 @@ namespace FruitManager.Services
             ImportPrice? ImportPrice = new ImportPrice();
             ImportPrice = createImportPriceDto?.Adapt<ImportPrice>();
             ImportPrice.Id = Guid.NewGuid().ToString();
-            ImportPrice.DateImport = ImportPrice.DateImport.AddHours(7);
+            ImportPrice.DateImport = ImportPrice.DateImport.AddDays(1);
             var result = await ImportPriceRepository.UpdateAsync(x => x.Id, ImportPrice, true);
             return result;
         }
