@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import { LisResponse, searchExportPriceDto,exportPrice } from "../models";
 import axiosClient from "./axiosClient";
 
@@ -30,7 +31,15 @@ const ExportPriceService = {
         return axiosClient.post(url,id );
     },
 
- 
+    exportReportProcesss( date: any): Promise<any>{
+        const url = '/api/ExportProcess/ExportReport';
+        const config:AxiosRequestConfig = { responseType: 'blob' };
+        const a = {
+            fromDate:date.fromDate,
+            toDate:date.toDate
+        }
+        return axiosClient.post(url,a,config);
+    },
 
 }
 

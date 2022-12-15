@@ -1,15 +1,16 @@
 
 import "./datatable.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ExportProcessAction } from '../../../features/exportProcess/exportProcessSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
-import { ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, ExportOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { TweenOneGroup } from 'rc-tween-one';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, DatePickerProps, Modal, Tag } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, DatePickerProps, Modal, Tag, InputRef, Popover } from 'antd';
 
 import { exportProcess, searchExportProcessDto, exportProcessDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -93,18 +94,40 @@ const Datatable = (props: Props) => {
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
+    // set lại giứ trị tag 
+    const orange = tags.map(d => (
+      parseInt(d, 10)
+    ));
+    const red = tagsRed.map(d => (
+      parseInt(d, 10)
+    ));
+    const blue = tagsBlue.map(d => (
+      parseInt(d, 10)
+    ));
+    const green = tagsGreen.map(d => (
+      parseInt(d, 10)
+    ));
     // add
     if (addOrUpdate === 1) {
       const exportProcess = {
         ...exportProcessDto,
+        weighOrange: orange,
+        weighRed: red,
+        weighBlue: blue,
+        weighGreen: green,
         id: ""
       }
       dispatch(ExportProcessAction.addExportProcess(exportProcess));
     }
     // Update
     if (addOrUpdate === 2) {
+
       const exportProcess = {
         ...exportProcessDto,
+        weighOrange: orange,
+        weighRed: red,
+        weighBlue: blue,
+        weighGreen: green
       }
       dispatch(ExportProcessAction.updateExportProcess(exportProcess));
 
@@ -254,7 +277,7 @@ const Datatable = (props: Props) => {
 
 
     })
-    setTitle("Thêm mới giá nhập");
+    setTitle("Thêm mới ");
     // setState add or up date
     setaddOrUpdate(1);
     // open TAB
@@ -264,7 +287,7 @@ const Datatable = (props: Props) => {
   const showEditDrawer = (record: any) => {
     //init state 
     console.log("showEditDrawer: ", record);
-    setTitle("Sửa giá nhập");
+    setTitle("Sửa");
 
     setexportProcessDto(
       {
@@ -272,23 +295,31 @@ const Datatable = (props: Props) => {
 
         SumOrange: record.SumOrange,
         SumRed: record.SumRed,
-        SumGreen:record.SumGreen,
-        SumBlue:record.SumBlue,
-    
+        SumGreen: record.SumGreen,
+        SumBlue: record.SumBlue,
+
         weighOrange: record.weighOrange,
         weighRed: record.weighRed,
-        weighGreen:record.weighGreen,
-        weighBlue:record.weighBlue,
-    
+        weighGreen: record.weighGreen,
+        weighBlue: record.weighBlue,
+
         countOrange: record.countOrange,
         countRed: record.countRed,
-        countGreen:record.countGreen,
-        countBlue:record.countBlue,
+        countGreen: record.countGreen,
+        countBlue: record.countBlue,
 
         dateExport: record.dateExport,
         id: record.id,
       }
+
     )
+
+    // set lại giứ trị tag 
+    setTags(record.weighOrange);
+    settagsRed(record.weighRed);
+    settagsBlue(record.weighBlue);
+    settagsGreen(record.weighGreen);
+
     // setState add or up date
     setaddOrUpdate(2);
     // open TAB
@@ -301,8 +332,8 @@ const Datatable = (props: Props) => {
     confirm({
       open: modal1Open,
       icon: <ExclamationCircleOutlined />,
-      title: 'Xóa giá nhập',
-      content: 'Bạn có muốn xóa giá nhập này?',
+      title: 'Xóa ',
+      content: 'Bạn có muốn xóa quá trình này?',
       async onOk() {
 
         setCheckRefresh(true);
@@ -318,42 +349,11 @@ const Datatable = (props: Props) => {
   const onClose = () => {
     setOpen(false);
   };
-  const onChangeProcessOrange = (e: any) => {
-    setexportProcessDto(
-      {
-        ...exportProcessDto,
-        countOrange: parseInt(e.target.value)
-      }
-    )
-  }
-  const onChangeProcessRed = (e: any) => {
-    setexportProcessDto(
-      {
-        ...exportProcessDto,
-        countRed: parseInt(e.target.value)
-      }
-    )
-  }
-  const onChangeProcessBlue = (e: any) => {
-    setexportProcessDto(
-      {
-        ...exportProcessDto,
-        countBlue: parseInt(e.target.value)
-      }
-    )
-  }
-  const onChangeProcessGreen = (e: any) => {
-    setexportProcessDto(
-      {
-        ...exportProcessDto,
-        countGreen: parseInt(e.target.value)
-      }
-    )
-  }
 
 
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+  const onChange: DatePickerProps['onChange'] = (date, dateString: string) => {
     //console.log(date, dateString);
+
     setexportProcessDto(
       {
         ...exportProcessDto,
@@ -361,6 +361,268 @@ const Datatable = (props: Props) => {
       }
     )
   };
+  const onChangePriceOrange = (e: any) => {
+    setexportProcessDto(
+      {
+        ...exportProcessDto,
+        countOrange: parseInt(e.target.value)
+      }
+    )
+  }
+  const onChangePriceRed = (e: any) => {
+    setexportProcessDto(
+      {
+        ...exportProcessDto,
+        countRed: parseInt(e.target.value)
+      }
+    )
+  }
+  const onChangePriceBlue = (e: any) => {
+    setexportProcessDto(
+      {
+        ...exportProcessDto,
+        countBlue: parseInt(e.target.value)
+      }
+    )
+  }
+  const onChangePriceGreen = (e: any) => {
+    setexportProcessDto(
+      {
+        ...exportProcessDto,
+        countGreen: parseInt(e.target.value)
+      }
+    )
+  }
+  //================================================================================
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputVisible, setInputVisible] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<InputRef>(null);
+
+
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter((tag) => tag !== removedTag);
+    console.log(newTags);
+    setTags(newTags);
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      setTags([...tags, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue('');
+  };
+
+  const forMap = (tag: string) => {
+    const tagElem = (
+      <Tag
+        closable
+        color="orange"
+        onClose={(e) => {
+          e.preventDefault();
+          handleClose(tag);
+        }}
+      >
+        {tag}
+      </Tag>
+    );
+    return (
+      <span key={tag} style={{ display: 'inline-block' }}>
+        {tagElem}
+      </span>
+    );
+  };
+  const tagChild = tags.map(forMap);
+  //RED===========================================================================
+  const [tagsRed, settagsRed] = useState<string[]>([]);
+  const [inputVisibleRed, setinputVisibleRed] = useState<boolean>(false);
+  const [inputValueRed, setinputValueRed] = useState('');
+  const inputRefRed = useRef<InputRef>(null);
+
+
+  const handleCloseRed = (removedTag: string) => {
+    const newtagsRed = tagsRed.filter((tag) => tag !== removedTag);
+    console.log(newtagsRed);
+    settagsRed(newtagsRed);
+  };
+
+  const showInputRed = () => {
+    setinputVisibleRed(true);
+  };
+
+  const handleInputChangeRed = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setinputValueRed(e.target.value);
+  };
+
+  const handleInputConfirmRed = () => {
+    if (inputValueRed && tagsRed.indexOf(inputValueRed) === -1) {
+      settagsRed([...tagsRed, inputValueRed]);
+    }
+    setinputVisibleRed(false);
+    setinputValueRed('');
+  };
+
+  const forMapRed = (tag: string) => {
+    const tagElem = (
+      <Tag
+        closable
+        color="red"
+        onClose={(e) => {
+          e.preventDefault();
+          handleCloseRed(tag);
+        }}
+      >
+        {tag}
+      </Tag>
+    );
+    return (
+      <span key={tag} style={{ display: 'inline-block' }}>
+        {tagElem}
+      </span>
+    );
+  };
+  const tagChildRed = tagsRed.map(forMapRed);
+  //Green
+  const [tagsGreen, settagsGreen] = useState<string[]>([]);
+  const [inputVisibleGreen, setinputVisibleGreen] = useState<boolean>(false);
+  const [inputValueGreen, setinputValueGreen] = useState('');
+  const inputRefGreen = useRef<InputRef>(null);
+
+
+  const handleCloseGreen = (removedTag: string) => {
+    const newtagsGreen = tagsGreen.filter((tag) => tag !== removedTag);
+    console.log(newtagsGreen);
+    settagsGreen(newtagsGreen);
+  };
+
+  const showInputGreen = () => {
+    setinputVisibleGreen(true);
+  };
+
+  const handleInputChangeGreen = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setinputValueGreen(e.target.value);
+  };
+
+  const handleInputConfirmGreen = () => {
+    if (inputValueGreen && tagsGreen.indexOf(inputValueGreen) === -1) {
+      settagsGreen([...tagsGreen, inputValueGreen]);
+    }
+    setinputVisibleGreen(false);
+    setinputValueGreen('');
+  };
+
+  const forMapGreen = (tag: string) => {
+    const tagElem = (
+      <Tag
+        closable
+        color="blue"
+        onClose={(e) => {
+          e.preventDefault();
+          handleCloseGreen(tag);
+        }}
+      >
+        {tag}
+      </Tag>
+    );
+    return (
+      <span key={tag} style={{ display: 'inline-block' }}>
+        {tagElem}
+      </span>
+    );
+  };
+  const tagChildGreen = tagsGreen.map(forMapGreen);
+
+  //blue========================
+  const [tagsBlue, settagsBlue] = useState<string[]>([]);
+  const [inputVisibleBlue, setinputVisibleBlue] = useState<boolean>(false);
+  const [inputValueBlue, setinputValueBlue] = useState('');
+  const inputRefBlue = useRef<InputRef>(null);
+
+
+  const handleCloseBlue = (removedTag: string) => {
+    const newtagsBlue = tagsBlue.filter((tag) => tag !== removedTag);
+    console.log(newtagsBlue);
+    settagsBlue(newtagsBlue);
+  };
+
+  const showInputBlue = () => {
+    setinputVisibleBlue(true);
+  };
+
+  const handleInputChangeBlue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setinputValueBlue(e.target.value);
+  };
+
+  const handleInputConfirmBlue = () => {
+    if (inputValueBlue && tagsBlue.indexOf(inputValueBlue) === -1) {
+      settagsBlue([...tagsBlue, inputValueBlue]);
+    }
+    setinputVisibleBlue(false);
+    setinputValueBlue('');
+  };
+
+  const forMapBlue = (tag: string) => {
+    const tagElem = (
+      <Tag
+        color="green"
+        closable
+        onClose={(e) => {
+          e.preventDefault();
+          handleCloseBlue(tag);
+        }}
+      >
+        {tag}
+      </Tag>
+    );
+    return (
+      <span key={tag} style={{ display: 'inline-block' }}>
+        {tagElem}
+      </span>
+    );
+  };
+  const tagChildBlue = tagsBlue.map(forMapBlue);
+  //================================================exporrt report
+  // const onChangeDatea: DatePickerProps['onChange'] = (date, dateString) => {
+  //   console.log(date, dateString);
+  //   setCheckRefresh(true);
+  //   const a = {
+  //     fromDate: dateString,
+  //     toDate: dateString
+  //   }
+  //   dispatch(ExportProcessAction.exportReportExportProcess(a));
+  //   timeout(500);
+  //   refresh();
+  // };
+  const onChangeDatea = (dates: any, dateStrings: any) => {
+    if (dates) {
+      const a = {
+        fromDate: dateStrings[0],
+        toDate: dateStrings[1]
+      }
+      dispatch(ExportProcessAction.exportReportExportProcess(a));
+      timeout(500);
+      refresh();
+    } 
+  };
+  const content = (
+    <div>
+      {/* <DatePicker onChange={onChangeDatea} /> */}
+      <RangePicker
+        format={dateFormat}
+        onChange={onChangeDatea}
+      />
+    </div>
+  );
+
   return (
     <div className="background">
       <div className="title">
@@ -368,13 +630,15 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-
-          {/* <div style={{width:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor: 'pointer',fontWeight:'bold'}}>
-            <AppstoreAddOutlined style= {{paddingInline:'5px', color:'#d32f2f' }}/> <div style= {{paddingInline:'5px', color:'#d32f2f' ,fontFamily:'Arial' }}>Cấu hình hiển thị</div>
-          </div> */}
           <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
+          <Popover content={content} title="Chọn ngày">
+
+            <div style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
+              <ExportOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Xuất báo cáo</div>
+            </div>
+          </Popover>
           <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
@@ -433,7 +697,7 @@ const Datatable = (props: Props) => {
       </div>
       <Drawer
         title={Title}
-        width={720}
+        width={1000}
         onClose={onClose}
         open={open}
         bodyStyle={{
@@ -442,26 +706,115 @@ const Datatable = (props: Props) => {
       >
 
         <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Số quả cam (vnđ):</label>
-            <Input placeholder="Nhập giá cam(vnđ)" value={exportProcessDto.countOrange} onChange={onChangeProcessOrange} />
+          <Col span={6}>
+            {inputVisible && (
+              <Input
+                ref={inputRef}
+                type="number"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={handleInputConfirm}
+                onPressEnter={handleInputConfirm}
+              />
+            )}
+            {!inputVisible && (
+              <Tag color="orange" onClick={showInput} className="site-tag-plus">
+                <PlusOutlined /> Cam
+              </Tag>
+            )}
+            <div style={{ marginBottom: 0 }}>
+              {tagChild}
+            </div>
           </Col>
-          <Col span={12}>
-            <label >Giá đỏ(vnđ):</label>
-            <Input placeholder="Nhập giá đỏ" value={exportProcessDto.countRed} onChange={onChangeProcessRed} />
+          <Col span={6}>
+            {inputVisibleRed && (
+              <Input
+                ref={inputRefRed}
+                type="number"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValueRed}
+                onChange={handleInputChangeRed}
+                onBlur={handleInputConfirmRed}
+                onPressEnter={handleInputConfirmRed}
+              />
+            )}
+            {!inputVisibleRed && (
+              <Tag color="red" onClick={showInputRed} className="site-tag-plus">
+                <PlusOutlined /> Đỏ
+              </Tag>
+            )}
+            <div style={{ marginBottom: 0 }}>
+              {tagChildRed}
+            </div>
+          </Col>
+          <Col span={6}>
+            {inputVisibleGreen && (
+              <Input
+                ref={inputRefGreen}
+                type="number"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValueGreen}
+                onChange={handleInputChangeGreen}
+                onBlur={handleInputConfirmGreen}
+                onPressEnter={handleInputConfirmGreen}
+              />
+            )}
+            {!inputVisibleGreen && (
+              <Tag color="blue" onClick={showInputGreen} className="site-tag-plus">
+                <PlusOutlined /> Xanh dương
+              </Tag>
+            )}
+            <div style={{ marginBottom: 0 }}>
+              {tagChildGreen}
+            </div>
+          </Col>
+          <Col span={6}>
+            {inputVisibleBlue && (
+              <Input
+                ref={inputRefBlue}
+                type="number"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValueBlue}
+                onChange={handleInputChangeBlue}
+                onBlur={handleInputConfirmBlue}
+                onPressEnter={handleInputConfirmBlue}
+              />
+            )}
+            {!inputVisibleBlue && (
+              <Tag color="green" onClick={showInputBlue} className="site-tag-plus">
+                <PlusOutlined /> Xanh lá
+              </Tag>
+            )}
+            <div style={{ marginBottom: 0 }}>
+              {tagChildBlue}
+            </div>
           </Col>
         </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
-            <label >Giá xanh lá(vnđ):</label>
-            <Input placeholder="Nhập giá xanh lá" value={exportProcessDto.countBlue} onChange={onChangeProcessBlue} />
+            <label >Số quả cam(quả):</label>
+            <Input placeholder="Nhập số quả cam" value={exportProcessDto.countOrange} onChange={onChangePriceOrange} />
           </Col>
           <Col span={12}>
-            <label >Giá xanh dương(vnđ):</label>
-            <Input placeholder="Nhập giá xanh dương " value={exportProcessDto.countGreen} onChange={onChangeProcessGreen} />
+            <label >Số quả đỏ(quả):</label>
+            <Input placeholder="Nhập số quả đỏ " value={exportProcessDto.countRed} onChange={onChangePriceRed} />
           </Col>
         </Row>
-
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Số quả xanh lá(quả):</label>
+            <Input placeholder="Số quả xanh lá" value={exportProcessDto.countGreen} onChange={onChangePriceBlue} />
+          </Col>
+          <Col span={12}>
+            <label >Số quả xanh dương(quả):</label>
+            <Input placeholder="Số quả xanh dương " value={exportProcessDto.countBlue} onChange={onChangePriceGreen} />
+          </Col>
+        </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Ngày:</label>

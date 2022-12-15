@@ -8,7 +8,7 @@ namespace DataAccess.Models.Dto.ExportProcess
     public class UpdateExportProcessDto
     {
         public string Id { set; get; } // Id
-        public DateTime DateImport { get; set; } // tên
+        public DateTime DateExport { get; set; } // tên
         public List<float> WeighBlue { get; set; } // số kg mỗi lần cân kem lớn
         public List<float> WeighGreen { get; set; } // số kg mỗi lần cân
         public List<float> WeighRed { get; set; } // số kg mỗi lần cân

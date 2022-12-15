@@ -13,16 +13,17 @@ namespace FruitManager.Services
     using Interfaces;
     using DataAccess.Models.Dto.ExportProcess;
     using DataAccess.ExceptionFilter.Exceptions;
+    using DataAccess.Models.Enum;
 
     internal sealed class ExportReportService : IExportReportService
     {
         private readonly IExportReportRepository ExportReportRepository;
+        private readonly IExportProcessService ExportProcessService;
 
-
-        public ExportReportService(IExportReportRepository  ExportReportRepository)
+        public ExportReportService(IExportReportRepository ExportReportRepository, IExportProcessService exportProcessService = null)
         {
             this.ExportReportRepository = ExportReportRepository;
-
+            ExportProcessService = exportProcessService;
         }
 
         public async Task<bool> Create(CreateExportReportDto createExportReportDto, CancellationToken cancellationToken = default)
@@ -53,6 +54,20 @@ namespace FruitManager.Services
                 return await ExportReportRepository.Delete(id);
             }
             throw new NotFoundException("Không tồn tại hóa đơn");
+        }
+
+        public async Task<byte[]> UpdateStatus(UpdateStatusExportReportDto updateStatusExportReportDto, CancellationToken cancellationToken = default)
+        {
+            ExportReport exportReport = await ExportReportRepository.GetByIndexAsync(x => x.Id, updateStatusExportReportDto.Id);
+            if (exportReport == null) return null;
+            exportReport.NameOwner = updateStatusExportReportDto.NameOwner;
+            exportReport.LicenPalates = updateStatusExportReportDto.LicenPalates;
+            exportReport.statusExport = StatusExport.DA_XU_LY;
+            await ExportReportRepository.UpdateAsync(x => x.Id, exportReport, false, cancellationToken);
+            // Xuất báo cáo
+            return await ExportProcessService.ExportReportTwo(exportReport.FromDate, exportReport.ToDate , updateStatusExportReportDto);
+
+
         }
     }
 }

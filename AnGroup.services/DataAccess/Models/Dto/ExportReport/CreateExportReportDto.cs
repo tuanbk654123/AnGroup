@@ -8,28 +8,21 @@ namespace DataAccess.Models.Dto.ExportProcess
 {
     public class CreateExportReportDto
     {
-        public string IdExportPrice { set; get; } // Id giá hôm nay
-        //public string IdGarden { set; get; } // IdGarden
+        public string IdExportPrice { set; get; } // Id
+        public DateTime? FromDate { get; set; } // từ Ngày export
+        public DateTime? ToDate { get; set; } // đến Ngày export
         public StatusExport statusExport { set; get; } // Trạng thái xuất hàng
-        public DateTime DateExport { get; set; } // tên
+        public float TotalNumber { get; set; } // tổng số trái
+        public float TotalWeigtToTruck { get; set; } //Tổng số lên xe
+        public float TotalPaper { get; set; } // Tổng trọng lượng giấy gói
+        public float TotalWeigtReal { get; set; } // Tổng trọng lượng thực
+        public float TotalMoeny { get; set; } // Tổng trọng lượng thực
 
+        public float CarFee { get; set; } // cước xe
+        public float TotalPayment { get; set; } // Tổng thanh toán
 
-        public List<float> WeighKemLon { get; set; } // số kg mỗi lần cân kem lớn
-        public List<float> WeighKem2 { get; set; } // số kg mỗi lần cân
-        public List<float> WeighKem1 { get; set; } // số kg mỗi lần cân
-        public List<float> WeighRXo { get; set; } // số kg mỗi lần cân
-        public List<float> WeighR1 { get; set; } // số kg mỗi lần cân
-        public List<float> WeighR2 { get; set; } // số kg mỗi lần cân
-        public List<float> WeighR3 { get; set; } // số kg mỗi lần cân
-
-
-        public float SumKemLon { get; set; } // tổng số 
-        public float SumKem2 { get; set; } // tổng số 
-        public float SumKem1 { get; set; } // tổng số 
-        public float SumRxo { get; set; } // tổng số 
-        public float SumR1 { get; set; } // tổng số 
-        public float SumR2 { get; set; } // tổng số 
-        public float SumR3 { get; set; } // tổng số 
+        public string NameOwner { get; set; } // Tên chủ hàng
+        public string LicenPalates { get; set; } // Biển số xe
 
     }
 }

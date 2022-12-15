@@ -53,6 +53,13 @@ const ExportProcessSlice = createSlice({
 
         deleteExportProcessSuccess (state, action: PayloadAction<Respone>){
             state.respone = action.payload;
+        },
+        exportReportExportProcess (state, action: PayloadAction<any>){
+        },
+
+        exportReportExportProcessSuccess (state, action: PayloadAction<Blob>){
+           // state.respone = action.payload;
+            
         }
     }
 

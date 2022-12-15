@@ -17,6 +17,7 @@ import ImportProcess from './components/Layout/importProcess/ImportProcess';
 import Customer from './components/Layout/customer/Customer';
 import ExportPrice from './components/Layout/exportPrice/ExportPrice';
 import ExportProcess from './components/Layout/exportProcess/ExportProcess';
+import ExportReport from './components/Layout/exportReport/ExportReport';
 
 function App() {
   // useEffect( () => {
@@ -43,6 +44,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute path="/exportPrice">
             <ExportPrice />
+          </PrivateRoute>
+          <PrivateRoute path="/exportReport">
+            <ExportReport />
           </PrivateRoute>
           <PrivateRoute path="/importReport">
             <ImportReport />
