@@ -41,6 +41,7 @@ namespace FruitManager.Services
             ImportProcess ImportProcess = new ImportProcess();
             ImportProcess = createImportProcessDto?.Adapt<ImportProcess>();
             ImportProcess.Id = Guid.NewGuid().ToString();
+            ImportProcess.DateImport = DateTime.UtcNow;
             // Tính tổng 
             ImportProcess.SumWeighKemLon = (float)(ImportProcess.WeighKemLon?.Sum(x => x));
             ImportProcess.SumWeighKem2 = (float)(ImportProcess.WeighKem2?.Sum(x => x));
@@ -56,8 +57,8 @@ namespace FruitManager.Services
             pageable.PageSize = 1;
             pageable.PageNumber = 1;
             SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
-            searchImportPriceDto.fromDate = createImportProcessDto.DateImport;
-            searchImportPriceDto.toDate = createImportProcessDto.DateImport;
+            searchImportPriceDto.fromDate = ImportProcess.DateImport.AddDays(1);
+            searchImportPriceDto.toDate = ImportProcess.DateImport.AddDays(1);
             var importPriceToday = await importPriceRepository.Search(pageable, searchImportPriceDto);
          
             if (importPriceToday != null)
@@ -163,8 +164,11 @@ namespace FruitManager.Services
             searchImportPriceDto.toDate = importProcess.DateImport;
             var content = await importPriceRepository.Search(pageable, searchImportPriceDto);
             List<ImportPrice> importPrices = (List<ImportPrice>)content.Content;
-
-            ImportPrice importPrice = importPrices[0];
+            ImportPrice importPrice = new ImportPrice();
+            if (importPrices.Count > 0)
+            {
+                importPrice = importPrices?[0];
+            }
 
             if (importProcess == null )
             {

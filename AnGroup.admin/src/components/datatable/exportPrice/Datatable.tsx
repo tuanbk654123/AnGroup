@@ -224,6 +224,8 @@ const Datatable = (props: Props) => {
   // Show Add    
   const showDrawer = () => {
     //init state 
+    const today = new Date();
+    let date =  today.getFullYear() +"-"+ (today.getMonth()+1) +"-" + today.getDate()  ;
     setexportPriceDto({
       ...exportPriceDto,
       priceBlue: undefined,
@@ -231,7 +233,7 @@ const Datatable = (props: Props) => {
       priceRed: undefined,
       priceOrange: undefined,
      
-      dateExport: "",
+      dateExport: date,
 
     })
     setTitle("Thêm mới giá nhập");

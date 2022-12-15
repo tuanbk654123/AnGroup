@@ -257,6 +257,8 @@ const Datatable = (props: Props) => {
   // Show Add    
   const showDrawer = () => {
     //init state 
+    const today = new Date();
+    let date =  today.getFullYear() +"-"+ (today.getMonth()+1) +"-" + today.getDate()  ;
     setexportProcessDto({
       ...exportProcessDto,
       SumOrange: undefined,
@@ -273,7 +275,7 @@ const Datatable = (props: Props) => {
       countRed: undefined,
       countGreen: undefined,
       countBlue: undefined,
-      dateExport: "",
+      dateExport: date,
 
 
     })

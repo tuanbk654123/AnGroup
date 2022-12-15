@@ -55,8 +55,8 @@ namespace FruitManager.Controllers
             pageable.PageNumber = 1;
             pageable.PageSize = 10;
             SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
-            searchImportPriceDto.fromDate = createImportPriceDto.DateImport;
-            searchImportPriceDto.toDate = createImportPriceDto.DateImport;
+            searchImportPriceDto.fromDate = createImportPriceDto.DateImport.AddDays(1);
+            searchImportPriceDto.toDate = createImportPriceDto.DateImport.AddDays(1);
             var checkHaveItem = await ImportPriceService.Search(pageable, searchImportPriceDto);
             if(checkHaveItem!= null && checkHaveItem.Content.Count() > 0) return BadRequest("Đã tồn tại bản ghi ngày "+ createImportPriceDto.DateImport.ToString("dd-MM-yyyy"));
 

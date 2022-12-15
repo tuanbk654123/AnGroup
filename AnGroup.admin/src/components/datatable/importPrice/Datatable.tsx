@@ -98,14 +98,14 @@ const Datatable = (props: Props) => {
         ...ImportpriceDto,
         id: ""
       }
-       dispatch(ImportPriceAction.addImportPrice(importPrice));
+      dispatch(ImportPriceAction.addImportPrice(importPrice));
     }
     // Update
     if (addOrUpdate === 2) {
       const importPrice = {
         ...ImportpriceDto,
       }
-       dispatch(ImportPriceAction.updateImportPrice(importPrice));
+      dispatch(ImportPriceAction.updateImportPrice(importPrice));
 
     }
     await timeout(500);
@@ -316,12 +316,14 @@ const Datatable = (props: Props) => {
   // Show Add    
   const showDrawer = () => {
     //init state 
+    const today = new Date();
+    let date =  today.getFullYear() +"-"+ (today.getMonth()+1) +"-" + today.getDate()  ;
     setImportpriceDto({
       ...ImportpriceDto,
       PriceKemLon: undefined,
       PriceKem2: undefined,
-      PriceKem3:undefined,
-      PriceRXo:undefined,
+      PriceKem3: undefined,
+      PriceRXo: undefined,
       PriceR1: undefined,
       PriceR2: undefined,
       PriceR3: undefined,
@@ -329,10 +331,10 @@ const Datatable = (props: Props) => {
       RateKem2: undefined,
       RateKem3: undefined,
       RateRXo: undefined,
-      RateR1:undefined,
+      RateR1: undefined,
       RateR2: undefined,
       RateR3: undefined,
-      DateImport: ""
+      DateImport: date
     })
     setTitle("Thêm mới giá nhập");
     // setState add or up date
@@ -364,7 +366,7 @@ const Datatable = (props: Props) => {
         RateR2: record.rateR2,
         RateR3: record.rateR3,
         DateImport: record.dateImport,
-        id : record.id,
+        id: record.id,
       }
     )
     // setState add or up date
@@ -440,7 +442,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR2:  parseInt(e.target.value)
+        PriceR2: parseInt(e.target.value)
       }
     )
   }
@@ -448,7 +450,7 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR3:  parseInt(e.target.value)
+        PriceR3: parseInt(e.target.value)
       }
     )
   }
