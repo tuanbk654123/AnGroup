@@ -10,6 +10,8 @@ const customerService = {
             params:{
                 PageNumber:search.pageNumber,
                 PageSize:search.pageSize,
+                NameGarden:search.NameGarden,
+                PhoneNumber:search.PhoneNumber,
                 fromDate: search.fromDate,
                 toDate: search.toDate,
             }

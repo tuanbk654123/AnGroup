@@ -87,7 +87,12 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = { ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+  
+      fromDate: "",
+      toDate: "" }
     setSearchParam(SearchParamChange)
 
   }
@@ -155,51 +160,51 @@ const Datatable = (props: Props) => {
       render: ((date: string) => getFullDate(date))
     },
     {
-      title: 'Tổng cam',
+      title: 'Tổng cam (kg)',
       width: 50,
       dataIndex: 'sumOrange',
       key: 'sumOrange',
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='orange' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
 
         );
       },
     },
     {
-      title: 'Tổng đỏ',
+      title: 'Tổng đỏ (kg)',
       width: 50,
       dataIndex: 'sumRed',
       key: 'sumRed',
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='red' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
         );
       },
     },
     {
-      title: 'Tổng xanh lá',
+      title: 'Tổng xanh lá (kg)',
       width: 50,
       dataIndex: 'sumBlue',
       key: 'sumBlue',
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='blue' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
         );
       },
     },
     {
-      title: 'Tổng xanh dương',
+      title: 'Tổng xanh dương (kg)',
       width: 50,
       dataIndex: 'sumGreen',
       key: 'sumGreen',
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='green' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
         );
       },
     },
@@ -258,7 +263,11 @@ const Datatable = (props: Props) => {
   const showDrawer = () => {
     //init state 
     const today = new Date();
-    let date =  today.getFullYear() +"-"+ (today.getMonth()+1) +"-" + today.getDate()  ;
+    let date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    setTags([]);
+    settagsBlue([]);
+    settagsGreen([]);
+    settagsRed([]);
     setexportProcessDto({
       ...exportProcessDto,
       SumOrange: undefined,
@@ -613,7 +622,7 @@ const Datatable = (props: Props) => {
       dispatch(ExportProcessAction.exportReportExportProcess(a));
       timeout(500);
       refresh();
-    } 
+    }
   };
   const content = (
     <div>

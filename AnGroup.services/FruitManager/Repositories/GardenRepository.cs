@@ -37,12 +37,16 @@ namespace FruitManager.Repositories
             {
                 filter &= builder.Where(x => x.PhoneNumber.Contains(searchGardenDto.PhoneNumber));
             }
+            if (!string.IsNullOrEmpty(searchGardenDto.NameGarden))
+            {
+                filter &= builder.Where(x => x.NameGarden.Contains(searchGardenDto.NameGarden));
+            }
             if (!string.IsNullOrEmpty(searchGardenDto.Name))
             {
                 filter &= builder.Where(x => x.Name.Contains(searchGardenDto.Name));
             }
 
-            var result = await Collection.Find(filter).SortByDescending(e => e.Name).Skip((pageable.PageNumber - 1) * pageable.PageSize).Limit(pageable.PageSize).ToListAsync();
+            var result = await Collection.Find(filter).SortByDescending(e => e.DateCreate).Skip((pageable.PageNumber - 1) * pageable.PageSize).Limit(pageable.PageSize).ToListAsync();
             var resultCount = await Collection.Find(filter).CountDocumentsAsync();
             var page = new Page<Garden>
             {

@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { CustomerAction } from '../../../features/customer/customerSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
-import { ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import PhoneInput from 'react-phone-number-input'
+import { BankOutlined, ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, Tag } from 'antd';
 
 import { customer, searchCustomerDto, CustomerDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -26,6 +27,8 @@ const Datatable = (props: Props) => {
     Name: "",
     AccountNumber: "",
     fromDate: "",
+    NameGarden: "",
+    PhoneNumber: "",
     toDate: ""
   });
   const [CheckRefresh, setCheckRefresh] = useState(false);
@@ -34,7 +37,7 @@ const Datatable = (props: Props) => {
     id: "",
     Name: "",
     AccountNumber: "",
-    BankName: "",
+    bankName: "",
     Address: "",
     PhoneNumber: "",
     nameGarden: ""
@@ -54,7 +57,7 @@ const Datatable = (props: Props) => {
   // lấy data từ reducer 
   const importPrices = useAppSelector((state) => state.customer.lstRespone);
 
-  
+
 
   //Thay đổi Size chage
   const onShowSizeChange = (current: number, pageSize: number) => {
@@ -78,9 +81,18 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = {
+      ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+      Name: "",
+      AccountNumber: "",
+      fromDate: "",
+      NameGarden: "",
+      PhoneNumber: "",
+      toDate: ""
+    }
     setSearchParam(SearchParamChange)
-
   }
   // add or up date 
 
@@ -98,7 +110,7 @@ const Datatable = (props: Props) => {
       openNotification("Tên tài khoản không được để trống");
       return;
     }
-    if (customerDto.BankName === "" || customerDto.BankName === undefined) {
+    if (customerDto.bankName === "" || customerDto.bankName === undefined) {
       openNotification("Tên ngân hàng không được để trống");
       return;
     }
@@ -155,11 +167,21 @@ const Datatable = (props: Props) => {
       fixed: 'left',
     },
     {
-      title: 'Tên ngân hàng',
+      title: 'Ngân hàng',
       width: 100,
       dataIndex: 'bankName',
       key: 'bankName',
       fixed: 'left',
+      render: (_, record) => {
+        return (
+          <div>
+             <Tag icon={<BankOutlined />} color='magenta' >{record.bankName}</Tag>
+         
+          </div>
+        )
+      }
+      // <BankOutlined />
+
     },
     {
       title: 'Địa chỉ',
@@ -233,7 +255,7 @@ const Datatable = (props: Props) => {
       id: "",
       Name: "",
       AccountNumber: "",
-      BankName: "",
+      bankName: "",
       Address: "",
       PhoneNumber: "",
       nameGarden: ""
@@ -255,7 +277,7 @@ const Datatable = (props: Props) => {
         id: record.id,
         Name: record.name,
         AccountNumber: record.accountNumber,
-        BankName: record.bankName,
+        bankName: record.bankName,
         Address: record.address,
         PhoneNumber: record.phoneNumber,
         nameGarden: record.nameGarden
@@ -306,11 +328,11 @@ const Datatable = (props: Props) => {
       }
     )
   }
-  const onChangeBankName = (e: any) => {
+  const onChangebankName = (value: string) => {
     setcustomerDto(
       {
         ...customerDto,
-        BankName: e.target.value
+        bankName: value
       }
     )
   }
@@ -326,7 +348,7 @@ const Datatable = (props: Props) => {
     setcustomerDto(
       {
         ...customerDto,
-        PhoneNumber: e.target.value
+        PhoneNumber: e
       }
     )
   }
@@ -339,6 +361,18 @@ const Datatable = (props: Props) => {
     )
   }
 
+  const onChangenameGardenSearch = (e: any) => {
+
+    const SearchParamChange = { ...SearchParam, NameGarden: e.target.value }
+    setSearchParam(SearchParamChange)
+
+
+  }
+  const onChangePhoneNumberSearch = (e: any) => {
+    const SearchParamChange = { ...SearchParam, PhoneNumber: e.target.value }
+    setSearchParam(SearchParamChange)
+
+  }
   return (
     <div className="background">
       <div className="title">
@@ -366,11 +400,13 @@ const Datatable = (props: Props) => {
           <div className="search">
             <div className="inputsearch">
 
-              <RangePicker
-                format={dateFormat}
-                onChange={onChangeDate}
-              />
+              <Input className="inputsearch" value={SearchParam.NameGarden} placeholder="Tên vựa" allowClear onChange={onChangenameGardenSearch} />
             </div>
+            <div className="inputsearch">
+
+              <Input className="inputsearch" value={SearchParam.PhoneNumber} placeholder="Số điện thoại" allowClear onChange={onChangePhoneNumberSearch} />
+            </div>
+
 
             <div className="inputsearch">
               <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} type="primary" icon={<SearchOutlined />} onClick={() => Search()}>
@@ -435,20 +471,215 @@ const Datatable = (props: Props) => {
             <Input placeholder="Nhập tên tài khoản" value={customerDto.Name} onChange={onChangeName} />
           </Col>
           <Col span={12}>
-            <label >Tên ngân hàng:</label>
-            <Input placeholder="Nhập tên ngân hàng" value={customerDto.BankName} onChange={onChangeBankName} />
+            <label >Ngân hàng:</label>
+            {/* <Input placeholder="Nhập tên ngân hàng" value={customerDto.bankName} onChange={onChangebankName} /> */}
+            <Select
+              showSearch
+              style={{ width: "100%" }}
+              placeholder="Search to Select"
+              onChange={onChangebankName}
+              value={customerDto.bankName}
+              optionFilterProp="children"
+              filterOption={(input, option) => (option?.label ?? '').includes(input)}
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+              }
+              options={[
+                {
+                  value: 'CBBANK',
+                  label: 'CBBANK (Ngân hàng TMCP Xây Dựng)',
+                },
+                {
+                  value: 'GPBANK',
+                  label: 'GPBANK (Ngân hàng TMCP Dầu Khí Toàn Cầu)',
+                },
+                {
+                  value: 'OCEANBANK',
+                  label: 'OCEANBANK (Ngân hàng TMCP Xây Dựng)',
+                },
+                {
+                  value: 'AGRIBANK',
+                  label: 'AGRIBANK (Ngân hàng TMCP Nông Nghiệp và Phát triển nông thôn Việt Nam)',
+                },
+                {
+                  value: 'Hong_Leong_Bank_Vietnam',
+                  label: 'Hong_Leong_Bank_Vietnam (Ngân hàng 100% vốn nước ngoài)',
+                },
+                {
+                  value: 'Public_Bank',
+                  label: 'Public_Bank (Ngân hàng 100% vốn nước ngoài)',
+                },
+                {
+                  value: 'ANZ',
+                  label: 'ANZ (Ngân hàng ANZ Việt Nam)',
+                },
+                {
+                  value: 'Hong_Leong_Bank',
+                  label: 'Hong_Leong_Bank (Hong Leong Bank Vietnam)',
+                },
+                {
+                  value: 'Standard_Chartered_Bank',
+                  label: 'Standard_Chartered_Bank (Shinhan Bank Vietnam Limited-SHBVN)',
+                },
+                {
+                  value: 'HSBC',
+                  label: 'HSBC (Hongkong-Shanghai Bank)',
+                },
+                {
+                  value: 'Public_Bank',
+                  label: 'Public_Bank (Ngân hàng 100% vốn nước ngoài)',
+                },
+                {
+                  value: 'COOP_BANK',
+                  label: 'COOP_BANK (Ngân hàng Hợp tác xã Việt Nam)',
+                },
+                {
+                  value: 'VRB',
+                  label: 'VRB (Ngân hàng liên doanh Việt-Nga)',
+                },
+                {
+                  value: 'Indovina_Bank',
+                  label: 'Indovina_Bank (Ngân hàng TNHH Indovina)',
+                },
+                {
+                  value: 'VIETBANK',
+                  label: 'VIETBANK (Ngân hàng TMCP Viet Nam Thương Tín)',
+                },
+                {
+                  value: 'NCB',
+                  label: 'NCB (Ngân hàng 100% vốn nước ngoài)',
+                },
+                {
+                  value: 'PGBANK',
+                  label: 'PGBANK (Ngân hàng TMCP Xăng dầu Petrolimex)',
+                },
+                {
+                  value: 'SAIGONBANK',
+                  label: 'SAIGONBANK (Ngân hàng TMCP Sài Gòn Công Thương)',
+                },
+                {
+                  value: 'BAOVIET_BANK',
+                  label: 'BAOVIET_BANK (Ngân hàng TMCP Bảo Việt)',
+                },
+                {
+                  value: 'VIETCAPITAL',
+                  label: 'VIETCAPITAL (Ngân hàng TMCP Bản Việt)',
+                },
+                {
+                  value: 'KIENLONGBANK',
+                  label: 'KIENLONGBANK (Ngân hàng TMCP Kiên Long)',
+                },
+                {
+                  value: 'NAMABANK',
+                  label: 'NAMABANK (Ngân hàng TMCP Nam Á)',
+                },
+                {
+                  value: 'VIETABANK',
+                  label: 'VIETABANK (Ngân hàng TMCP Việt Á)',
+                },
+                {
+                  value: 'DONGABANK',
+                  label: 'DONGABANK (Ngân hàng TMCP Đông Á)',
+                },
+                {
+                  value: 'BAC_A_BANK',
+                  label: 'BAC_A_BANK (Ngân hàng TMCP Bắc Á)',
+                },
+                {
+                  value: 'SEABANK',
+                  label: 'SEABANK (Ngân hàng TMCP Đông Nam Á)',
+                },
+                {
+                  value: 'ABBANK',
+                  label: 'ABBANK (Ngân hàng TMCP An Bình)',
+                },
+                {
+                  value: 'Lienviet_Post_Bank',
+                  label: 'Lienviet_Post_Bank (Ngân hàng TMCP Liên Việt)',
+                },
+                {
+                  value: 'OCB',
+                  label: 'OCB (Ngân hàng TMCP Phương Đông)',
+                },
+                {
+                  value: 'TPBANK',
+                  label: 'TPBANK (Ngân hàng TMCP Tiên Phong)',
+                },
+                {
+                  value: 'TECHCOMBANK',
+                  label: 'TECHCOMBANK (Ngân hàng TMCP Kỹ Thương)',
+                },
+                {
+                  value: 'PVcomBank',
+                  label: 'PVcomBank (Ngân hàng TMCP PVCombank)',
+                },
+                {
+                  value: 'VIB',
+                  label: 'VIB (Ngân hàng TMCP Quốc Tế)',
+                },
+                {
+                  value: 'MSB',
+                  label: 'MSB (Ngân hàng TMCP Hàng Hải)',
+                },
+                {
+                  value: 'HDBANK',
+                  label: 'HDBANK (Ngân hàng TMCP Phát Triển TP HCM)',
+                },
+                {
+                  value: 'SHB',
+                  label: 'SHB (Ngân hàng TMCP Sài Gòn Hà Nội)',
+                },
+                {
+                  value: 'EXIMBANK',
+                  label: 'EXIMBANK (Ngân hàng TMCP Xuất Nhập Khẩu)',
+                },
+                {
+                  value: 'ACB',
+                  label: 'ACB (Ngân hàng TMCP Á Châu)',
+                },
+                {
+                  value: 'SCB',
+                  label: 'SCB (Ngân hàng TMCP Sài Gòn)',
+                },
+                {
+                  value: 'VPBANK',
+                  label: 'VPBANK (Ngân hàng TMCP Việt Nam Thịnh Vượng)',
+                },
+                {
+                  value: 'MBBANK',
+                  label: 'MBBANK (Ngân hàng TMCP Quân Đội)',
+                },
+                {
+                  value: 'SACOMBANK',
+                  label: 'SACOMBANK (Ngân hàng TMCP Sài Gòn Thương Tín)',
+                },
+                {
+                  value: 'VIETCOMBANK',
+                  label: 'VIETCOMBANK (Ngân hàng TMCP Ngoại thương)',
+                },
+                {
+                  value: 'BIDV',
+                  label: 'BIDV (Ngân hàng TMCP Đầu Tư Phát Triển Việt Nam)',
+                },
+                {
+                  value: 'VIETINBANK',
+                  label: 'VIETINBANK (Ngân hàng TMCP Công Thương)',
+                }
+              ]}
+            />
           </Col>
-        </Row>  <Row className="row" gutter={16}>
+        </Row>
+        <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Địa chỉ:</label>
             <Input placeholder="Nhập địa chỉ" value={customerDto.Address} onChange={onChangeAddress} />
           </Col>
           <Col span={12}>
             <label >Số điện thoại:</label>
-            <Input placeholder="Nhập số điện thoại" value={customerDto.PhoneNumber} onChange={onChangePhoneNumber} />
+            <PhoneInput style={{ with: "100%", height: "30px", display: "flex" }} defaultCountry="VN" placeholder="Nhập số điện thoại" value={customerDto.PhoneNumber} onChange={onChangePhoneNumber} />
           </Col>
         </Row>
-
+        
         {/* </Form> */}
         <div className="Submit">
           <Space style={{ display: 'flex' }}>

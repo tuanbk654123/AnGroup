@@ -76,7 +76,12 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = { ...SearchParam,   
+      pageNumber: 1,
+      pageSize: 10,
+  
+      fromDate: "",
+      toDate: "" }
     setSearchParam(SearchParamChange)
 
   }
@@ -129,7 +134,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='orange' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='orange' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
          
         );
       },
@@ -142,7 +147,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='red' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='red' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     },
@@ -154,7 +159,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='blue' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='blue' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     },
@@ -166,7 +171,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='green' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='green' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     },

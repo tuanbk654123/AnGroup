@@ -19,6 +19,7 @@ namespace FruitManager.Services
     using NPOI.SS.UserModel;
     using NPOI.SS.Formula.Functions;
     using System.Globalization;
+    using Microsoft.OpenApi.Extensions;
 
     internal sealed class ImportProcessService : IImportProcessService
     {
@@ -259,7 +260,7 @@ namespace FruitManager.Services
 
                     //tên ngân hàng
                     row = excelSheet.GetRow(5);
-                    row.CreateCell(1).SetCellValue(garden.BankName);
+                    row.CreateCell(1).SetCellValue(garden.BankName.GetDisplayName());
                     row.GetCell(1).CellStyle = styleBlod;
 
                     //Chi tiết Kem 1

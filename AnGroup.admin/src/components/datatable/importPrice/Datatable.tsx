@@ -85,7 +85,12 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = { ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+  
+      fromDate: "",
+      toDate: "" }
     setSearchParam(SearchParamChange)
 
   }
@@ -138,7 +143,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },
@@ -150,7 +155,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },
@@ -162,7 +167,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },
@@ -174,7 +179,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },
@@ -186,7 +191,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },
@@ -198,7 +203,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },
@@ -210,7 +215,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
         );
       },
     },

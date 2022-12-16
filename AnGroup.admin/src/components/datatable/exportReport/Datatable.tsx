@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ExportReportAction } from '../../../features/exportReport/exportReportSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
-import { ExclamationCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, ExclamationCircleOutlined, PlusOutlined, SearchOutlined, SyncOutlined } from '@ant-design/icons';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
@@ -83,7 +83,12 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = { ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+  
+      fromDate: "",
+      toDate: "" }
     setSearchParam(SearchParamChange)
 
   }
@@ -127,7 +132,7 @@ const Datatable = (props: Props) => {
     }
     setCheckRefresh(true);
     dispatch(ExportReportAction.exportReportExportProcess(data));
-    await timeout(500);
+    await timeout(1000);
     refresh();
   };
   // cột của Bảng==================================================================================
@@ -191,7 +196,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='red' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='green' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)+ " vnđ"}</Tag>
         );
       },
     },
@@ -203,7 +208,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='yellow' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='yellow' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)+ " vnđ"}</Tag>
         );
       },
     }, {
@@ -214,7 +219,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='green' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)}</Tag>
+          <Tag color='red' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     },
@@ -227,9 +232,9 @@ const Datatable = (props: Props) => {
       render: (_, record) => {
         switch (record.statusExport) {
           case "CHUA_XU_LY":
-            return (<Tag color='#e70103' >Chưa xử lý</Tag>)
+            return (<Tag icon={<SyncOutlined spin/>} color='#00CCFF' >Đang xử lý</Tag>)
           case "DA_XU_LY":
-            return (<Tag color='#87d068' >Đã xử lý</Tag>)
+            return (<Tag icon={<CheckCircleOutlined   />} color='#87d068' >Đã xử lý</Tag>)
         }
       }
     },

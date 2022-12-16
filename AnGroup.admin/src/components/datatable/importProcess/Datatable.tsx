@@ -4,7 +4,7 @@ import { ImportProcessAction } from '../../../features/importProcess/importProce
 import { CustomerAction } from '../../../features/customer/customerSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
-import { ExclamationCircleOutlined, ExportOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined, ExportOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
@@ -40,13 +40,15 @@ const Datatable = (props: Props) => {
     Name: "",
     AccountNumber: "",
     fromDate: "",
+    NameGarden: "",
+    PhoneNumber: "",
     toDate: ""
   });
   const [customerDto, setcustomerDto] = useState<CustomerDto>({
     id: "",
     Name: "",
     AccountNumber: "",
-    BankName: "",
+    bankName: "",
     Address: "",
     PhoneNumber: "",
     nameGarden: ""
@@ -120,7 +122,7 @@ const Datatable = (props: Props) => {
       openNotification("Tên tài khoản không được để trống");
       return;
     }
-    if (customerDto.BankName === "" || customerDto.BankName === undefined) {
+    if (customerDto.bankName === "" || customerDto.bankName === undefined) {
       openNotification("Tên ngân hàng không được để trống");
       return;
     }
@@ -312,7 +314,14 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = {
+      ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+
+      fromDate: "",
+      toDate: ""
+    }
     setSearchParam(SearchParamChange)
 
   }
@@ -442,7 +451,7 @@ const Datatable = (props: Props) => {
   const roleColumns: ColumnsType<importProcess> = [
     {
       title: 'Ngày',
-      width: 80,
+      width: 70,
       dataIndex: 'dateImport',
       key: 'dateImport',
       fixed: 'left',
@@ -450,7 +459,7 @@ const Datatable = (props: Props) => {
     },
     {
       title: 'Tên vựa',
-      width: 80,
+      width: 50,
       dataIndex: 'idGarden',
       key: 'idGarden',
       fixed: 'left',
@@ -474,6 +483,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
       fixed: 'left',
+     // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighKemLon?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -490,6 +500,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighKem2',
       key: 'weighKem2',
       fixed: 'left',
+     // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighKem2?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -506,6 +517,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighKem3',
       key: 'weighKem3',
       fixed: 'left',
+     // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighKem3?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -522,9 +534,14 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighRXo',
       key: 'weighRXo',
       fixed: 'left',
+     // ellipsis: true,
+      
       render: (_, record) => {
-
-        const listItems = record.weighRXo?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
+   
+        const listItems = record.weighRXo?.map((d) => ( 
+           <Tag  color='purple' key={d}>{d}</Tag>
+           )
+        );
         return (
           <div>
             {listItems}
@@ -538,7 +555,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR1',
       key: 'weighR1',
       fixed: 'left',
-
+     // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighR1?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -555,6 +572,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR2',
       key: 'weighR2',
       fixed: 'left',
+     // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighR2?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -571,6 +589,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR3',
       key: 'weighR3',
       fixed: 'left',
+     // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighR3?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -583,16 +602,16 @@ const Datatable = (props: Props) => {
     },
     {
       title: 'Trạng thái',
-      width: 80,
+      width: 90,
       dataIndex: 'statusBill',
       key: 'statusBill',
       fixed: 'left',
       render: (_, record) => {
         switch (record.statusBill) {
           case "CHUA_THANH_TOAN":
-            return (<Tag color='#e70103' >Chưa thanh toán</Tag>)
+            return (<Tag icon={<CloseCircleOutlined />} color='#e70103' >Chưa thanh toán</Tag>)
           case "DA_THANH_TOAN":
-            return (<Tag color='#87d068' >Đã thanh toán</Tag>)
+            return (<Tag icon={<CheckCircleOutlined />} color='#87d068' >Đã thanh toán</Tag>)
         }
         // return (
         //   <div>
@@ -607,7 +626,7 @@ const Datatable = (props: Props) => {
 
       key: 'operation',
       fixed: 'right',
-      width: 100,
+      width: 95,
       //render: () => <a>action</a>,
       render: (_, record) => {
         return (
@@ -794,11 +813,11 @@ const Datatable = (props: Props) => {
       }
     )
   }
-  const onChangeBankName = (e: any) => {
+  const onChangebankName = (e: any) => {
     setcustomerDto(
       {
         ...customerDto,
-        BankName: e.target.value
+        bankName: e.target.value
       }
     )
   }
@@ -865,13 +884,13 @@ const Datatable = (props: Props) => {
   const onChangeDatea: DatePickerProps['onChange'] = (date, dateString) => {
     console.log(date, dateString);
     setCheckRefresh(true);
-     dispatch(ImportProcessAction.exportReportImportProcess(dateString));
-     timeout(500);
+    dispatch(ImportProcessAction.exportReportImportProcess(dateString));
+    timeout(500);
     refresh();
   };
   const content = (
     <div>
-       <DatePicker onChange={onChangeDatea} />
+      <DatePicker onChange={onChangeDatea} />
     </div>
   );
 
@@ -1252,7 +1271,7 @@ const Datatable = (props: Props) => {
           </Col>
           <Col span={12}>
             <label >Tên ngân hàng:</label>
-            <Input placeholder="Nhập tên ngân hàng" value={customerDto.BankName} onChange={onChangeBankName} />
+            <Input placeholder="Nhập tên ngân hàng" value={customerDto.bankName} onChange={onChangebankName} />
           </Col>
         </Row>  <Row className="row" gutter={16}>
           <Col span={12}>

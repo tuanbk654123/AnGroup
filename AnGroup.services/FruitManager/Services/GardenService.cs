@@ -32,6 +32,7 @@ namespace FruitManager.Services
             Garden? Garden = new Garden();
             Garden = createGardenDto?.Adapt<Garden>();
             Garden.Id = Guid.NewGuid().ToString();
+            Garden.DateCreate = DateTime.UtcNow;
             var result = await GardenRepository.UpdateAsync(x => x.Id, Garden, true);
             return result;
         }

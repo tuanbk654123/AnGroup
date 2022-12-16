@@ -3,16 +3,22 @@ import { authAction, LoginPayload } from '../features/auth/authSlice';
 
 import { history } from '../utils/history';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { openNotification } from '../components/notice/notification';
 
 function* handleLogin(payload: LoginPayload) {
     try {
         console.log("handle Login");
-        localStorage.setItem('access_token', 'Fake');
-        yield history.push('home'); 
-        yield put(authAction.loginSuccess({
-            name: 'admin',
-            access_token: "sdfdf111"
-        }));
+        if(payload.username === "admin" && payload.password === "VanAn@2022"){
+            localStorage.setItem('access_token', 'Fake');
+            yield history.push('home'); 
+            yield put(authAction.loginSuccess({
+                name: 'admin',
+                access_token: "Fake"
+            }));
+        }
+        else{
+            openNotification("Sai tài khoản hoặc mật khẩu vui lòng đăng nhập lại");
+        }
         
     }
     catch (error) {

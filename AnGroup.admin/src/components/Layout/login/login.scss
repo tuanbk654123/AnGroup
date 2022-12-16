@@ -4,14 +4,14 @@
     align-items: center;
     min-height: 100vh;
     background-color: beige;
-    background-image: linear-gradient(rgb(179, 179, 157), beige);
+    background-image: linear-gradient(#ff81a7, #9971d1);
 
     .middle {
         width: 450px;
         height: 550px;
         background-color: white;
-        box-shadow: 20px 20px 50px 15px grey;
-        border-radius: 5px;
+        box-shadow: 20px 20px 50px 15px #b44264;
+        border-radius: 20px;
 
         .top {
             display: flex;

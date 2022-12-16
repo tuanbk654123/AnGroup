@@ -4,9 +4,8 @@ export interface searchCustomerDto{
     
     Name: string;
     AccountNumber: string;
-    // BankName: string;
-    // Address: string;
-    // PhoneNumber: string;
+    NameGarden: string;
+    PhoneNumber: string;
 
     pageNumber:number;
     pageSize:number;

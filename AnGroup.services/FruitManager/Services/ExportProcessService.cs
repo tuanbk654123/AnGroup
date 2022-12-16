@@ -77,6 +77,10 @@ namespace FruitManager.Services
 
         public async Task<byte[]> ExportReport(DateTime? fromDate, DateTime? toDate)
         {
+            //xử lý tiền dữ liệu
+            fromDate = fromDate.Value.AddDays(1);
+            toDate = toDate.Value.AddDays(1);
+            //====================================
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
             using var memoryStream = new MemoryStream();
             string fileName = @"Report_Export.xlsx";
@@ -234,11 +238,6 @@ namespace FruitManager.Services
                     row.CreateCell(2).SetCellValue(formatted);
                     row.GetCell(2).CellStyle = styleBlod;
 
-                    //row = excelSheet.GetRow(1);
-                    //string? formatted2 = toDate?.ToString("dd/MM/yyyy");
-                    //row.CreateCell(2).SetCellValue(formatted2);
-                    //row.GetCell(2).CellStyle = styleBlod;
-
 
                     float countFruitTotal = 0;
                     float countToCarTotal = 0;
@@ -261,157 +260,168 @@ namespace FruitManager.Services
                         searchExportPriceDto.toDate = exportProcess[i].DateExport.AddDays(1);
                         var b = await exportPriceRepository.Search(pageable, searchExportPriceDto);
                         List<ExportPrice> exportPrices = (List<ExportPrice>)b.Content;
-                        if(exportPrices != null && exportPrices.Count > 0)
+                        ExportPrice exportPrice = new ExportPrice();
+                        if (exportPrices != null && exportPrices.Count == 0)
                         {
-                            ExportPrice exportPrice = exportPrices[0];
-                            row = excelSheet.CreateRow(count+i*5);
-                            string formatted3 = exportProcess[i].DateExport.ToString("dd/MM/yyyy");
-                            row.CreateCell(1).SetCellValue(formatted3);
-                            row.GetCell(1).CellStyle = styleBlodWithBorder;
-
-                            //
-                            row.CreateCell(2).SetCellValue("Kem rớt II");
-                            row.GetCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Cam");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderOrange;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountOrange);
-                            countFruitTotal += exportProcess[i].CountOrange;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumOrange);
-                            countToCarTotal += exportProcess[i].SumOrange;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountOrange * 0.075,0));
-                            countPaperTotal += exportProcess[i].CountOrange * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumOrange -exportProcess[i].CountOrange * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            string price = double.Parse(exportPrice.PriceOrange.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            row = excelSheet.CreateRow(count + i * 5 + 1);
-                            row.CreateCell(1).CellStyle = styleBlodWithBorder;
-                            row.CreateCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Đỏ");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderRed;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountRed);
-                            countFruitTotal += exportProcess[i].CountRed;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumRed);
-                            countToCarTotal += exportProcess[i].SumRed;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountRed * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountRed * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(exportPrice.PriceRed.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            row = excelSheet.CreateRow(count + i * 5 + 2);
-                            row.CreateCell(1).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(2).SetCellValue("Kem rớt I");
-                            row.GetCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Xanh dương");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderGreen;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountGreen);
-                            countFruitTotal += exportProcess[i].CountGreen;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumGreen);
-                            countToCarTotal += exportProcess[i].SumGreen;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountGreen * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountGreen * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(exportPrice.PriceGreen.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            row = excelSheet.CreateRow(count + i * 5+3);
-                            row.CreateCell(1).CellStyle = styleBlodWithBorder;
-                            row.CreateCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Xanh lá");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderBlue;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountBlue);
-                            countFruitTotal += exportProcess[i].CountBlue;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumBlue);
-                            countToCarTotal += exportProcess[i].SumBlue;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountBlue * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountBlue * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(exportPrice.PriceBlue.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            var cra = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 3,1, 1);
-                            excelSheet.AddMergedRegion(cra);
-
-                            var cra2 = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 1, 2, 2);
-                            excelSheet.AddMergedRegion(cra2);
-                            var cra3 = new NPOI.SS.Util.CellRangeAddress(count + i * 5+2, count + i * 5 + 3, 2, 2);
-                            excelSheet.AddMergedRegion(cra3);
-
+                           
+                            exportPrice.PriceRed = 0;
+                            exportPrice.PriceOrange = 0;
+                            exportPrice.PriceGreen = 0;
+                            exportPrice.PriceBlue = 0;
                         }
+                        else
+                        {
+                            exportPrice = exportPrices[0];
+                        }
+
+                        row = excelSheet.CreateRow(count+i*5);
+                        string formatted3 = exportProcess[i].DateExport.ToString("dd/MM/yyyy");
+                        row.CreateCell(1).SetCellValue(formatted3);
+                        row.GetCell(1).CellStyle = styleBlodWithBorder;
+
+                        //
+                        row.CreateCell(2).SetCellValue("Kem rớt II");
+                        row.GetCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Cam");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderOrange;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountOrange);
+                        countFruitTotal += exportProcess[i].CountOrange;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumOrange);
+                        countToCarTotal += exportProcess[i].SumOrange;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountOrange * 0.075,0));
+                        countPaperTotal += exportProcess[i].CountOrange * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumOrange -exportProcess[i].CountOrange * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        string price = double.Parse(exportPrice.PriceOrange.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        row = excelSheet.CreateRow(count + i * 5 + 1);
+                        row.CreateCell(1).CellStyle = styleBlodWithBorder;
+                        row.CreateCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Đỏ");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderRed;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountRed);
+                        countFruitTotal += exportProcess[i].CountRed;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumRed);
+                        countToCarTotal += exportProcess[i].SumRed;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountRed * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountRed * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(exportPrice.PriceRed.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        row = excelSheet.CreateRow(count + i * 5 + 2);
+                        row.CreateCell(1).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(2).SetCellValue("Kem rớt I");
+                        row.GetCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Xanh dương");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderGreen;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountGreen);
+                        countFruitTotal += exportProcess[i].CountGreen;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumGreen);
+                        countToCarTotal += exportProcess[i].SumGreen;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountGreen * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountGreen * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(exportPrice.PriceGreen.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        row = excelSheet.CreateRow(count + i * 5+3);
+                        row.CreateCell(1).CellStyle = styleBlodWithBorder;
+                        row.CreateCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Xanh lá");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderBlue;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountBlue);
+                        countFruitTotal += exportProcess[i].CountBlue;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumBlue);
+                        countToCarTotal += exportProcess[i].SumBlue;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountBlue * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountBlue * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(exportPrice.PriceBlue.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        var cra = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 3,1, 1);
+                        excelSheet.AddMergedRegion(cra);
+
+                        var cra2 = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 1, 2, 2);
+                        excelSheet.AddMergedRegion(cra2);
+                        var cra3 = new NPOI.SS.Util.CellRangeAddress(count + i * 5+2, count + i * 5 + 3, 2, 2);
+                        excelSheet.AddMergedRegion(cra3);
+
+                        
 
                         if(i == exportProcess.Count - 1)
                         {
@@ -421,8 +431,8 @@ namespace FruitManager.Services
                             row.CreateCell(3).CellStyle = styleBlodWithBorder;
                             row.CreateCell(1).CellStyle = styleBlodWithBorder;
                             row.CreateCell(2).CellStyle = styleBlodWithBorder;
-                            var cra3 = new NPOI.SS.Util.CellRangeAddress(count + i * 5 + 4, count + i * 5 + 4, 1, 3);
-                            excelSheet.AddMergedRegion(cra3);
+                            var cra33 = new NPOI.SS.Util.CellRangeAddress(count + i * 5 + 4, count + i * 5 + 4, 1, 3);
+                            excelSheet.AddMergedRegion(cra33);
                             row.GetCell(1).SetCellValue("TỔNG");
                             //
                             row.CreateCell(4).SetCellValue(countFruitTotal);
@@ -439,7 +449,7 @@ namespace FruitManager.Services
                             //
                             row.CreateCell(8).CellStyle = styleBlodWithBorder;
                             //
-                            string price = double.Parse(countMoenyTotal.ToString()).ToString("#,###", cul.NumberFormat);
+                            price = double.Parse(countMoenyTotal.ToString()).ToString("#,###", cul.NumberFormat);
                             row.CreateCell(9).SetCellValue(price);
                             row.GetCell(9).CellStyle = styleBlodWithBorderYellow;
                             createExportReportDto.TotalNumber = countFruitTotal;
@@ -512,6 +522,10 @@ namespace FruitManager.Services
 
         public async Task<byte[]> ExportReportTwo(DateTime? fromDate, DateTime? toDate, UpdateStatusExportReportDto updateStatusExportReportDto)
         {
+            //xử lý tiền dữ liệu
+            fromDate = fromDate.Value.AddDays(1);
+            toDate = toDate.Value.AddDays(1);
+            //====================================
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
             using var memoryStream = new MemoryStream();
             string fileName = @"Report_Export.xlsx";
@@ -706,157 +720,168 @@ namespace FruitManager.Services
                         searchExportPriceDto.toDate = exportProcess[i].DateExport.AddDays(1);
                         var b = await exportPriceRepository.Search(pageable, searchExportPriceDto);
                         List<ExportPrice> exportPrices = (List<ExportPrice>)b.Content;
-                        if (exportPrices != null && exportPrices.Count > 0)
+                        ExportPrice exportPrice = new ExportPrice();
+                        if (exportPrices != null && exportPrices.Count == 0)
                         {
-                            ExportPrice exportPrice = exportPrices[0];
-                            row = excelSheet.CreateRow(count + i * 5);
-                            string formatted3 = exportProcess[i].DateExport.ToString("dd/MM/yyyy");
-                            row.CreateCell(1).SetCellValue(formatted3);
-                            row.GetCell(1).CellStyle = styleBlodWithBorder;
 
-                            //
-                            row.CreateCell(2).SetCellValue("Kem rớt II");
-                            row.GetCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Cam");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderOrange;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountOrange);
-                            countFruitTotal += exportProcess[i].CountOrange;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumOrange);
-                            countToCarTotal += exportProcess[i].SumOrange;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountOrange * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountOrange * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            string price = double.Parse(exportPrice.PriceOrange.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            row = excelSheet.CreateRow(count + i * 5 + 1);
-                            row.CreateCell(1).CellStyle = styleBlodWithBorder;
-                            row.CreateCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Đỏ");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderRed;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountRed);
-                            countFruitTotal += exportProcess[i].CountRed;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumRed);
-                            countToCarTotal += exportProcess[i].SumRed;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountRed * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountRed * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(exportPrice.PriceRed.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            row = excelSheet.CreateRow(count + i * 5 + 2);
-                            row.CreateCell(1).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(2).SetCellValue("Kem rớt I");
-                            row.GetCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Xanh dương");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderGreen;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountGreen);
-                            countFruitTotal += exportProcess[i].CountGreen;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumGreen);
-                            countToCarTotal += exportProcess[i].SumGreen;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountGreen * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountGreen * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(exportPrice.PriceGreen.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            row = excelSheet.CreateRow(count + i * 5 + 3);
-                            row.CreateCell(1).CellStyle = styleBlodWithBorder;
-                            row.CreateCell(2).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(3).SetCellValue("Xanh lá");
-                            row.GetCell(3).CellStyle = styleBlodWithBorderBlue;
-                            //
-                            row.CreateCell(4).SetCellValue(exportProcess[i].CountBlue);
-                            countFruitTotal += exportProcess[i].CountBlue;
-                            row.GetCell(4).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(5).SetCellValue(exportProcess[i].SumBlue);
-                            countToCarTotal += exportProcess[i].SumBlue;
-                            row.GetCell(5).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountBlue * 0.075, 0));
-                            countPaperTotal += exportProcess[i].CountBlue * 0.075;
-                            row.GetCell(6).CellStyle = styleBlodWithBorder;
-                            //
-                            row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075, 0));
-                            countRealTotal += exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075;
-                            row.GetCell(7).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(exportPrice.PriceBlue.ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(8).SetCellValue(price);
-                            row.GetCell(8).CellStyle = styleBlodWithBorder;
-                            //
-                            price = double.Parse(Math.Round(exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
-                            row.CreateCell(9).SetCellValue(price);
-                            countMoenyTotal += exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075);
-                            row.GetCell(9).CellStyle = styleBlodWithBorder;
-
-                            //==========================================================================
-                            var cra = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 3, 1, 1);
-                            excelSheet.AddMergedRegion(cra);
-
-                            var cra2 = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 1, 2, 2);
-                            excelSheet.AddMergedRegion(cra2);
-                            var cra3 = new NPOI.SS.Util.CellRangeAddress(count + i * 5 + 2, count + i * 5 + 3, 2, 2);
-                            excelSheet.AddMergedRegion(cra3);
-
+                            exportPrice.PriceRed = 0;
+                            exportPrice.PriceOrange = 0;
+                            exportPrice.PriceGreen = 0;
+                            exportPrice.PriceBlue = 0;
                         }
+                        else
+                        {
+                            exportPrice = exportPrices[0];
+                        }
+
+                        row = excelSheet.CreateRow(count + i * 5);
+                        string formatted3 = exportProcess[i].DateExport.ToString("dd/MM/yyyy");
+                        row.CreateCell(1).SetCellValue(formatted3);
+                        row.GetCell(1).CellStyle = styleBlodWithBorder;
+
+                        //
+                        row.CreateCell(2).SetCellValue("Kem rớt II");
+                        row.GetCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Cam");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderOrange;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountOrange);
+                        countFruitTotal += exportProcess[i].CountOrange;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumOrange);
+                        countToCarTotal += exportProcess[i].SumOrange;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountOrange * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountOrange * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        string price = double.Parse(exportPrice.PriceOrange.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceOrange * (exportProcess[i].SumOrange - exportProcess[i].CountOrange * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        row = excelSheet.CreateRow(count + i * 5 + 1);
+                        row.CreateCell(1).CellStyle = styleBlodWithBorder;
+                        row.CreateCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Đỏ");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderRed;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountRed);
+                        countFruitTotal += exportProcess[i].CountRed;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumRed);
+                        countToCarTotal += exportProcess[i].SumRed;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountRed * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountRed * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(exportPrice.PriceRed.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceRed * (exportProcess[i].SumRed - exportProcess[i].CountRed * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        row = excelSheet.CreateRow(count + i * 5 + 2);
+                        row.CreateCell(1).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(2).SetCellValue("Kem rớt I");
+                        row.GetCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Xanh dương");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderGreen;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountGreen);
+                        countFruitTotal += exportProcess[i].CountGreen;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumGreen);
+                        countToCarTotal += exportProcess[i].SumGreen;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountGreen * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountGreen * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(exportPrice.PriceGreen.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceGreen * (exportProcess[i].SumGreen - exportProcess[i].CountGreen * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        row = excelSheet.CreateRow(count + i * 5 + 3);
+                        row.CreateCell(1).CellStyle = styleBlodWithBorder;
+                        row.CreateCell(2).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(3).SetCellValue("Xanh lá");
+                        row.GetCell(3).CellStyle = styleBlodWithBorderBlue;
+                        //
+                        row.CreateCell(4).SetCellValue(exportProcess[i].CountBlue);
+                        countFruitTotal += exportProcess[i].CountBlue;
+                        row.GetCell(4).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(5).SetCellValue(exportProcess[i].SumBlue);
+                        countToCarTotal += exportProcess[i].SumBlue;
+                        row.GetCell(5).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(6).SetCellValue(Math.Round(exportProcess[i].CountBlue * 0.075, 0));
+                        countPaperTotal += exportProcess[i].CountBlue * 0.075;
+                        row.GetCell(6).CellStyle = styleBlodWithBorder;
+                        //
+                        row.CreateCell(7).SetCellValue(Math.Round(exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075, 0));
+                        countRealTotal += exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075;
+                        row.GetCell(7).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(exportPrice.PriceBlue.ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(8).SetCellValue(price);
+                        row.GetCell(8).CellStyle = styleBlodWithBorder;
+                        //
+                        price = double.Parse(Math.Round(exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075)).ToString()).ToString("#,###", cul.NumberFormat);
+                        row.CreateCell(9).SetCellValue(price);
+                        countMoenyTotal += exportPrice.PriceBlue * (exportProcess[i].SumBlue - exportProcess[i].CountBlue * 0.075);
+                        row.GetCell(9).CellStyle = styleBlodWithBorder;
+
+                        //==========================================================================
+                        var cra = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 3, 1, 1);
+                        excelSheet.AddMergedRegion(cra);
+
+                        var cra2 = new NPOI.SS.Util.CellRangeAddress(count + i * 5, count + i * 5 + 1, 2, 2);
+                        excelSheet.AddMergedRegion(cra2);
+                        var cra3 = new NPOI.SS.Util.CellRangeAddress(count + i * 5 + 2, count + i * 5 + 3, 2, 2);
+                        excelSheet.AddMergedRegion(cra3);
+
+
 
                         if (i == exportProcess.Count - 1)
                         {
@@ -866,8 +891,8 @@ namespace FruitManager.Services
                             row.CreateCell(3).CellStyle = styleBlodWithBorder;
                             row.CreateCell(1).CellStyle = styleBlodWithBorder;
                             row.CreateCell(2).CellStyle = styleBlodWithBorder;
-                            var cra3 = new NPOI.SS.Util.CellRangeAddress(count + i * 5 + 4, count + i * 5 + 4, 1, 3);
-                            excelSheet.AddMergedRegion(cra3);
+                            var cra33 = new NPOI.SS.Util.CellRangeAddress(count + i * 5 + 4, count + i * 5 + 4, 1, 3);
+                            excelSheet.AddMergedRegion(cra33);
                             row.GetCell(1).SetCellValue("TỔNG");
                             //
                             row.CreateCell(4).SetCellValue(countFruitTotal);
@@ -884,7 +909,7 @@ namespace FruitManager.Services
                             //
                             row.CreateCell(8).CellStyle = styleBlodWithBorder;
                             //
-                            string price = double.Parse(countMoenyTotal.ToString()).ToString("#,###", cul.NumberFormat);
+                            price = double.Parse(countMoenyTotal.ToString()).ToString("#,###", cul.NumberFormat);
                             row.CreateCell(9).SetCellValue(price);
                             row.GetCell(9).CellStyle = styleBlodWithBorderYellow;
                             createExportReportDto.TotalNumber = countFruitTotal;

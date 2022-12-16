@@ -9,7 +9,7 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, DatePicker, Modal } from 'antd';
+import { Pagination, Table, Button, DatePicker, Modal, Tag } from 'antd';
 
 import { importReport, SearchImportReportDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -66,7 +66,12 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam }
+    const SearchParamChange = { ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+  
+      fromDate: "",
+      toDate: "" }
     setSearchParam(SearchParamChange)
 
   }
@@ -198,9 +203,10 @@ const Datatable = (props: Props) => {
       dataIndex: 'sumMoney',
       key: 'sumMoney',
       fixed: 'left',
+
       render: (value: any) => {
         return (
-          new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
+          <Tag color='red' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     },

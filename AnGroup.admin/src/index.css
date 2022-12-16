@@ -25,3 +25,14 @@ code {
   color:#111111;
   font-weight: 550;
 }
+
+.PhoneInput .PhoneInputCountry{
+  display: flex !important;
+}
+.PhoneInput .PhoneInputCountry .PhoneInputCountrySelect{
+ width: 20px ;
+ border: none;
+}
+.PhoneInput .PhoneInputInput{
+  width: 100% ;
+}
