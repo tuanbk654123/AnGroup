@@ -4,16 +4,15 @@ import { useEffect, useState } from "react";
 import { ImportReportAction } from '../../../features/importReport/importReportSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
-import { ExclamationCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import {  SearchOutlined } from '@ant-design/icons';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, DatePicker, Modal, Tag } from 'antd';
+import { Pagination, Table, Button, DatePicker, Tag } from 'antd';
 
 import { importReport, SearchImportReportDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
-import moment from "moment";
 import { ImportProcessAction } from "../../../features/importProcess/importProcessSlice";
 
 type Props = {}
@@ -262,26 +261,26 @@ const Datatable = (props: Props) => {
   };
 
 
-  const { confirm } = Modal;
-  const [modal1Open, setModal1Open] = useState(false);
+  // const { confirm } = Modal;
+  // const [modal1Open, setModal1Open] = useState(false);
 
-  const handleDelete = async (id: any) => {
-    confirm({
-      open: modal1Open,
-      icon: <ExclamationCircleOutlined />,
-      title: 'Xóa giá nhập',
-      content: 'Bạn có muốn xóa giá nhập này?',
-      async onOk() {
+  // const handleDelete = async (id: any) => {
+  //   confirm({
+  //     open: modal1Open,
+  //     icon: <ExclamationCircleOutlined />,
+  //     title: 'Xóa giá nhập',
+  //     content: 'Bạn có muốn xóa giá nhập này?',
+  //     async onOk() {
 
-        setCheckRefresh(true);
-        await dispatch(ImportReportAction.deleteImportReport(id));
-        await timeout(500);
-        refresh();
-        setModal1Open(false)
-      },
-      onCancel() { setModal1Open(false) }
-    });
-  };
+  //       setCheckRefresh(true);
+  //       await dispatch(ImportReportAction.deleteImportReport(id));
+  //       await timeout(500);
+  //       refresh();
+  //       setModal1Open(false)
+  //     },
+  //     onCancel() { setModal1Open(false) }
+  //   });
+  // };
 
 
   return (

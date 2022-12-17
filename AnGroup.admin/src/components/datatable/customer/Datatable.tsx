@@ -10,7 +10,7 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, Tag } from 'antd';
+import { Pagination, Table, Button, Input, Drawer, Row, Col, Space, Modal, Select, Tag } from 'antd';
 
 import { customer, searchCustomerDto, CustomerDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -147,31 +147,35 @@ const Datatable = (props: Props) => {
   const roleColumns: ColumnsType<customer> = [
     {
       title: 'Tên vựa',
-      width: 100,
+      width: "4%",
       dataIndex: 'nameGarden',
       key: 'nameGarden',
       fixed: 'left',
+      responsive: ["sm"]
     },
     {
       title: 'Số tài khoản',
-      width: 100,
+      width: "4%",
       dataIndex: 'accountNumber',
       key: 'accountNumber',
       fixed: 'left',
+      responsive: ["sm"]
     },
     {
       title: 'Tên tài khoản',
-      width: 100,
+      width: "4%",
       dataIndex: 'name',
       key: 'name',
       fixed: 'left',
+      responsive: ["sm"]
     },
     {
       title: 'Ngân hàng',
-      width: 100,
+      width: "4%",
       dataIndex: 'bankName',
       key: 'bankName',
       fixed: 'left',
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <div>
@@ -185,25 +189,27 @@ const Datatable = (props: Props) => {
     },
     {
       title: 'Địa chỉ',
-      width: 100,
+      width: "4%",
       dataIndex: 'address',
       key: 'address',
       fixed: 'left',
+      responsive: ["sm"]
     },
     {
       title: 'Số điện thoại',
-      width: 100,
+      width: "4%",
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
       fixed: 'left',
+      responsive: ["sm"]
     },
     {
       title: 'Hành động',
       dataIndex: 'Action',
-
+      responsive: ["sm"],
       key: 'operation',
       fixed: 'right',
-      width: 100,
+      width: "4%",
       //render: () => <a>action</a>,
       render: (_, record) => {
         return (
@@ -226,27 +232,8 @@ const Datatable = (props: Props) => {
 
 
   ];
-  const { RangePicker } = DatePicker;
-  //const dateFormat = 'DD-MM-YYYY';
-  const dateFormat = 'YYYY-MM-DD';
-  const onChangeDate = (dates: any, dateStrings: any) => {
-    if (dates) {
-      console.log('From: ', dates[0], ', to: ', dates[1]);
-      console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
-      setSearchParam({
-        ...SearchParam,
-        fromDate: dateStrings[0],
-        toDate: dateStrings[1]
-      })
-    } else {
-      console.log('Clear', dateStrings[0]);
-      setSearchParam({
-        ...SearchParam,
-        fromDate: "",
-        toDate: ""
-      })
-    }
-  };
+
+ 
   // Show Add    
   const showDrawer = () => {
     //init state 

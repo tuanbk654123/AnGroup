@@ -9,13 +9,12 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag, DatePickerProps, Tooltip, Popconfirm, Popover } from 'antd';
+import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, Modal, Select, SelectProps, Tag, DatePickerProps, Popover } from 'antd';
 
-import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto, customer } from '../../../models/index'
+import { importProcess, SearchImportProcessDto, CustomerDto, searchCustomerDto, ImportProcessDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
 
 import { openNotification } from "../../notice/notification";
-import { log } from "console";
 import moment from "moment";
 
 
@@ -55,19 +54,7 @@ const Datatable = (props: Props) => {
   });
   const [CheckRefresh, setCheckRefresh] = useState(false);
   const [Title, setTitle] = useState("");
-  const [ImportpriceDto, setImportpriceDto] = useState<ImportProcessDto>({
-    weighKemLon: [],
-    weighKem2: [],
-    weighKem3: [],
-    weighRXo: [],
-    weighR1: [],
-    weighR2: [],
-    weighR3: [],
-    dateImport: "",
-    idGarden: "",
-    statusBill: "",
-    id: "",
-  });
+  
   const [importProcessDto, setImportProcessDto] = useState<ImportProcessDto[]>([
     {
       weighKemLon: [],
@@ -98,7 +85,7 @@ const Datatable = (props: Props) => {
       id: "",
     }
   );
-  const [SelectCustomer, setSelectCustomer] = useState<Option[]>([]);
+
   // add or Update
   const [addOrUpdate, setaddOrUpdate] = useState(0);// 1 is add , 2 is update
   //state open adduser
@@ -339,7 +326,7 @@ const Datatable = (props: Props) => {
     var day = date.toLocaleString("default", { day: "2-digit" });
 
     // Generate yyyy-mm-dd date string
-    var formattedDate = year + "-" + month + "-" + month;
+    var formattedDate = year + "-" + month + "-" + day;
     console.log(formattedDate);  // Prints: 04-05-2022
     anObjectMapped.dateImport = formattedDate;
     anObjectMapped.statusBill = "CHUA_THANH_TOAN";
@@ -368,7 +355,7 @@ const Datatable = (props: Props) => {
     var day = date.toLocaleString("default", { day: "2-digit" });
 
     // Generate yyyy-mm-dd date string
-    var formattedDate = year + "-" + month + "-" + month;
+    var formattedDate = year + "-" + month + "-" + day;
 
 
     for (let i = 0; i < importProcessDto?.length; i++) {
@@ -433,14 +420,6 @@ const Datatable = (props: Props) => {
     return "";
   }
 
-  const setValueOptionUpdate = (object: any) => {
-    setUpdateImportProcessDto(
-      {
-        ...UpdateImportProcessDto,
-        idGarden: object
-      }
-    )
-  }
 
   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
@@ -789,14 +768,7 @@ const Datatable = (props: Props) => {
   const onClose = () => {
     setOpen(false);
   };
-  // const onChangeProcessKemLon = (e: any) => {
-  //   setImportpriceDto(
-  //     {
-  //       ...ImportpriceDto,
-  //       ProcessKemLon: e.target.value
-  //     }
-  //   )
-  // }
+
   const onChangeAccountNumber = (e: any) => {
     setcustomerDto(
       {

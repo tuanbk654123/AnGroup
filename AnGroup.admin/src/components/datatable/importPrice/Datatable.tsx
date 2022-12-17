@@ -459,62 +459,7 @@ const Datatable = (props: Props) => {
       }
     )
   }
-  const onChangeRateKemLon = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateKemLon: e.target.value
-      }
-    )
-  }
-  const onChangeRateR1 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateR1: e.target.value
-      }
-    )
-  }
-  const onChangeRateR2 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateR2: e.target.value
-      }
-    )
-  }
-  const onChangeRateR3 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateR3: e.target.value
-      }
-    )
-  }
-  const onChangeRateRXo = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateRXo: e.target.value
-      }
-    )
-  }
-  const onChangeRateKem2 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateKem2: e.target.value
-      }
-    )
-  }
-  const onChangeRateKem3 = (e: any) => {
-    setImportpriceDto(
-      {
-        ...ImportpriceDto,
-        RateKem3: e.target.value
-      }
-    )
-  }
+ 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     //console.log(date, dateString);
     setImportpriceDto(
