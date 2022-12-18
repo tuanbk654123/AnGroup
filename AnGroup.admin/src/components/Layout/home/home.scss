@@ -1,37 +1,56 @@
 .home {
-    display: flex;
-  
+  display: flex;
+
+  background-color: #eef1f3;
+
+  .homeContainer {
+    flex: 6;
+    // margin-top: 5px;
+    // margin-bottom: 5px;
+    // margin-right: 5px;
     background-color: #eef1f3;
-    .homeContainer {
-      flex: 6;
-      // margin-top: 5px;
-      // margin-bottom: 5px;
-      // margin-right: 5px;
-      background-color: #eef1f3;
-  
-      .widgets,
-      .charts {
-        display: flex;
-        padding: 20px;
-        gap: 20px;
+
+    .exportTag {
+      width: 25%;
+      height: 20%;
+      background-color: white;
+      box-shadow: 20px 20px 50px 15px #b44264;
+      border-radius: 20px;
+
+    }
+
+    .widgets,
+    .charts {
+      display: flex;
+      padding: 20px;
+      gap: 20px;
+
+      .Featured {
+        height: 100%;
+        flex: 1;
       }
-  
-      .charts {
-        padding: 5px 20px;
+
+      .GradientsChart {
+        height: 100%;
+        flex: 3;
       }
-  
-      .listContainer {
-        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-        padding: 20px;
-        margin: 20px;
-  
-        .listTitle {
-          font-weight: 500;
-          color: gray;
-          margin-bottom: 15px;
-        }
+    }
+
+    // .charts {
+    //   padding: 5px 20px;
+    // }
+
+    .listContainer {
+      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+      padding: 20px;
+      margin: 20px;
+
+      .listTitle {
+        font-weight: 500;
+        color: gray;
+        margin-bottom: 15px;
       }
     }
   }
-  
+}

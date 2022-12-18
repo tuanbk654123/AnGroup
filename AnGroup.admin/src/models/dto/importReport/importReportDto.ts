@@ -20,7 +20,7 @@ export interface ImportReportDto{
     sumMoneyK?: number;
     sumMoneyR?: number;
     sumKg?: number;
-    sumMoney?: number;
+    sumMoney: number;
 
 
     dateImport: string;

@@ -9,11 +9,11 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, DatePickerProps, Modal, Tag } from 'antd';
+import { Pagination, Table, Button, DatePicker, Drawer, Row, Space, Modal, Tag, Input } from 'antd';
 
 import { exportReport, searchExportReportDto, exportReportDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
-import moment from "moment";
+
 
 type Props = {}
 const Datatable = (props: Props) => {
@@ -22,7 +22,6 @@ const Datatable = (props: Props) => {
   const [SearchParam, setSearchParam] = useState<searchExportReportDto>({
     pageNumber: 1,
     pageSize: 10,
-
     fromDate: "",
     toDate: ""
   });
@@ -49,7 +48,12 @@ const Datatable = (props: Props) => {
   //state open adduser
   const [open, setOpen] = useState(false);
   //================================================================
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [objectExport, setobjectExport] = useState({
+    id: "",
+    licenPalates: "",
+    nameOwner: ""
+  });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -83,12 +87,14 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam,
+    const SearchParamChange = {
+      ...SearchParam,
       pageNumber: 1,
       pageSize: 10,
-  
+
       fromDate: "",
-      toDate: "" }
+      toDate: ""
+    }
     setSearchParam(SearchParamChange)
 
   }
@@ -123,18 +129,61 @@ const Datatable = (props: Props) => {
 
     return dateAndTime[0].split('-').reverse().join('-');
   };
-  const exportFile = async (record: any) => {
-    //init state 
-    const data = {
+  //
+  const exportFile = (record: any) => {
+    setobjectExport({
+      ...objectExport,
       id: record.id,
-      licenPalates: record.licenPalates,
-      nameOwner: record.nameOwner
-    }
+    })
+    setIsModalOpen(true);
+  };
+
+  const handleOk = async () => {
+
     setCheckRefresh(true);
-    dispatch(ExportReportAction.exportReportExportProcess(data));
+    dispatch(ExportReportAction.exportReportExportProcess(objectExport));
     await timeout(1000);
     refresh();
+    setobjectExport({
+      id: "",
+      licenPalates: "",
+      nameOwner: ""
+    })
+    setIsModalOpen(false);
   };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  // const exportFile = async (record: any) => {
+  //   //init state 
+  //   const data = {
+  //     id: record.id,
+  //     licenPalates: record.licenPalates,
+  //     nameOwner: record.nameOwner
+  //   }
+  //   setCheckRefresh(true);
+  //   dispatch(ExportReportAction.exportReportExportProcess(data));
+  //   await timeout(1000);
+  //   refresh();
+  // };
+
+  const onChangelicenPalates = (e: any) => {
+    setobjectExport(
+      {
+        ...objectExport,
+        licenPalates: e.target.value
+      }
+    )
+  }
+  const onChangenameOwner = (e: any) => {
+    setobjectExport(
+      {
+        ...objectExport,
+        nameOwner: e.target.value
+      }
+    )
+  }
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<exportReport> = [
     {
@@ -196,7 +245,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='green' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)+ " vnđ"}</Tag>
+          <Tag color='green' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     },
@@ -208,7 +257,7 @@ const Datatable = (props: Props) => {
       fixed: 'left',
       render: (value: any) => {
         return (
-          <Tag color='yellow' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)+ " vnđ"}</Tag>
+          <Tag color='yellow' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
         );
       },
     }, {
@@ -232,16 +281,15 @@ const Datatable = (props: Props) => {
       render: (_, record) => {
         switch (record.statusExport) {
           case "CHUA_XU_LY":
-            return (<Tag icon={<SyncOutlined spin/>} color='#00CCFF' >Đang xử lý</Tag>)
+            return (<Tag icon={<SyncOutlined spin />} color='#00CCFF' >Đang xử lý</Tag>)
           case "DA_XU_LY":
-            return (<Tag icon={<CheckCircleOutlined   />} color='#87d068' >Đã xử lý</Tag>)
+            return (<Tag icon={<CheckCircleOutlined />} color='#87d068' >Đã xử lý</Tag>)
         }
       }
     },
     {
       title: 'Action',
       dataIndex: 'Action',
-
       key: 'operation',
       fixed: 'right',
       width: 100,
@@ -253,7 +301,14 @@ const Datatable = (props: Props) => {
             <div className="exportFile"
               onClick={() => exportFile(record)}
             >Xuất</div>
-
+            <Modal title="Thông tin" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+              <Row className="row" gutter={16}>
+                <Input placeholder="Nhập tên chủ hàng" value={objectExport.nameOwner} onChange={onChangenameOwner} />
+              </Row>
+              <Row className="row" gutter={16}>
+                <Input placeholder="Nhập Biển số xe" value={objectExport.licenPalates} onChange={onChangelicenPalates} />
+              </Row>
+            </Modal>
             <div
               className="deleteButton"
               onClick={() => handleDelete(record.id)}
@@ -312,35 +367,7 @@ const Datatable = (props: Props) => {
     // open TAB
     setOpen(true);
   };
-  // Show edit  
-  const showEditDrawer = (record: any) => {
-    //init state 
-    console.log("showEditDrawer: ", record);
-    setTitle("Sửa giá nhập");
 
-    setexportReportDto(
-      {
-        ...exportReportDto,
-        fromDate: record.fromDate,
-        toDate: record.toDate,
-        statusExport: record.statusExport,
-        nameOwner: record.nameOwner,
-        licenPalates: record.licenPalates,
-        totalNumber: record.totalNumber,
-        totalWeigtToTruck: record.totalWeigtToTruck,
-        totalPaper: record.totalPaper,
-        totalWeigtReal: record.totalWeigtReal,
-        totalMoeny: record.totalMoeny,
-        carFee: record.carFee,
-        totalPayment: record.totalPayment,
-        id: record.id,
-      }
-    )
-    // setState add or up date
-    setaddOrUpdate(2);
-    // open TAB
-    setOpen(true);
-  };
   const { confirm } = Modal;
   const [modal1Open, setModal1Open] = useState(false);
 
@@ -365,16 +392,6 @@ const Datatable = (props: Props) => {
   const onClose = () => {
     setOpen(false);
   };
-  const onChangeReportOrange = (e: any) => {
-    // setexportReportDto(
-    //   {
-    //     ...exportReportDto,
-    //     ReportOrange: parseInt(e.target.value)
-    //   }
-    // )
-  }
-
-
 
   return (
     <div className="background">
@@ -383,10 +400,6 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-
-          {/* <div style={{width:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor: 'pointer',fontWeight:'bold'}}>
-            <AppstoreAddOutlined style= {{paddingInline:'5px', color:'#d32f2f' }}/> <div style= {{paddingInline:'5px', color:'#d32f2f' ,fontFamily:'Arial' }}>Cấu hình hiển thị</div>
-          </div> */}
           <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>

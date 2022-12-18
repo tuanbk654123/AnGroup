@@ -85,12 +85,14 @@ const Datatable = (props: Props) => {
   //Refresh 
 
   const refresh = async () => {
-    const SearchParamChange = { ...SearchParam,
+    const SearchParamChange = {
+      ...SearchParam,
       pageNumber: 1,
       pageSize: 10,
-  
+
       fromDate: "",
-      toDate: "" }
+      toDate: ""
+    }
     setSearchParam(SearchParamChange)
 
   }
@@ -219,55 +221,7 @@ const Datatable = (props: Props) => {
         );
       },
     },
-    // {
-    //   title: 'Tỷ lệ Kem1',
-    //   width: 50,
-    //   dataIndex: 'rateKemLon',
-    //   key: 'rateKemLon',
-    //   fixed: 'left',
-    // },
-    // {
-    //   title: 'Tỷ lệ Kem2',
-    //   width: 50,
-    //   dataIndex: 'rateKem2',
-    //   key: 'rateKem2',
-    //   fixed: 'left',
-    // },
-    // {
-    //   title: 'Tỷ lệ Kem3',
-    //   width: 50,
-    //   dataIndex: 'rateKem3',
-    //   key: 'rateKem3',
-    //   fixed: 'left',
-    // },
-    // {
-    //   title: 'Tỷ lệ RXo',
-    //   width: 50,
-    //   dataIndex: 'rateRXo',
-    //   key: 'rateRXo',
-    //   fixed: 'left',
-    // },
-    // {
-    //   title: 'Tỷ lệ R1',
-    //   width: 50,
-    //   dataIndex: 'rateR1',
-    //   key: 'rateR1',
-    //   fixed: 'left',
-    // },
-    // {
-    //   title: 'Tỷ lệ R2',
-    //   width: 50,
-    //   dataIndex: 'rateR2',
-    //   key: 'rateR2',
-    //   fixed: 'left',
-    // },
-    // {
-    //   title: 'Tỷ lệ R3',
-    //   width: 50,
-    //   dataIndex: 'rateR3',
-    //   key: 'rateR3',
-    //   fixed: 'left',
-    // },
+
     {
       title: 'Action',
       dataIndex: 'Action',
@@ -322,7 +276,7 @@ const Datatable = (props: Props) => {
   const showDrawer = () => {
     //init state 
     const today = new Date();
-    let date =  today.getFullYear() +"-"+ (today.getMonth()+1) +"-" + today.getDate()  ;
+    let date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
     setImportpriceDto({
       ...ImportpriceDto,
       PriceKemLon: undefined,
@@ -459,7 +413,7 @@ const Datatable = (props: Props) => {
       }
     )
   }
- 
+
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     //console.log(date, dateString);
     setImportpriceDto(
@@ -591,39 +545,7 @@ const Datatable = (props: Props) => {
           <Col span={12}>
           </Col>
         </Row>
-        {/* <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Tỷ lệ kem lớn:</label>
-            <Input placeholder="Nhập Tỷ lệ kem lớn" value={ImportpriceDto.RateKemLon} onChange={onChangeRateKemLon} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ kem 2:</label>
-            <Input placeholder="Nhập giá kem 2" value={ImportpriceDto.RateKem2} onChange={onChangeRateKem2} />
-          </Col>
-        </Row>
         <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Tỷ lệ kem 3:</label>
-            <Input placeholder="Nhập giá kem 3" value={ImportpriceDto.RateKem3} onChange={onChangeRateKem3} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ R1:</label>
-            <Input placeholder="Nhập giá R1 " value={ImportpriceDto.RateR1} onChange={onChangeRateR1} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Tỷ lệ R2:</label>
-            <Input placeholder="Nhập giá R2" value={ImportpriceDto.RateR2} onChange={onChangeRateR2} />
-          </Col>
-          <Col span={12}>
-            <label >Tỷ lệ R3:</label>
-            <Input placeholder="Nhập giá R3 " value={ImportpriceDto.RateR3} onChange={onChangeRateR3} />
-          </Col>
-        </Row> */}
-
-        <Row className="row" gutter={16}>
-
         </Row>
         {/* </Form> */}
         <div className="Submit">
