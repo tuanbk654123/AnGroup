@@ -45,7 +45,7 @@ namespace FruitManager.Services
             ExportProcess.SumBlue = (float)(ExportProcess.WeighBlue?.Sum(x => x));
             ExportProcess.SumRed = (float)(ExportProcess.WeighRed?.Sum(x => x));
             ExportProcess.SumOrange = (float)(ExportProcess.WeighOrange?.Sum(x => x));
-            ExportProcess.DateExport = ExportProcess.DateExport.AddDays(1);
+            ExportProcess.DateExport = ExportProcess.DateExport ;
             var result = await ExportProcessRepository.UpdateAsync(x => x.Id, ExportProcess, true);
             return result;
         }
@@ -61,7 +61,7 @@ namespace FruitManager.Services
             ExportProcess.SumBlue = (float)(ExportProcess.WeighBlue?.Sum(x => x));
             ExportProcess.SumRed = (float)(ExportProcess.WeighRed?.Sum(x => x));
             ExportProcess.SumOrange = (float)(ExportProcess.WeighOrange?.Sum(x => x));
-            ExportProcess.DateExport = ExportProcess.DateExport.AddDays(1);
+            ExportProcess.DateExport = ExportProcess.DateExport ;
             return await ExportProcessRepository.UpdateAsync(x => x.Id, ExportProcess, false, cancellationToken);
         }
 
@@ -78,13 +78,13 @@ namespace FruitManager.Services
         public async Task<byte[]> ExportReport(DateTime? fromDate, DateTime? toDate)
         {
             //xử lý tiền dữ liệu
-            fromDate = fromDate.Value.AddDays(1);
-            toDate = toDate.Value.AddDays(1);
+            fromDate = fromDate.Value ;
+            toDate = toDate.Value ;
             //====================================
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
             using var memoryStream = new MemoryStream();
             string fileName = @"Report_Export.xlsx";
-            // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date.AddDays(1));
+            // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date );
 
             Pageable pageable = new Pageable();
             pageable.PageNumber = 1;
@@ -256,8 +256,8 @@ namespace FruitManager.Services
                     {
                         // lấy thông tin giá
                         SearchExportPriceDto searchExportPriceDto = new SearchExportPriceDto();
-                        searchExportPriceDto.fromDate = exportProcess[i].DateExport.AddDays(1);
-                        searchExportPriceDto.toDate = exportProcess[i].DateExport.AddDays(1);
+                        searchExportPriceDto.fromDate = exportProcess[i].DateExport ;
+                        searchExportPriceDto.toDate = exportProcess[i].DateExport ;
                         var b = await exportPriceRepository.Search(pageable, searchExportPriceDto);
                         List<ExportPrice> exportPrices = (List<ExportPrice>)b.Content;
                         ExportPrice exportPrice = new ExportPrice();
@@ -523,13 +523,13 @@ namespace FruitManager.Services
         public async Task<byte[]> ExportReportTwo(DateTime? fromDate, DateTime? toDate, UpdateStatusExportReportDto updateStatusExportReportDto)
         {
             //xử lý tiền dữ liệu
-            fromDate = fromDate.Value.AddDays(1);
-            toDate = toDate.Value.AddDays(1);
+            fromDate = fromDate.Value ;
+            toDate = toDate.Value ;
             //====================================
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
             using var memoryStream = new MemoryStream();
             string fileName = @"Report_Export.xlsx";
-            // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date.AddDays(1));
+            // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date );
 
             Pageable pageable = new Pageable();
             pageable.PageNumber = 1;
@@ -716,8 +716,8 @@ namespace FruitManager.Services
                     {
                         // lấy thông tin giá
                         SearchExportPriceDto searchExportPriceDto = new SearchExportPriceDto();
-                        searchExportPriceDto.fromDate = exportProcess[i].DateExport.AddDays(1);
-                        searchExportPriceDto.toDate = exportProcess[i].DateExport.AddDays(1);
+                        searchExportPriceDto.fromDate = exportProcess[i].DateExport ;
+                        searchExportPriceDto.toDate = exportProcess[i].DateExport ;
                         var b = await exportPriceRepository.Search(pageable, searchExportPriceDto);
                         List<ExportPrice> exportPrices = (List<ExportPrice>)b.Content;
                         ExportPrice exportPrice = new ExportPrice();

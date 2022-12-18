@@ -58,8 +58,8 @@ namespace FruitManager.Services
             pageable.PageSize = 1;
             pageable.PageNumber = 1;
             SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
-            searchImportPriceDto.fromDate = ImportProcess.DateImport.AddDays(1);
-            searchImportPriceDto.toDate = ImportProcess.DateImport.AddDays(1);
+            searchImportPriceDto.fromDate = ImportProcess.DateImport ;
+            searchImportPriceDto.toDate = ImportProcess.DateImport ;
             var importPriceToday = await importPriceRepository.Search(pageable, searchImportPriceDto);
          
             if (importPriceToday != null)
@@ -80,7 +80,7 @@ namespace FruitManager.Services
                     ImportProcess.IdImportPrice = importPrice.Id;
                 }
             }
-            ImportProcess.DateImport = DateTime.Now.AddHours(7);
+            ImportProcess.DateImport = DateTime.UtcNow;
 
             //Thêm mới bản ghi importprocess 
             var result = await ImportProcessRepository.UpdateAsync(x => x.Id, ImportProcess, true);
@@ -96,7 +96,7 @@ namespace FruitManager.Services
             var ImportProcess = updateImportProcessDto.Adapt<ImportProcess>();
 
             // Tính tổng 
-            ImportProcess.DateImport = updateImportProcessDto.DateImport.AddDays(1);
+            ImportProcess.DateImport = updateImportProcessDto.DateImport ;
             ImportProcess.SumWeighKemLon = (float)(ImportProcess.WeighKemLon?.Sum(x => x));
             ImportProcess.SumWeighKem2 = (float)(ImportProcess.WeighKem2?.Sum(x => x));
             ImportProcess.SumWeighKem3 = (float)(ImportProcess.WeighKem3?.Sum(x => x));
@@ -238,7 +238,7 @@ namespace FruitManager.Services
                     // sđt + ngày tháng
                     row = excelSheet.GetRow(1);
                     row.CreateCell(1).SetCellValue(garden.PhoneNumber);
-                    row.CreateCell(3).SetCellValue(DateTime.UtcNow.AddHours(7).ToString("dd'/'MM'/'yyyy' 'HH':'mm"));
+                    row.CreateCell(3).SetCellValue(DateTime.UtcNow.ToString("dd'/'MM'/'yyyy' 'HH':'mm"));
                     row.GetCell(1).CellStyle = style;
                     row.GetCell(3).CellStyle = style;
                     var cra = new NPOI.SS.Util.CellRangeAddress(1, 1, 1, 2);
@@ -519,7 +519,7 @@ namespace FruitManager.Services
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "ExcelFileTemplate");
             using var memoryStream = new MemoryStream();
             string fileName = @"Report_Import.xlsx";
-           // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date.AddDays(1));
+           // List<ImportProcess> importProcess = await ImportProcessRepository.GetListByIndexAsync(x=>x.DateImport , date );
 
             Pageable pageable = new Pageable();
             pageable.PageNumber = 1;
@@ -762,7 +762,7 @@ namespace FruitManager.Services
 
                     }
                     CreateImportReportDto createImportReportDto = new CreateImportReportDto();
-                    createImportReportDto.DateImport = date.AddDays(1);
+                    createImportReportDto.DateImport = date ;
                     createImportReportDto.PriceKemLon = sKemLon;
                     createImportReportDto.PriceKem2 = sKem2;
                     createImportReportDto.PriceKem3 = sKem3;
