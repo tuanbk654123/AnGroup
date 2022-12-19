@@ -85,11 +85,11 @@ const Datatable = (props: Props) => {
   function timeout(delay: any) {
     return new Promise(res => setTimeout(res, delay));
   }
-  const getFullDate = (date: string): string => {
+   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  };
+  }; 
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<importReport> = [
     {
@@ -97,7 +97,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'dateImport',
       key: 'dateImport',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -105,7 +105,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -117,7 +117,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceKem2',
       key: 'priceKem2',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -129,7 +129,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceKem3',
       key: 'priceKem3',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -141,7 +141,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceRXo',
       key: 'priceRXo',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -153,7 +153,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceR1',
       key: 'priceR1',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -165,7 +165,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceR2',
       key: 'priceR2',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -177,7 +177,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceR3',
       key: 'priceR3',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -189,7 +189,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'sumKg',
       key: 'sumKg',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -201,7 +201,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'sumMoney',
       key: 'sumMoney',
-      fixed: 'left',
+      //fixed: 'left',
 
       render: (value: any) => {
         return (
@@ -211,12 +211,12 @@ const Datatable = (props: Props) => {
     },
    
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'Action',
 
       key: 'operation',
       fixed: 'right',
-      width: 100,
+      width: 40,
       //render: () => <a>action</a>,
       render: (_, record) => {
         return (
@@ -295,10 +295,10 @@ const Datatable = (props: Props) => {
           {/* <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div> */}
-          <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+          <div  className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
-          <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>
+          <div  style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>
             <BarsOutlined style={{ color: '#d32f2f' }}></BarsOutlined>
           </div>
         </div>

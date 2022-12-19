@@ -381,14 +381,14 @@ const Datatable = () => {
       width: 100,
       dataIndex: 'userName',
       key: 'UserName',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Email',
       width: 150,
       dataIndex: 'email',
       key: 'email',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'phoneNumber',

@@ -1,12 +1,12 @@
 export interface importPrice{
     id: string;
-    PriceKemLon?: number;
-    PriceKem2?: number;
-    PriceKem3?:number;
-    PriceRXo?:number;
-    PriceR1?: number;
-    PriceR2?: number;
-    PriceR3?:number;
+    priceKemLon?: number;
+    priceKem2?: number;
+    priceKem3?:number;
+    priceRXo?:number;
+    priceR1?: number;
+    priceR2?: number;
+    priceR3?:number;
     RateKemLon?: number;
     RateKem2?: number;
     RateKem3?:number;

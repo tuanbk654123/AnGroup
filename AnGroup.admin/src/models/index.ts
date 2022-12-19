@@ -10,6 +10,8 @@ export * from './importReport'
 export * from './exportPrice'
 export * from './exportProcess'
 export * from './exportReport'
+export * from './chartExportReport'
+
 
 export * from './dto/importPrice/importpriceDto'
 export * from './dto/importPrice/searchImportPriceDto'

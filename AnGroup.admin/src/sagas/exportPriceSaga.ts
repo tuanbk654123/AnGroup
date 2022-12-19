@@ -19,8 +19,6 @@ export function* postSearchExportPrice(){
     yield takeLatest(ExportPriceAction.searchExportPrice.type ,getSearchexportPriceSaga);
 }
 
-
-
 function* getAddexportPriceSaga(action : any) {
   try {
     const data : Respone  = yield call(exportPriceService.addExportPrices, action.payload);

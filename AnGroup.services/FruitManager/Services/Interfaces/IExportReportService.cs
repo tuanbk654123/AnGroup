@@ -15,5 +15,6 @@ namespace FruitManager.Services.Interfaces
         Task<bool> Update(UpdateExportReportDto updateExportReportDto, CancellationToken cancellationToken = default);
         Task<byte[]> UpdateStatus(UpdateStatusExportReportDto updateStatusExportReportDto, CancellationToken cancellationToken = default);
         Task<bool> Delete(string id, CancellationToken cancellationToken = default);
+        Task<ChartPieDto> ExportChart(DateTime? fromDate, DateTime? toDate);
     }
 }

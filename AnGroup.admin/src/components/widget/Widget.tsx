@@ -4,8 +4,7 @@ import { ArrowDownOutlined, ArrowUpOutlined, UserOutlined } from '@ant-design/ic
 type Props = {
   type: string,
   price: string,
-  // upOrDown : boolean,
-  // seprate: number
+
 }
 
 const Widget = (props: Props) => {
@@ -16,7 +15,6 @@ const Widget = (props: Props) => {
     up: true,
     icon: {}
   };
-  const amount = 10000;
 
   switch (props.type) {
     case "Kem1":

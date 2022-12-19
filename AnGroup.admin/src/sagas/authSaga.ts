@@ -19,13 +19,10 @@ function* handleLogin(payload: LoginPayload) {
         else{
             openNotification("Sai tài khoản hoặc mật khẩu vui lòng đăng nhập lại");
         }
-        
     }
     catch (error) {
         //yield put(authAction.loginFalse(error.message));
     }
-
-
 }
 
 
@@ -33,7 +30,6 @@ function* handleLogout() {
 
     console.log("handle logout");
     localStorage.removeItem('access_token');
-
     //yield put(push('/login'));
     yield history.push('login'); 
 }
@@ -52,8 +48,6 @@ function* watchLoginFolow() {
             yield fork(handleLogin, action.payload);
 
         }
-
-
         yield take(authAction.logout.type);
         yield call(handleLogout);
     }

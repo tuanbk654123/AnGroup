@@ -124,11 +124,11 @@ const Datatable = (props: Props) => {
   function timeout(delay: any) {
     return new Promise(res => setTimeout(res, delay));
   }
-  const getFullDate = (date: string): string => {
+   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  };
+  }; 
   //
   const exportFile = (record: any) => {
     setobjectExport({
@@ -191,7 +191,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'fromDate',
       key: 'fromDate',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -199,7 +199,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'toDate',
       key: 'toDate',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -207,42 +207,42 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'totalNumber',
       key: 'totalNumber',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Trọng lượng giấy',
       width: 50,
       dataIndex: 'totalPaper',
       key: 'totalPaper',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Trọng lượng thực',
       width: 50,
       dataIndex: 'totalWeigtReal',
       key: 'totalWeigtReal',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Tên chủ hàng',
       width: 50,
       dataIndex: 'nameOwner',
       key: 'nameOwner',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Biển số xe',
       width: 50,
       dataIndex: 'licenPalates',
       key: 'licenPalates',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Tổng tiền',
       width: 50,
       dataIndex: 'totalMoeny',
       key: 'totalMoeny',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='green' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -254,7 +254,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'carFee',
       key: 'carFee',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='yellow' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -265,7 +265,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'totalPayment',
       key: 'totalPayment',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='red' >{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -277,7 +277,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'statusExport',
       key: 'statusExport',
-      fixed: 'left',
+      //fixed: 'left',
       render: (_, record) => {
         switch (record.statusExport) {
           case "CHUA_XU_LY":
@@ -288,7 +288,7 @@ const Datatable = (props: Props) => {
       }
     },
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'Action',
       key: 'operation',
       fixed: 'right',
@@ -400,10 +400,10 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-          <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+          <div  className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
-          <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+          <div  className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
           <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>

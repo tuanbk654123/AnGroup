@@ -57,6 +57,7 @@ namespace FruitManager.Controllers
             SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
             searchImportPriceDto.fromDate = createImportPriceDto.DateImport;
             searchImportPriceDto.toDate = createImportPriceDto.DateImport;
+
             var checkHaveItem = await ImportPriceService.Search(pageable, searchImportPriceDto);
             if(checkHaveItem!= null && checkHaveItem.Content.Count() > 0) return BadRequest("Đã tồn tại bản ghi ngày "+ createImportPriceDto.DateImport.ToString("dd-MM-yyyy"));
 

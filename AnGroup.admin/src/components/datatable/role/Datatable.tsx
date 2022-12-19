@@ -213,14 +213,14 @@ const handleDelete =  async (id: string) => {
       width: 100,
       dataIndex: 'name',
       key: 'name',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Mô tả',
       width: 450,
       dataIndex: 'descrip',
       key: 'descrip',
-      fixed: 'left',
+      //fixed: 'left',
     },
   
     {

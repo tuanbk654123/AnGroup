@@ -762,7 +762,7 @@ namespace FruitManager.Services
 
                     }
                     CreateImportReportDto createImportReportDto = new CreateImportReportDto();
-                    createImportReportDto.DateImport = date ;
+                    createImportReportDto.DateImport = date.AddHours(7) ;
                     createImportReportDto.PriceKemLon = sKemLon;
                     createImportReportDto.PriceKem2 = sKem2;
                     createImportReportDto.PriceKem3 = sKem3;

@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { LisResponse, searchExportReportDto,exportReport } from "../models";
+import { LisResponse, searchExportReportDto,exportReport, chartExportReport } from "../models";
 import axiosClient from "./axiosClient";
 
 
@@ -41,7 +41,15 @@ const ExportReportService = {
         return axiosClient.post(url,a,config  );
     },
  
-
+    chartExportReportService( search: searchExportReportDto): Promise<chartExportReport>{
+        const url = '/api/ExportReport/ExportChart';
+        return axiosClient.get(url, {
+            params:{
+                fromDate: search.fromDate,
+                toDate: search.toDate,
+            }
+        });
+    },
 }
 
 

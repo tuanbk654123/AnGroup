@@ -84,21 +84,21 @@ const Datatable = (props: Props) => {
       width: 100,
       dataIndex: 'userName',
       key: 'userName',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'Ip',
       width: 450,
       dataIndex: 'ip',
       key: 'ip',
-      fixed: 'left',
+      //fixed: 'left',
     },
     {
       title: 'thời gian',
       width: 450,
       dataIndex: 'loginTime',
       key: 'loginTime',
-      fixed: 'left',
+      //fixed: 'left',
     },
 
 

@@ -29,13 +29,13 @@ const Datatable = (props: Props) => {
   const [CheckRefresh, setCheckRefresh] = useState(false);
   const [Title, setTitle] = useState("");
   const [ImportpriceDto, setImportpriceDto] = useState<ImportpriceDto>({
-    PriceKemLon: undefined,
-    PriceKem2: undefined,
-    PriceKem3: undefined,
-    PriceRXo: undefined,
-    PriceR1: undefined,
-    PriceR2: undefined,
-    PriceR3: undefined,
+    priceKemLon: undefined,
+    priceKem2: undefined,
+    priceKem3: undefined,
+    priceRXo: undefined,
+    priceR1: undefined,
+    priceR2: undefined,
+    priceR3: undefined,
     RateKemLon: undefined,
     RateKem2: undefined,
     RateKem3: undefined,
@@ -99,10 +99,12 @@ const Datatable = (props: Props) => {
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
+    let date =  ImportpriceDto.DateImport.split('T')[0];
     // add
     if (addOrUpdate === 1) {
       const importPrice = {
         ...ImportpriceDto,
+        DateImport: date+"T07:00:00.000Z",
         id: ""
       }
       dispatch(ImportPriceAction.addImportPrice(importPrice));
@@ -111,6 +113,7 @@ const Datatable = (props: Props) => {
     if (addOrUpdate === 2) {
       const importPrice = {
         ...ImportpriceDto,
+        DateImport: date+"T07:00:00.000Z",
       }
       dispatch(ImportPriceAction.updateImportPrice(importPrice));
 
@@ -126,7 +129,7 @@ const Datatable = (props: Props) => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  };
+  }; 
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<importPrice> = [
     {
@@ -134,7 +137,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'dateImport',
       key: 'dateImport',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -142,7 +145,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -154,7 +157,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceKem2',
       key: 'priceKem2',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -166,7 +169,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceKem3',
       key: 'priceKem3',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -178,7 +181,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceRXo',
       key: 'priceRXo',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -190,7 +193,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceR1',
       key: 'priceR1',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -202,7 +205,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceR2',
       key: 'priceR2',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -214,7 +217,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceR3',
       key: 'priceR3',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"
@@ -223,12 +226,12 @@ const Datatable = (props: Props) => {
     },
 
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'Action',
 
       key: 'operation',
       fixed: 'right',
-      width: 100,
+      width: 40,
       //render: () => <a>action</a>,
       render: (_, record) => {
         return (
@@ -279,13 +282,13 @@ const Datatable = (props: Props) => {
     let date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
     setImportpriceDto({
       ...ImportpriceDto,
-      PriceKemLon: undefined,
-      PriceKem2: undefined,
-      PriceKem3: undefined,
-      PriceRXo: undefined,
-      PriceR1: undefined,
-      PriceR2: undefined,
-      PriceR3: undefined,
+      priceKemLon: undefined,
+      priceKem2: undefined,
+      priceKem3: undefined,
+      priceRXo: undefined,
+      priceR1: undefined,
+      priceR2: undefined,
+      priceR3: undefined,
       RateKemLon: undefined,
       RateKem2: undefined,
       RateKem3: undefined,
@@ -310,13 +313,13 @@ const Datatable = (props: Props) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKemLon: record.priceKemLon,
-        PriceKem2: record.priceKem2,
-        PriceKem3: record.priceKem3,
-        PriceRXo: record.priceRXo,
-        PriceR1: record.priceR1,
-        PriceR2: record.priceR2,
-        PriceR3: record.priceR3,
+        priceKemLon: record.priceKemLon,
+        priceKem2: record.priceKem2,
+        priceKem3: record.priceKem3,
+        priceRXo: record.priceRXo,
+        priceR1: record.priceR1,
+        priceR2: record.priceR2,
+        priceR3: record.priceR3,
         RateKemLon: record.rateKemLon,
         RateKem2: record.rateKem2,
         RateKem3: record.rateKem3,
@@ -357,59 +360,59 @@ const Datatable = (props: Props) => {
   const onClose = () => {
     setOpen(false);
   };
-  const onChangePriceKemLon = (e: any) => {
+  const onChangepriceKemLon = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKemLon: parseInt(e.target.value)
+        priceKemLon: parseInt(e.target.value)
       }
     )
   }
-  const onChangePriceKem3 = (e: any) => {
+  const onChangepriceKem3 = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKem3: parseInt(e.target.value)
+        priceKem3: parseInt(e.target.value)
       }
     )
   }
-  const onChangePriceKem2 = (e: any) => {
+  const onChangepriceKem2 = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceKem2: parseInt(e.target.value)
+        priceKem2: parseInt(e.target.value)
       }
     )
   }
-  const onChangePriceRXo = (e: any) => {
+  const onChangepriceRXo = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceRXo: parseInt(e.target.value)
+        priceRXo: parseInt(e.target.value)
       }
     )
   }
-  const onChangePriceR1 = (e: any) => {
+  const onChangepriceR1 = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR1: parseInt(e.target.value)
+        priceR1: parseInt(e.target.value)
       }
     )
   }
-  const onChangePriceR2 = (e: any) => {
+  const onChangepriceR2 = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR2: parseInt(e.target.value)
+        priceR2: parseInt(e.target.value)
       }
     )
   }
-  const onChangePriceR3 = (e: any) => {
+  const onChangepriceR3 = (e: any) => {
     setImportpriceDto(
       {
         ...ImportpriceDto,
-        PriceR3: parseInt(e.target.value)
+        priceR3: parseInt(e.target.value)
       }
     )
   }
@@ -434,10 +437,10 @@ const Datatable = (props: Props) => {
           {/* <div style={{width:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor: 'pointer',fontWeight:'bold'}}>
             <AppstoreAddOutlined style= {{paddingInline:'5px', color:'#d32f2f' }}/> <div style= {{paddingInline:'5px', color:'#d32f2f' ,fontFamily:'Arial' }}>Cấu hình hiển thị</div>
           </div> */}
-          <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+          <div className="btnAddHover" style={{  width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
-          <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+          <div className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
           <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>
@@ -506,37 +509,37 @@ const Datatable = (props: Props) => {
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Giá kem lớn (vnđ):</label>
-            <Input placeholder="Nhập giá kem lớn(vnđ)" value={ImportpriceDto.PriceKemLon} onChange={onChangePriceKemLon} />
+            <Input placeholder="Nhập giá kem lớn(vnđ)" value={ImportpriceDto.priceKemLon} onChange={onChangepriceKemLon} />
           </Col>
           <Col span={12}>
             <label >Giá kem 2:</label>
-            <Input placeholder="Nhập giá kem 2" value={ImportpriceDto.PriceKem2} onChange={onChangePriceKem2} />
+            <Input placeholder="Nhập giá kem 2" value={ImportpriceDto.priceKem2} onChange={onChangepriceKem2} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Giá kem 3:</label>
-            <Input placeholder="Nhập giá kem 3" value={ImportpriceDto.PriceKem3} onChange={onChangePriceKem3} />
+            <Input placeholder="Nhập giá kem 3" value={ImportpriceDto.priceKem3} onChange={onChangepriceKem3} />
           </Col>
           <Col span={12}>
             <label >Giá R1:</label>
-            <Input placeholder="Nhập giá R1 " value={ImportpriceDto.PriceR1} onChange={onChangePriceR1} />
+            <Input placeholder="Nhập giá R1 " value={ImportpriceDto.priceR1} onChange={onChangepriceR1} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Giá R2:</label>
-            <Input placeholder="Nhập giá R2" value={ImportpriceDto.PriceR2} onChange={onChangePriceR2} />
+            <Input placeholder="Nhập giá R2" value={ImportpriceDto.priceR2} onChange={onChangepriceR2} />
           </Col>
           <Col span={12}>
             <label >Giá R3:</label>
-            <Input placeholder="Nhập giá R3 " value={ImportpriceDto.PriceR3} onChange={onChangePriceR3} />
+            <Input placeholder="Nhập giá R3 " value={ImportpriceDto.priceR3} onChange={onChangepriceR3} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Giá RXo:</label>
-            <Input placeholder="Nhập giá RXo" value={ImportpriceDto.PriceRXo} onChange={onChangePriceRXo} />
+            <Input placeholder="Nhập giá RXo" value={ImportpriceDto.priceRXo} onChange={onChangepriceRXo} />
           </Col>
           <Col span={12}>
             <label >Ngày:</label>

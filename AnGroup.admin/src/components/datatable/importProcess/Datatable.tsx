@@ -421,11 +421,11 @@ const Datatable = (props: Props) => {
   }
 
 
-  const getFullDate = (date: string): string => {
+   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  };
+  }; 
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<importProcess> = [
     {
@@ -433,7 +433,7 @@ const Datatable = (props: Props) => {
       width: 70,
       dataIndex: 'dateImport',
       key: 'dateImport',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -441,7 +441,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'idGarden',
       key: 'idGarden',
-      fixed: 'left',
+      //fixed: 'left',
       render: (_, record) => {
         function findArrayElementByTitle(array: any, title: any) {
           for (let i = 0; i < array?.length; i++) {
@@ -461,7 +461,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       render: (_, record) => {
 
@@ -478,7 +478,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'weighKem2',
       key: 'weighKem2',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       render: (_, record) => {
 
@@ -495,7 +495,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'weighKem3',
       key: 'weighKem3',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       render: (_, record) => {
 
@@ -512,7 +512,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'weighRXo',
       key: 'weighRXo',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       
       render: (_, record) => {
@@ -533,7 +533,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'weighR1',
       key: 'weighR1',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       render: (_, record) => {
 
@@ -550,7 +550,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'weighR2',
       key: 'weighR2',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       render: (_, record) => {
 
@@ -567,7 +567,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'weighR3',
       key: 'weighR3',
-      fixed: 'left',
+      //fixed: 'left',
      // ellipsis: true,
       render: (_, record) => {
 
@@ -584,7 +584,7 @@ const Datatable = (props: Props) => {
       width: 90,
       dataIndex: 'statusBill',
       key: 'statusBill',
-      fixed: 'left',
+      //fixed: 'left',
       render: (_, record) => {
         switch (record.statusBill) {
           case "CHUA_THANH_TOAN":
@@ -605,7 +605,7 @@ const Datatable = (props: Props) => {
 
       key: 'operation',
       fixed: 'right',
-      width: 95,
+      width: 100,
       //render: () => <a>action</a>,
       render: (_, record) => {
         return (
@@ -873,16 +873,16 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-          <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+          <div  className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
           <Popover content={content} title="Chọn ngày">
 
-            <div style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
+            <div  className="btnAddHover" style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
               <ExportOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Xuất báo cáo</div>
             </div>
           </Popover>
-          <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+          <div  className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
           <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>

@@ -14,3 +14,10 @@ export interface Respone{
     status: number;
     data :string;
 }
+
+export interface ResponseChart{
+    orange:number;
+    red:number;
+    blue:number;
+    green:number;
+}

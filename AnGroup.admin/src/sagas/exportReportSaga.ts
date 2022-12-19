@@ -3,7 +3,7 @@ import exportReportService from '../api/exportReportService';
 import { openNotification } from '../components/notice/notification';
 import { ExportReportAction } from '../features/exportReport/exportReportSlice';
 
-import { LisResponse, exportReport, Respone } from '../models';
+import { LisResponse, exportReport, Respone, chartExportReport } from '../models';
 
 function* getSearchexportReportSaga(action : any){
     try {
@@ -98,3 +98,21 @@ function* getExportReportExportReport(action : any) {
 export function* postExportReportExportReport() {
   yield takeLatest(ExportReportAction.exportReportExportProcess.type, getExportReportExportReport);
 }
+
+
+
+function* getChartexportReportSaga(action : any){
+  try {
+      const data:chartExportReport = yield call(exportReportService.chartExportReportService,action.payload);
+      yield put(ExportReportAction.chartExportReportSuccess(data));
+    } catch (error) {
+      //handle error
+      console.log("exportReport history saga error: " + error);
+    }
+}
+
+export function* postChartExportReport(){
+  yield takeLatest(ExportReportAction.chartExportReport.type ,getChartexportReportSaga);
+}
+
+

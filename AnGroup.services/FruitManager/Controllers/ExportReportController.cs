@@ -56,7 +56,6 @@ namespace FruitManager.Controllers
             return BadRequest("Tạo mới thất bại");
         }
 
-
         [HttpGet("Search")]
         public async Task<IActionResult> Search([FromQuery] Pageable pageable, [FromQuery] SearchExportReportDto searchExportReportDto, CancellationToken cancellationToken)
         {
@@ -98,6 +97,13 @@ namespace FruitManager.Controllers
             }
             return BadRequest("Xuất báo cáo lỗi");
         }
+        [HttpGet("ExportChart")]
+        public async Task<IActionResult> ExportChart([FromQuery] SearchReportDto searchReportDto, CancellationToken cancellationToken)
+        {
+            ChartPieDto create = await ExportReportService.ExportChart(searchReportDto.fromDate, searchReportDto.toDate);
+            return Ok(create);
+        }
+
 
     }
 }

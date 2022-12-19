@@ -9,7 +9,7 @@ import { postGetAllRole, postSearchRole, postAddRole, postUpdateRole, postDelete
 import { postSearchUserHistory } from './userHistorySaga';
 import { postSearchUser, postAddUser, postDeleteUser, postUpdateUser } from './userSaga';
 import { postAddExportProcess, postDeleteExportProcess, postExportReportExportProcess, postSearchExportProcess, postUpdateExportProcess } from './exportProcessSaga';
-import { postAddExportReport, postDeleteExportReport, postExportReportExportReport, postSearchExportReport, postUpdateExportReport } from './exportReportSaga';
+import { postAddExportReport, postChartExportReport, postDeleteExportReport, postExportReportExportReport, postSearchExportReport, postUpdateExportReport } from './exportReportSaga';
 export default function* rootSaga() {
      yield all([ // gọi nhiều saga
           authSaga(),
@@ -67,6 +67,7 @@ export default function* rootSaga() {
           postDeleteExportProcess(),
           postUpdateExportProcess(),
           postExportReportExportProcess(),
+          postChartExportReport(),
 
           //ExportReport
           postSearchExportReport(),

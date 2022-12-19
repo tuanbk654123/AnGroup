@@ -39,13 +39,13 @@ namespace FruitManager.Repositories
          
             if (searchBillDto.fromDate != null)
             {
-                DateTime fromDate = new DateTime(searchBillDto.fromDate.Value.Year, searchBillDto.fromDate.Value.Month, searchBillDto.fromDate.Value.Day, 0, 0, 0);
+                DateTime fromDate = new DateTime(searchBillDto.fromDate.Value.Year, searchBillDto.fromDate.Value.Month, searchBillDto.fromDate.Value.Day, 7, 0, 0);
                 filter &= Builders<Bill>.Filter.Gte(x => x.Date, fromDate);
             }
             if (searchBillDto.toDate != null)
             {
-                DateTime toDate = new DateTime(searchBillDto.toDate.Value.Year, searchBillDto.toDate.Value.Month, searchBillDto.toDate.Value.Day, 23, 59, 59);
-                filter &= Builders<Bill>.Filter.Lt(x => x.Date, toDate);
+                DateTime toDate = new DateTime(searchBillDto.toDate.Value.Year, searchBillDto.toDate.Value.Month, searchBillDto.toDate.Value.Day, 23, 0, 0).AddHours(8);
+                filter &= Builders<Bill>.Filter.Lte(x => x.Date, toDate);
             }
 
             var result = await Collection.Find(filter).SortByDescending(e => e.Date).Skip((pageable.PageNumber - 1) * pageable.PageSize).Limit(pageable.PageSize).ToListAsync();

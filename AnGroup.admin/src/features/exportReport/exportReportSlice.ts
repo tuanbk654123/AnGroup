@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { LisResponse, searchExportReportDto, exportReport ,Respone} from "../../models";
+import { LisResponse, searchExportReportDto, exportReport ,Respone, ResponseChart} from "../../models";
 
 
 export interface ExportReportState {
@@ -8,7 +8,8 @@ export interface ExportReportState {
     respone: {
         status: number,
         data: string
-    }
+    },
+    responeChartPie:ResponseChart
 }
 
 const initialState: ExportReportState = {
@@ -20,6 +21,12 @@ const initialState: ExportReportState = {
     respone: {
         status: 0,
         data: ""
+    },
+    responeChartPie: {
+        orange:0,
+        red:0,
+        blue:0,
+        green:0
     }
 };
 
@@ -59,7 +66,14 @@ const ExportReportSlice = createSlice({
         },
         exportReportExportProcessSuccess (state, action: PayloadAction<Blob>){
 
-        }
+        },
+        chartExportReport(state, action: PayloadAction<searchExportReportDto>) {
+
+        },
+        chartExportReportSuccess(state, action: PayloadAction<ResponseChart>) {
+            state.responeChartPie = action.payload;
+        },
+        
     }
 
 })

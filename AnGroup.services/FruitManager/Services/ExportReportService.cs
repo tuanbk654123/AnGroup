@@ -14,16 +14,20 @@ namespace FruitManager.Services
     using DataAccess.Models.Dto.ExportProcess;
     using DataAccess.ExceptionFilter.Exceptions;
     using DataAccess.Models.Enum;
+    using FruitManager.Repositories;
 
     internal sealed class ExportReportService : IExportReportService
     {
         private readonly IExportReportRepository ExportReportRepository;
         private readonly IExportProcessService ExportProcessService;
+            
+        private readonly IExportProcessRepository ExportProcessRepository;
 
-        public ExportReportService(IExportReportRepository ExportReportRepository, IExportProcessService exportProcessService = null)
+        public ExportReportService(IExportReportRepository ExportReportRepository, IExportProcessService exportProcessService = null, IExportProcessRepository exportProcessRepository = null)
         {
             this.ExportReportRepository = ExportReportRepository;
             ExportProcessService = exportProcessService;
+            ExportProcessRepository = exportProcessRepository;
         }
 
         public async Task<bool> Create(CreateExportReportDto createExportReportDto, CancellationToken cancellationToken = default)
@@ -68,6 +72,38 @@ namespace FruitManager.Services
             return await ExportProcessService.ExportReportTwo(exportReport.FromDate, exportReport.ToDate , updateStatusExportReportDto);
 
 
+        }
+
+        public async Task<ChartPieDto> ExportChart(DateTime? fromDate, DateTime? toDate)
+        {
+            //xử lý tiền dữ liệu
+            fromDate = fromDate.Value;
+            toDate = toDate.Value;
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 100;
+            SearchExportProcessDto searchExportProcessDto = new SearchExportProcessDto();
+            searchExportProcessDto.fromDate = fromDate;
+            searchExportProcessDto.toDate = toDate;
+            var a = await ExportProcessRepository.Search(pageable, searchExportProcessDto);
+            List<ExportProcess> exportProcess = (List<ExportProcess>)a.Content;
+            float orange = 0;
+            float red = 0;
+            float blue = 0;
+            float green = 0;
+            ChartPieDto chartPieDto = new ChartPieDto();
+            for (int i = 0; i < exportProcess.Count; i++)
+            {
+                orange += exportProcess[i].SumOrange;
+                red += exportProcess[i].SumRed;
+                blue += exportProcess[i].SumBlue;
+                green += exportProcess[i].SumGreen;
+            }
+            chartPieDto.orange = orange;
+            chartPieDto.red = red;
+            chartPieDto.blue = blue;
+            chartPieDto.green = green;
+            return chartPieDto;
         }
     }
 }

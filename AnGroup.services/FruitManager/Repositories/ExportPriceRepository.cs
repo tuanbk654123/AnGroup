@@ -38,13 +38,13 @@ namespace FruitManager.Repositories
          
             if (searchExportPriceDto.fromDate != null)
             {
-                DateTime fromDate = new DateTime(searchExportPriceDto.fromDate.Value.Year, searchExportPriceDto.fromDate.Value.Month, searchExportPriceDto.fromDate.Value.Day, 0, 0, 0);
+                DateTime fromDate = new DateTime(searchExportPriceDto.fromDate.Value.Year, searchExportPriceDto.fromDate.Value.Month, searchExportPriceDto.fromDate.Value.Day, 7, 0, 0);
                 filter &= Builders<ExportPrice>.Filter.Gte(x => x.DateExport, fromDate);
             }
             if (searchExportPriceDto.toDate != null)
             {
-                DateTime toDate = new DateTime(searchExportPriceDto.toDate.Value.Year, searchExportPriceDto.toDate.Value.Month, searchExportPriceDto.toDate.Value.Day, 23, 59, 59);
-                filter &= Builders<ExportPrice>.Filter.Lt(x => x.DateExport, toDate);
+                DateTime toDate = new DateTime(searchExportPriceDto.toDate.Value.Year, searchExportPriceDto.toDate.Value.Month, searchExportPriceDto.toDate.Value.Day, 23, 0, 0).AddHours(8);
+                filter &= Builders<ExportPrice>.Filter.Lte(x => x.DateExport, toDate);
             }
 
             var result = await Collection.Find(filter).SortByDescending(e => e.DateExport).Skip((pageable.PageNumber - 1) * pageable.PageSize).Limit(pageable.PageSize).ToListAsync();

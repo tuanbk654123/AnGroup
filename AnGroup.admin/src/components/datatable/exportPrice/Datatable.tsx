@@ -88,10 +88,12 @@ const Datatable = (props: Props) => {
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
+    let date =  exportPriceDto.dateExport.split('T')[0];
     // add
     if (addOrUpdate === 1) {
       const exportPrice = {
         ...exportPriceDto,
+        dateExport: date+"T07:00:00.000Z",
         id: ""
       }
        dispatch(ExportPriceAction.addExportPrice(exportPrice));
@@ -100,6 +102,7 @@ const Datatable = (props: Props) => {
     if (addOrUpdate === 2) {
       const exportPrice = {
         ...exportPriceDto,
+        dateExport: date+"T07:00:00.000Z",
       }
        dispatch(ExportPriceAction.updateExportPrice(exportPrice));
 
@@ -111,11 +114,11 @@ const Datatable = (props: Props) => {
   function timeout(delay: any) {
     return new Promise(res => setTimeout(res, delay));
   }
-  const getFullDate = (date: string): string => {
+   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  };
+  }; 
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<exportPrice> = [
     {
@@ -123,7 +126,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'dateExport',
       key: 'dateExport',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -131,7 +134,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceOrange',
       key: 'priceOrange',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='orange' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -144,7 +147,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceRed',
       key: 'priceRed',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='red' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -156,7 +159,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceBlue',
       key: 'priceBlue',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='blue' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -168,7 +171,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'priceGreen',
       key: 'priceGreen',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           <Tag color='green' >{ new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value) + " vnđ"}</Tag>
@@ -177,7 +180,7 @@ const Datatable = (props: Props) => {
     },
  
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'Action',
 
       key: 'operation',
@@ -348,10 +351,10 @@ const Datatable = (props: Props) => {
           {/* <div style={{width:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor: 'pointer',fontWeight:'bold'}}>
             <AppstoreAddOutlined style= {{paddingInline:'5px', color:'#d32f2f' }}/> <div style= {{paddingInline:'5px', color:'#d32f2f' ,fontFamily:'Arial' }}>Cấu hình hiển thị</div>
           </div> */}
-          <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+          <div  className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
-          <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+          <div  className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
           <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>

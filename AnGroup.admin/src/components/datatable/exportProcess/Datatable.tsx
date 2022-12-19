@@ -5,7 +5,6 @@ import { ExportProcessAction } from '../../../features/exportProcess/exportProce
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import 'antd/dist/antd.min.css'
 import { ExclamationCircleOutlined, ExportOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { TweenOneGroup } from 'rc-tween-one';
 import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
@@ -99,6 +98,7 @@ const Datatable = (props: Props) => {
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
+    let date =  exportProcessDto.dateExport.split('T')[0];
     // set lại giứ trị tag 
     const orange = tags.map(d => (
       parseInt(d, 10)
@@ -120,6 +120,7 @@ const Datatable = (props: Props) => {
         weighRed: red,
         weighBlue: blue,
         weighGreen: green,
+        dateExport: date+"T07:00:00.000Z",
         id: ""
       }
       dispatch(ExportProcessAction.addExportProcess(exportProcess));
@@ -132,7 +133,8 @@ const Datatable = (props: Props) => {
         weighOrange: orange,
         weighRed: red,
         weighBlue: blue,
-        weighGreen: green
+        weighGreen: green,
+        dateExport: date+"T07:00:00.000Z",
       }
       dispatch(ExportProcessAction.updateExportProcess(exportProcess));
 
@@ -144,11 +146,11 @@ const Datatable = (props: Props) => {
   function timeout(delay: any) {
     return new Promise(res => setTimeout(res, delay));
   }
-  const getFullDate = (date: string): string => {
+   const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  };
+  }; 
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<exportProcess> = [
     {
@@ -156,7 +158,7 @@ const Datatable = (props: Props) => {
       width: 60,
       dataIndex: 'dateExport',
       key: 'dateExport',
-      fixed: 'left',
+      //fixed: 'left',
       render: ((date: string) => getFullDate(date))
     },
     {
@@ -164,7 +166,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'sumOrange',
       key: 'sumOrange',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -177,7 +179,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'sumRed',
       key: 'sumRed',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -189,7 +191,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'sumBlue',
       key: 'sumBlue',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -201,7 +203,7 @@ const Datatable = (props: Props) => {
       width: 50,
       dataIndex: 'sumGreen',
       key: 'sumGreen',
-      fixed: 'left',
+      //fixed: 'left',
       render: (value: any) => {
         return (
           new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(value)
@@ -210,7 +212,7 @@ const Datatable = (props: Props) => {
     },
 
     {
-      title: 'Action',
+      title: 'Hành động',
       dataIndex: 'Action',
 
       key: 'operation',
@@ -615,9 +617,10 @@ const Datatable = (props: Props) => {
   // };
   const onChangeDatea = (dates: any, dateStrings: any) => {
     if (dates) {
+      //let dates =  dateStrings[1].split('-'); dates //+"T07:00:00.000Z"
       const a = {
         fromDate: dateStrings[0],
-        toDate: dateStrings[1]
+        toDate: dateStrings[1],
       }
       dispatch(ExportProcessAction.exportReportExportProcess(a));
       timeout(500);
@@ -641,17 +644,17 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-          <div style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
-            <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
+          <div className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+            <PlusOutlined  className="btnAddHover" style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
           <Popover content={content} title="Chọn ngày">
 
-            <div style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
-              <ExportOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Xuất báo cáo</div>
+            <div className="btnAddHover" style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
+              <ExportOutlined  className="btnAddHover" style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Xuất báo cáo</div>
             </div>
           </Popover>
-          <div style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
-            <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
+          <div className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+            <ReloadOutlined  className="btnAddHover" style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
           <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>
             <BarsOutlined style={{ color: '#d32f2f' }}></BarsOutlined>
