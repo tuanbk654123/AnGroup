@@ -102,7 +102,7 @@ const Sidebar = (props: Props) => {
         <div className='sidebar'>
             <div className='top'>
                 <Image
-                    width='200px'
+                    width='12vw'
 
                     //src="./../../public/img/"
                     src={background}

@@ -1,13 +1,14 @@
-.sidebar{
+.sidebar {
     flex: 1;
     //border-right: 0.5px solid lightgrey;
     min-height: 100vh;
     background-color: #ffffff;
+
     // margin-top: 5px;
     // margin-bottom: 5px;
     // margin-left: 5px;
-    .top{
-        height: 70px;
+    .top {
+        height: 7vh;
 
         display: flex;
         align-items: center;
@@ -15,27 +16,32 @@
         margin-right: 0px;
         padding-top: 20px;
         background-color: #ffffff;
-        .logo{
+
+        .logo {
             font-size: 25px;
             font-weight: bold;
             color: #dc778f;
         }
     }
-    .hr1{
+
+    .hr1 {
         height: 0;
         //border:  0.5px solid rgb(231, 228, 228);
     }
-    .center{
+
+    .center {
         //padding-left: 10px;
-         //border-right: 0.5px solid lightgrey;
-         padding-top: 15px;
-         height: 100vh;
-        ul{
+        //border-right: 0.5px solid lightgrey;
+        padding-top: 15px;
+        height: 93vh;
+
+        ul {
             list-style: none;
             margin: 0;
             padding: 0;
 
         }
+
         .title {
             font-size: 10px;
             font-weight: bold;
@@ -44,47 +50,51 @@
             margin-bottom: 5px;
             margin-left: 5px;
         }
-        li{
+
+        li {
             display: flex;
             align-items: center;
             padding: 25px;
             cursor: pointer;
             height: 40px;
-            
-            &:hover{
+
+            &:hover {
                 background-color: #d32f2f;
                 border-radius: 20px;
             }
         }
-        li:hover{
-            background-color: #f35757!important;
-            .icon{
-                color: #ffffff!important;
+
+        li:hover {
+            background-color: #f35757 !important;
+
+            .icon {
+                color: #ffffff !important;
             }
-            span{
-                color: #ffffff!important;
+
+            span {
+                color: #ffffff !important;
             }
         }
-      
-        .icon{
+
+        .icon {
             font-size: 20px;
             color: #d32f2f;
         }
-    
-        span{
+
+        span {
             font-size: 13px;
             font-weight: 600;
             color: #d32f2f;
             margin-left: 10px;
         }
-      
+
     }
 
     // .bottom{
     //     display: flex;
     //     align-items: center;
     //     margin: 10px;
-        
+
     //     .colorOption{
     //         width: 20px;
     //         height: 20px;
