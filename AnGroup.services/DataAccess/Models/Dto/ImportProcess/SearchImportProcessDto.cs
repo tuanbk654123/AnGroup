@@ -10,5 +10,6 @@ namespace DataAccess.Models.Dto.ExportProcess
     {
         public DateTime? fromDate { get; set; } // 
         public DateTime? toDate { get; set; } // 
+        public StatusBill? statusBill { set; get; } // Trạng hái thanh toán
     }
 }

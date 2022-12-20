@@ -11,6 +11,7 @@ const importProcessService = {
             params:{
                 PageNumber:search.pageNumber,
                 PageSize:search.pageSize,
+                statusBill: search.statusBill,
                 fromDate: search.fromDate,
                 toDate: search.toDate,
             }

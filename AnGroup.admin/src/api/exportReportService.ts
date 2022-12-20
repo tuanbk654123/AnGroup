@@ -12,6 +12,7 @@ const ExportReportService = {
                 PageNumber:search.pageNumber,
                 PageSize:search.pageSize,
                 fromDate: search.fromDate,
+                statusExport:search.statusExport,
                 toDate: search.toDate,
             }
         });

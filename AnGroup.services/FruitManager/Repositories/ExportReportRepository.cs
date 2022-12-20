@@ -46,6 +46,10 @@ namespace FruitManager.Repositories
                 DateTime toDate = new DateTime(searchExportReportDto.toDate.Value.Year, searchExportReportDto.toDate.Value.Month, searchExportReportDto.toDate.Value.Day, 23, 0, 0).AddHours(8);
                 filter &= Builders<ExportReport>.Filter.Lte(x => x.FromDate, toDate);
             }
+            if (searchExportReportDto.statusExport != null)
+            {
+                filter &= Builders<ExportReport>.Filter.Eq(x => x.statusExport, searchExportReportDto.statusExport);
+            }
 
             var result = await Collection.Find(filter).SortByDescending(e => e.FromDate).Skip((pageable.PageNumber - 1) * pageable.PageSize).Limit(pageable.PageSize).ToListAsync();
             var resultCount = await Collection.Find(filter).CountDocumentsAsync();

@@ -31,6 +31,7 @@ const Datatable = (props: Props) => {
     pageNumber: 1,
     pageSize: 10,
     fromDate: "",
+    statusBill:undefined,
     toDate: ""
   });
   const [SearchParamCustomer, setSearchParamCustomer] = useState<searchCustomerDto>({
@@ -54,7 +55,7 @@ const Datatable = (props: Props) => {
   });
   const [CheckRefresh, setCheckRefresh] = useState(false);
   const [Title, setTitle] = useState("");
-  
+
   const [importProcessDto, setImportProcessDto] = useState<ImportProcessDto[]>([
     {
       weighKemLon: [],
@@ -146,8 +147,8 @@ const Datatable = (props: Props) => {
   // lấy data từ reducer 
   const importProcesss = useAppSelector((state) => state.importProcess.lstRespone);
   const customers = useAppSelector((state) => state.customer.lstRespone);
-  console.log("TUANNNN: " + JSON.stringify(importProcesss));
-  console.log("TUANNNN: " + JSON.stringify(customers));
+  // console.log("TUANNNN: " + JSON.stringify(importProcesss));
+  // console.log("TUANNNN: " + JSON.stringify(customers));
 
   //Thay đổi Size chage
   const onShowSizeChange = (current: number, pageSize: number) => {
@@ -305,7 +306,7 @@ const Datatable = (props: Props) => {
       ...SearchParam,
       pageNumber: 1,
       pageSize: 10,
-
+      statusBill:undefined,
       fromDate: "",
       toDate: ""
     }
@@ -421,11 +422,11 @@ const Datatable = (props: Props) => {
   }
 
 
-   const getFullDate = (date: string): string => {
+  const getFullDate = (date: string): string => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  }; 
+  };
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<importProcess> = [
     {
@@ -438,7 +439,7 @@ const Datatable = (props: Props) => {
     },
     {
       title: 'Tên vựa',
-      width: 50,
+      width: 70,
       dataIndex: 'idGarden',
       key: 'idGarden',
       //fixed: 'left',
@@ -457,12 +458,28 @@ const Datatable = (props: Props) => {
       }
     },
     {
+      title: 'Trạng thái',
+      width: 90,
+      dataIndex: 'statusBill',
+      key: 'statusBill',
+      //fixed: 'left',
+      render: (_, record) => {
+        switch (record.statusBill) {
+          case "CHUA_THANH_TOAN":
+            return (<Tag icon={<CloseCircleOutlined />} color='#e70103' >Chưa thanh toán</Tag>)
+          case "DA_THANH_TOAN":
+            return (<Tag icon={<CheckCircleOutlined />} color='#87d068' >Đã thanh toán</Tag>)
+        }
+      }
+    },
+
+    {
       title: 'Kem Lớn',
       width: 90,
       dataIndex: 'priceKemLon',
       key: 'priceKemLon',
       //fixed: 'left',
-     // ellipsis: true,
+      // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighKemLon?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -479,7 +496,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighKem2',
       key: 'weighKem2',
       //fixed: 'left',
-     // ellipsis: true,
+      // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighKem2?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -496,7 +513,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighKem3',
       key: 'weighKem3',
       //fixed: 'left',
-     // ellipsis: true,
+      // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighKem3?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -513,13 +530,13 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighRXo',
       key: 'weighRXo',
       //fixed: 'left',
-     // ellipsis: true,
-      
+      // ellipsis: true,
+
       render: (_, record) => {
-   
-        const listItems = record.weighRXo?.map((d) => ( 
-           <Tag  color='purple' key={d}>{d}</Tag>
-           )
+
+        const listItems = record.weighRXo?.map((d) => (
+          <Tag color='purple' key={d}>{d}</Tag>
+        )
         );
         return (
           <div>
@@ -534,7 +551,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR1',
       key: 'weighR1',
       //fixed: 'left',
-     // ellipsis: true,
+      // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighR1?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -551,7 +568,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR2',
       key: 'weighR2',
       //fixed: 'left',
-     // ellipsis: true,
+      // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighR2?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -568,7 +585,7 @@ const Datatable = (props: Props) => {
       dataIndex: 'weighR3',
       key: 'weighR3',
       //fixed: 'left',
-     // ellipsis: true,
+      // ellipsis: true,
       render: (_, record) => {
 
         const listItems = record.weighR3?.map((d) => <Tag color='purple' key={d}>{d}</Tag>);
@@ -579,26 +596,7 @@ const Datatable = (props: Props) => {
         )
       }
     },
-    {
-      title: 'Trạng thái',
-      width: 90,
-      dataIndex: 'statusBill',
-      key: 'statusBill',
-      //fixed: 'left',
-      render: (_, record) => {
-        switch (record.statusBill) {
-          case "CHUA_THANH_TOAN":
-            return (<Tag icon={<CloseCircleOutlined />} color='#e70103' >Chưa thanh toán</Tag>)
-          case "DA_THANH_TOAN":
-            return (<Tag icon={<CheckCircleOutlined />} color='#87d068' >Đã thanh toán</Tag>)
-        }
-        // return (
-        //   <div>
-        //     {record.statusBill}
-        //   </div>
-        // )
-      }
-    },
+
     {
       title: 'Hành động',
       dataIndex: 'Action',
@@ -865,7 +863,25 @@ const Datatable = (props: Props) => {
       <DatePicker onChange={onChangeDatea} />
     </div>
   );
+  const onChangeStatus = (value: string) => {
+    console.log(`selected ${value}`);
 
+    const SearchParamChange = {
+      ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+      statusBill:value,
+      fromDate: "",
+      toDate: ""
+    }
+    setSearchParam(SearchParamChange)
+ 
+  };
+  
+  const onSearchStatus = (value: string) => {
+    //console.log('search:', value);
+  };
+  
   return (
     <div className="background">
       <div className="title">
@@ -873,16 +889,16 @@ const Datatable = (props: Props) => {
       </div>
       <div className="datatable">
         <div className="tool">
-          <div  className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+          <div className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
           <Popover content={content} title="Chọn ngày">
 
-            <div  className="btnAddHover" style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
+            <div className="btnAddHover" style={{ width: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} >
               <ExportOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Xuất báo cáo</div>
             </div>
           </Popover>
-          <div  className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
+          <div className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
             <ReloadOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial', }}>Làm mới</div>
           </div>
           <div style={{ width: '50px', display: 'flex', justifyContent: 'center', borderLeft: '0.5px solid lightgrey', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }}>
@@ -900,7 +916,30 @@ const Datatable = (props: Props) => {
                 onChange={onChangeDate}
               />
             </div>
-
+            <div className="inputsearch">
+              <Select
+                showSearch
+                placeholder="Chọn trạng thái"
+                optionFilterProp="children"
+                onChange={onChangeStatus}
+                onSearch={onSearchStatus}
+                value={SearchParam.statusBill}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={[
+                  {
+                    value: 'DA_THANH_TOAN',
+                    label: 'Đã Thanh toán',
+                  },
+                  {
+                    value: 'CHUA_THANH_TOAN',
+                    label: 'Chưa thanh toán',
+                  },
+                
+                ]}
+              />
+            </div>
             <div className="inputsearch">
               <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} type="primary" icon={<SearchOutlined />} onClick={() => Search()}>
                 Search

@@ -9,7 +9,7 @@ import {
   // AppstoreAddOutlined,
   BarsOutlined, ReloadOutlined
 } from '@ant-design/icons';
-import { Pagination, Table, Button, DatePicker, Drawer, Row, Space, Modal, Tag, Input } from 'antd';
+import { Pagination, Table, Button, DatePicker, Drawer, Row, Space, Modal, Tag, Input, Select } from 'antd';
 
 import { exportReport, searchExportReportDto, exportReportDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
@@ -22,6 +22,7 @@ const Datatable = (props: Props) => {
   const [SearchParam, setSearchParam] = useState<searchExportReportDto>({
     pageNumber: 1,
     pageSize: 10,
+    statusExport:undefined,
     fromDate: "",
     toDate: ""
   });
@@ -91,7 +92,7 @@ const Datatable = (props: Props) => {
       ...SearchParam,
       pageNumber: 1,
       pageSize: 10,
-
+      statusExport:undefined,
       fromDate: "",
       toDate: ""
     }
@@ -203,6 +204,21 @@ const Datatable = (props: Props) => {
       render: ((date: string) => getFullDate(date))
     },
     {
+      title: 'Trạng thái',
+      width: 60,
+      dataIndex: 'statusExport',
+      key: 'statusExport',
+      //fixed: 'left',
+      render: (_, record) => {
+        switch (record.statusExport) {
+          case "CHUA_XU_LY":
+            return (<Tag icon={<SyncOutlined spin />} color='#00CCFF' >Đang xử lý</Tag>)
+          case "DA_XU_LY":
+            return (<Tag icon={<CheckCircleOutlined />} color='#87d068' >Đã xử lý</Tag>)
+        }
+      }
+    },
+    {
       title: 'Tổng số quả',
       width: 50,
       dataIndex: 'totalNumber',
@@ -272,32 +288,17 @@ const Datatable = (props: Props) => {
         );
       },
     },
-    {
-      title: 'Trạng thái',
-      width: 60,
-      dataIndex: 'statusExport',
-      key: 'statusExport',
-      //fixed: 'left',
-      render: (_, record) => {
-        switch (record.statusExport) {
-          case "CHUA_XU_LY":
-            return (<Tag icon={<SyncOutlined spin />} color='#00CCFF' >Đang xử lý</Tag>)
-          case "DA_XU_LY":
-            return (<Tag icon={<CheckCircleOutlined />} color='#87d068' >Đã xử lý</Tag>)
-        }
-      }
-    },
+
     {
       title: 'Hành động',
       dataIndex: 'Action',
       key: 'operation',
       fixed: 'right',
-      width: 100,
+      width: 50,
       //render: () => <a>action</a>,
       render: (_, record) => {
         return (
           <div className="cellAction">
-
             <div className="exportFile"
               onClick={() => exportFile(record)}
             >Xuất</div>
@@ -343,6 +344,25 @@ const Datatable = (props: Props) => {
       })
     }
   };
+  const onChangeStatus = (value: string) => {
+    console.log(`selected ${value}`);
+
+    const SearchParamChange = {
+      ...SearchParam,
+      pageNumber: 1,
+      pageSize: 10,
+      statusExport:value,
+      fromDate: "",
+      toDate: ""
+    }
+    setSearchParam(SearchParamChange)
+ 
+  };
+
+  const onSearchStatus = (value: string) => {
+    //console.log('search:', value);
+  };
+  
   // Show Add    
   const showDrawer = () => {
     //init state 
@@ -421,7 +441,30 @@ const Datatable = (props: Props) => {
                 onChange={onChangeDate}
               />
             </div>
-
+            <div className="inputsearch">
+              <Select
+                showSearch
+                placeholder="Chọn trạng thái"
+                optionFilterProp="children"
+                onChange={onChangeStatus}
+                onSearch={onSearchStatus}
+                value={SearchParam.statusExport}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                options={[
+                  {
+                    value: 'DA_XU_LY',
+                    label: 'Đã xử lý',
+                  },
+                  {
+                    value: 'CHUA_XU_LY',
+                    label: 'Đang xử lý',
+                  },
+                
+                ]}
+              />
+            </div>
             <div className="inputsearch">
               <Button style={{ background: '#d32f2f', borderColor: '#d32f2f' }} type="primary" icon={<SearchOutlined />} onClick={() => Search()}>
                 Search

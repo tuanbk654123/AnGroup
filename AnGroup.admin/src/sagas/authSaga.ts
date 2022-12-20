@@ -48,8 +48,11 @@ function* watchLoginFolow() {
             yield fork(handleLogin, action.payload);
 
         }
-        yield take(authAction.logout.type);
-        yield call(handleLogout);
+        else{
+            yield take(authAction.logout.type);
+            yield call(handleLogout);
+        }
+       
     }
 }
 
