@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FruitManager", "FruitManager\FruitManager.csproj", "{179A2A3A-78CF-4E76-B440-471E43E77138}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B13EF847-ED7E-4DF9-A1C3-DB1B026E672D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{179A2A3A-78CF-4E76-B440-471E43E77138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{179A2A3A-78CF-4E76-B440-471E43E77138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{179A2A3A-78CF-4E76-B440-471E43E77138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13EF847-ED7E-4DF9-A1C3-DB1B026E672D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13EF847-ED7E-4DF9-A1C3-DB1B026E672D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13EF847-ED7E-4DF9-A1C3-DB1B026E672D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13EF847-ED7E-4DF9-A1C3-DB1B026E672D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

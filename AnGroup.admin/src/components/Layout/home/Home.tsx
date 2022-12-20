@@ -65,14 +65,14 @@ function Home() {
 
             >
               {/* <Meta style={{ fontSize: "3vh" }} title="Giá cam" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceOrange === undefined ? 0 : exportPrices.content[0]?.priceOrange) + " VNĐ"} /> */}
-              <p style={{fontSize:"35px",fontWeight:"bold",  color: "#Be5b25" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceOrange === undefined ? 0 : exportPrices.content[0]?.priceOrange) + " VNĐ"}</p>
+              <p style={{fontSize:"2vw",fontWeight:"bold",  color: "#Be5b25" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceOrange === undefined ? 0 : exportPrices.content[0]?.priceOrange) + " VNĐ"}</p>
             </Card>
             <Card
               hoverable
               style={{ borderRadius:"1vw",width: "20vw", backgroundColor: '#fff1f0',borderColor:"#Be2525" }}
             >
               {/* <Meta style={{ fontSize: "3vh" }} title="Giá đỏ" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceRed === undefined ? 0 : exportPrices.content[0]?.priceRed) + " VNĐ"} /> */}
-              <p style={{fontSize:"35px",fontWeight:"bold",  color: "#Be2525" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceRed === undefined ? 0 : exportPrices.content[0]?.priceRed) + " VNĐ"}</p>
+              <p style={{fontSize:"2vw",fontWeight:"bold",  color: "#Be2525" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceRed === undefined ? 0 : exportPrices.content[0]?.priceRed) + " VNĐ"}</p>
            
             </Card>
             <Card
@@ -81,7 +81,7 @@ function Home() {
             >
               {/* <Meta style={{ fontSize: "3vh" , color:"#b7e7dc" }} title="Giá xanh lá" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceBlue === undefined ? 0 : exportPrices.content[0]?.priceBlue) + " VNĐ"} /> */}
               {/* <p style={{ fontSize:"20px", color: "#49be25" }}>Giá xanh lá</p> */}
-              <p style={{fontSize:"35px",fontWeight:"bold",  color: "#49be25" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceBlue === undefined ? 0 : exportPrices.content[0]?.priceBlue) + " VNĐ"}</p>
+              <p style={{fontSize:"2vw",fontWeight:"bold",  color: "#49be25" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceBlue === undefined ? 0 : exportPrices.content[0]?.priceBlue) + " VNĐ"}</p>
             </Card>
             <Card
               hoverable
@@ -89,7 +89,7 @@ function Home() {
             >
               {/* <Meta style={{ fontSize: "3vh" }} title="Giá Xanh dương" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceGreen === undefined ? 0 : exportPrices.content[0]?.priceGreen) + " VNĐ"} /> */}
               {/* <p style={{ fontSize:"20px", color: "#2587be" }}>Giá xanh dương</p> */}
-              <p style={{  display:"inline-block", fontSize:"35px",fontWeight:"bold",  color: "#2587be" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceGreen === undefined ? 0 : exportPrices.content[0]?.priceGreen) + " VNĐ"}</p>
+              <p style={{  display:"inline-block", fontSize:"2vw",fontWeight:"bold",  color: "#2587be" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceGreen === undefined ? 0 : exportPrices.content[0]?.priceGreen) + " VNĐ"}</p>
             </Card>
           </div>
           <div className="charts">

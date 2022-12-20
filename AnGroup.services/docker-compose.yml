@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  fruitmanager:
+    image: ${DOCKER_REGISTRY-}fruitmanager
+    build:
+      context: .
+      dockerfile: FruitManager/Dockerfile
