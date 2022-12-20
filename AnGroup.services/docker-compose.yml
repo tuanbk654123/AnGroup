@@ -7,6 +7,6 @@ services:
       context: .
       dockerfile: FruitManager/Dockerfile
     ports:
-        - "5001:80"
+        - "5005:80"
     networks:
-        - sso
+        - ApiVanAn
