@@ -60,7 +60,7 @@ function Home() {
           <div className="widgets">
             <Card
               hoverable
-              style={{ borderRadius:"1vw",width: "20vw", backgroundColor: '#fff7e6',borderColor:"#Be5b25" }}
+              style={{ borderRadius:"1vw",width: "19.5vw", backgroundColor: '#fff7e6',borderColor:"#Be5b25" }}
               color="orange"
 
             >
@@ -69,7 +69,7 @@ function Home() {
             </Card>
             <Card
               hoverable
-              style={{ borderRadius:"1vw",width: "20vw", backgroundColor: '#fff1f0',borderColor:"#Be2525" }}
+              style={{ borderRadius:"1vw",width: "19.5vw", backgroundColor: '#fff1f0',borderColor:"#Be2525" }}
             >
               {/* <Meta style={{ fontSize: "3vh" }} title="Giá đỏ" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceRed === undefined ? 0 : exportPrices.content[0]?.priceRed) + " VNĐ"} /> */}
               <p style={{fontSize:"2vw",fontWeight:"bold",  color: "#Be2525" }}>{new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceRed === undefined ? 0 : exportPrices.content[0]?.priceRed) + " VNĐ"}</p>
@@ -77,7 +77,7 @@ function Home() {
             </Card>
             <Card
               hoverable
-              style={{ borderRadius:"1vw",width: "20vw", backgroundColor: '#f6ffed',borderColor:"#49be25" }}
+              style={{ borderRadius:"1vw",width: "19.5vw", backgroundColor: '#f6ffed',borderColor:"#49be25" }}
             >
               {/* <Meta style={{ fontSize: "3vh" , color:"#b7e7dc" }} title="Giá xanh lá" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceBlue === undefined ? 0 : exportPrices.content[0]?.priceBlue) + " VNĐ"} /> */}
               {/* <p style={{ fontSize:"20px", color: "#49be25" }}>Giá xanh lá</p> */}
@@ -85,7 +85,7 @@ function Home() {
             </Card>
             <Card
               hoverable
-              style={{ borderRadius:"1vw", width: "20vw", backgroundColor: '#e6f7ff', borderColor:"#2587be" }}
+              style={{ borderRadius:"1vw", width: "19.5vw", backgroundColor: '#e6f7ff', borderColor:"#2587be" }}
             >
               {/* <Meta style={{ fontSize: "3vh" }} title="Giá Xanh dương" description={new Intl.NumberFormat('vi-VN', { currency: 'VND' }).format(exportPrices.content[0]?.priceGreen === undefined ? 0 : exportPrices.content[0]?.priceGreen) + " VNĐ"} /> */}
               {/* <p style={{ fontSize:"20px", color: "#2587be" }}>Giá xanh dương</p> */}

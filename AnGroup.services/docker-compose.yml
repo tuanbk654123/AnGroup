@@ -6,3 +6,7 @@ services:
     build:
       context: .
       dockerfile: FruitManager/Dockerfile
+    ports:
+        - "5001:80"
+    networks:
+        - sso
