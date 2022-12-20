@@ -1,6 +1,6 @@
 
 
-import { Button} from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 import "./navbar.scss";
 import { LogoutOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '../../app/hooks';
@@ -14,9 +14,22 @@ const Navbar = (props: Props) => {
   const handleLogout = () => {
 
     dispatch(
-        authAction.logout()
+      authAction.logout()
     )
-}
+  }
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '1',
+          label: (
+            <Button style={{ whiteSpace: "pre-line" }} icon={<LogoutOutlined />} onClick={() => handleLogout()}>Đăng xuất</Button>
+          ),
+        },
+      ]}
+    />
+  );
+
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -25,17 +38,20 @@ const Navbar = (props: Props) => {
 
 
           <div className="item">
-            <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
-            />
+            <Dropdown overlay={menu} placement="bottom" arrow>
+              <img
+                src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                alt=""
+                className="avatar"
+              />
+            </Dropdown>
+
           </div>
           <div className="text" >
-            Xin chào , <b style={{whiteSpace:"pre-line"}}> admin! _</b>
+            Xin chào , <b style={{ whiteSpace: "pre-line" }}> admin </b>
           </div>
-          
-          <Button style={{whiteSpace:"pre-line"}} icon={<LogoutOutlined/> }  onClick={()=>handleLogout()}></Button>
+
+       
         </div>
       </div>
     </div>
