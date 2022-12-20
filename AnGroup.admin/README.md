@@ -33,3 +33,9 @@ It correctly bundles React in production mode and optimizes the build for the be
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+
+
+docker build -t vanan .
+docker run -d -p 3009:3000 --name adminvanan vanan
