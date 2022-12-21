@@ -41,9 +41,9 @@ function* getUpdateexportPriceSaga(action : any) {
     //openNotification("Sửa thành công");
     openNotification(data);
     yield put(ExportPriceAction.updateExportPriceSuccess(data));
-  } catch (error) {
+  } catch (error:any) {
     //handle error
-    openNotification("Sửa thất bại");
+    openNotification(""+error.response.data);
   }
 }
 

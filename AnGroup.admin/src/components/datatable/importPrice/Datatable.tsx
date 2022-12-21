@@ -14,6 +14,7 @@ import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, 
 import { importPrice, searchImportPriceDto, ImportpriceDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
 import moment from "moment";
+import { openNotification } from "../../notice/notification";
 
 type Props = {}
 const Datatable = (props: Props) => {
@@ -99,12 +100,18 @@ const Datatable = (props: Props) => {
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
-    let date =  ImportpriceDto.DateImport.split('T')[0];
+    if (ImportpriceDto.priceKemLon === undefined && ImportpriceDto.priceKem3 === undefined && ImportpriceDto.priceKem2 === undefined
+      && ImportpriceDto.priceRXo === undefined &&
+      ImportpriceDto.priceR1 === undefined && ImportpriceDto.priceR2 === undefined && ImportpriceDto.priceR3 === undefined) {
+      openNotification("Thông tin không được để trống");
+      return;
+    }
+    let date = ImportpriceDto.DateImport.split('T')[0];
     // add
     if (addOrUpdate === 1) {
       const importPrice = {
         ...ImportpriceDto,
-        DateImport: date+"T07:00:00.000Z",
+        DateImport: date + "T07:00:00.000Z",
         id: ""
       }
       dispatch(ImportPriceAction.addImportPrice(importPrice));
@@ -113,7 +120,7 @@ const Datatable = (props: Props) => {
     if (addOrUpdate === 2) {
       const importPrice = {
         ...ImportpriceDto,
-        DateImport: date+"T07:00:00.000Z",
+        DateImport: date + "T07:00:00.000Z",
       }
       dispatch(ImportPriceAction.updateImportPrice(importPrice));
 
@@ -129,7 +136,7 @@ const Datatable = (props: Props) => {
     const dateAndTime = date.split('T');
 
     return dateAndTime[0].split('-').reverse().join('-');
-  }; 
+  };
   // cột của Bảng==================================================================================
   const roleColumns: ColumnsType<importPrice> = [
     {
@@ -419,6 +426,9 @@ const Datatable = (props: Props) => {
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     //console.log(date, dateString);
+    if(dateString === ''){
+      return
+    }
     setImportpriceDto(
       {
         ...ImportpriceDto,
@@ -437,7 +447,7 @@ const Datatable = (props: Props) => {
           {/* <div style={{width:'150px', display:'flex', justifyContent:'center', alignItems:'center', cursor: 'pointer',fontWeight:'bold'}}>
             <AppstoreAddOutlined style= {{paddingInline:'5px', color:'#d32f2f' }}/> <div style= {{paddingInline:'5px', color:'#d32f2f' ,fontFamily:'Arial' }}>Cấu hình hiển thị</div>
           </div> */}
-          <div className="btnAddHover" style={{  width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
+          <div className="btnAddHover" style={{ width: '120px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => showDrawer()}>
             <PlusOutlined style={{ paddingInline: '5px', color: '#d32f2f' }} /> <div style={{ paddingInline: '5px', color: '#d32f2f', fontFamily: 'Arial' }}>Thêm mới</div>
           </div>
           <div className="btnAddHover" style={{ width: '100px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => refresh()}>
@@ -505,50 +515,45 @@ const Datatable = (props: Props) => {
           paddingBottom: 80,
         }}
       >
-
         <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá kem lớn (vnđ):</label>
-            <Input placeholder="Nhập giá kem lớn(vnđ)" value={ImportpriceDto.priceKemLon} onChange={onChangepriceKemLon} />
-          </Col>
-          <Col span={12}>
-            <label >Giá kem 2:</label>
-            <Input placeholder="Nhập giá kem 2" value={ImportpriceDto.priceKem2} onChange={onChangepriceKem2} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá kem 3:</label>
-            <Input placeholder="Nhập giá kem 3" value={ImportpriceDto.priceKem3} onChange={onChangepriceKem3} />
-          </Col>
-          <Col span={12}>
-            <label >Giá R1:</label>
-            <Input placeholder="Nhập giá R1 " value={ImportpriceDto.priceR1} onChange={onChangepriceR1} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá R2:</label>
-            <Input placeholder="Nhập giá R2" value={ImportpriceDto.priceR2} onChange={onChangepriceR2} />
-          </Col>
-          <Col span={12}>
-            <label >Giá R3:</label>
-            <Input placeholder="Nhập giá R3 " value={ImportpriceDto.priceR3} onChange={onChangepriceR3} />
-          </Col>
-        </Row>
-        <Row className="row" gutter={16}>
-          <Col span={12}>
-            <label >Giá RXo:</label>
-            <Input placeholder="Nhập giá RXo" value={ImportpriceDto.priceRXo} onChange={onChangepriceRXo} />
-          </Col>
           <Col span={12}>
             <label >Ngày:</label>
-            <DatePicker value={moment(ImportpriceDto.DateImport, dateFormat)} onChange={onChange} format={dateFormat} style={{ width: '100%' }} />
+            <DatePicker value={moment(ImportpriceDto.DateImport, dateFormat)}  onChange={onChange} format={dateFormat} style={{ width: '100%' }} />
           </Col>
           <Col span={12}>
+            <label >Giá RXo  :</label>
+            <Input    suffix="VNĐ" type="number" placeholder="Nhập giá RXo" value={ImportpriceDto.priceRXo} onChange={onChangepriceRXo} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Giá kem lớn  :</label>
+            <Input    suffix="VNĐ" type="number" placeholder="Nhập giá kem lớn " value={ImportpriceDto.priceKemLon} onChange={onChangepriceKemLon} />
+          </Col>
+          <Col span={12}>
+            <label >Giá R1  :</label>
+            <Input    suffix="VNĐ" type="number" placeholder="Nhập giá R1 " value={ImportpriceDto.priceR1} onChange={onChangepriceR1} />
+          </Col>
+        </Row>
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Giá kem 2  :</label>
+            <Input    suffix="VNĐ" type="number" placeholder="Nhập giá kem 2" value={ImportpriceDto.priceKem2} onChange={onChangepriceKem2} />
+          </Col>
+          <Col span={12}>
+            <label >Giá R2  :</label>
+            <Input     suffix="VNĐ" type="number" placeholder="Nhập giá R2" value={ImportpriceDto.priceR2} onChange={onChangepriceR2} />
+          </Col>
+        </Row>
+        <Row className="row" gutter={16}>
+          <Col span={12}>
+            <label >Giá kem 3  :</label>
+            <Input    suffix="VNĐ" type="number" placeholder="Nhập giá kem 3" value={ ImportpriceDto?.priceKem3 } onChange={onChangepriceKem3} />
+          </Col>
+          <Col span={12}>
+            <label >Giá R3  :</label>
+            <Input    suffix="VNĐ" type="number" placeholder="Nhập giá R3 " value={ImportpriceDto.priceR3} onChange={onChangepriceR3} />
+          </Col>
         </Row>
         {/* </Form> */}
         <div className="Submit">

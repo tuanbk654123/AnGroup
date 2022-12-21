@@ -80,6 +80,25 @@ namespace FruitManager.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> Update(UpdateImportPriceDto updateImportPriceDto, CancellationToken cancellationToken)
         {
+            // Kiểm tra đã tồn tại bản ghi giá của ngày hôm đó chưa
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 10;
+            SearchImportPriceDto searchImportPriceDto = new SearchImportPriceDto();
+            searchImportPriceDto.fromDate = updateImportPriceDto.DateImport;
+            searchImportPriceDto.toDate = updateImportPriceDto.DateImport;
+
+            var checkHaveItem = await ImportPriceService.Search(pageable, searchImportPriceDto);
+          
+            if (checkHaveItem != null && checkHaveItem.Content.Count() > 0 )
+            {
+                List<ImportPrice> importPrice = (List<ImportPrice>)checkHaveItem.Content;
+                if (importPrice[0].Id != updateImportPriceDto.Id)
+                {
+                    return BadRequest("Đã tồn tại bản ghi ngày " + updateImportPriceDto.DateImport.ToString("dd-MM-yyyy"));
+                }
+               
+            }
             bool create = await ImportPriceService.Update(updateImportPriceDto, cancellationToken);
             if (create)
             {

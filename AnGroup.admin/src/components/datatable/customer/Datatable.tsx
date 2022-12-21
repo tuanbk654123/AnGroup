@@ -467,7 +467,7 @@ const Datatable = (props: Props) => {
               onChange={onChangebankName}
               value={customerDto.bankName}
               optionFilterProp="children"
-              filterOption={(input, option) => (option?.label ?? '').includes(input)}
+              filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
               filterSort={(optionA, optionB) =>
                 (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
               }

@@ -43,9 +43,9 @@ function* getUpdateImportPriceSaga(action : any) {
     //openNotification("Sửa thành công");
     openNotification(data);
     yield put(ImportPriceAction.updateImportPriceSuccess(data));
-  } catch (error) {
+  } catch (error:any) {
     //handle error
-    openNotification("Sửa thất bại");
+    openNotification(""+error.response.data);
   }
 }
 

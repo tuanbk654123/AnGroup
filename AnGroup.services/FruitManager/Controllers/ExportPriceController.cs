@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using System.Data;
 using DataAccess.Models.Dto.ExportPrice;
+using DataAccess.Models.Dto.ExportProcess;
 
 namespace FruitManager.Controllers
 {
@@ -48,6 +49,16 @@ namespace FruitManager.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Create(CreateExportPriceDto createExportPriceDto, CancellationToken cancellationToken)
         {
+            // Kiểm tra đã tồn tại bản ghi giá của ngày hôm đó chưa
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 10;
+            SearchExportPriceDto searchExportPriceDto = new SearchExportPriceDto();
+            searchExportPriceDto.fromDate = createExportPriceDto.DateExport;
+            searchExportPriceDto.toDate = createExportPriceDto.DateExport;
+
+            var checkHaveItem = await ExportPriceService.Search(pageable, searchExportPriceDto);
+            if (checkHaveItem != null && checkHaveItem.Content.Count() > 0) return BadRequest("Đã tồn tại bản ghi ngày " + createExportPriceDto.DateExport.ToString("dd-MM-yyyy"));
             bool create = await ExportPriceService.Create(createExportPriceDto, cancellationToken);
             if (create)
             {
@@ -67,6 +78,27 @@ namespace FruitManager.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> Update(UpdateExportPriceDto updateExportPriceDto, CancellationToken cancellationToken)
         {
+            // Kiểm tra đã tồn tại bản ghi giá của ngày hôm đó chưa
+            Pageable pageable = new Pageable();
+            pageable.PageNumber = 1;
+            pageable.PageSize = 10;
+            SearchExportPriceDto searchExportPriceDto = new SearchExportPriceDto();
+            searchExportPriceDto.fromDate = updateExportPriceDto.DateExport;
+            searchExportPriceDto.toDate = updateExportPriceDto.DateExport;
+
+            var checkHaveItem = await ExportPriceService.Search(pageable, searchExportPriceDto);
+
+
+            if (checkHaveItem != null && checkHaveItem.Content.Count() > 0)
+            {
+                List<ExportPrice> importPrice = (List<ExportPrice>)checkHaveItem.Content;
+                if (importPrice[0].Id != updateExportPriceDto.Id)
+                {
+                    return BadRequest("Đã tồn tại bản ghi ngày " + updateExportPriceDto.DateExport.ToString("dd-MM-yyyy"));
+                }
+
+            }
+         
             bool create = await ExportPriceService.Update(updateExportPriceDto, cancellationToken);
             if (create)
             {

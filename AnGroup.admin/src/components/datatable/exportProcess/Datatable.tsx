@@ -101,16 +101,16 @@ const Datatable = (props: Props) => {
     let date =  exportProcessDto.dateExport.split('T')[0];
     // set lại giứ trị tag 
     const orange = tags.map(d => (
-      parseInt(d, 10)
+      parseFloat(d)
     ));
     const red = tagsRed.map(d => (
-      parseInt(d, 10)
+      parseFloat(d)
     ));
     const blue = tagsBlue.map(d => (
-      parseInt(d, 10)
+      parseFloat(d)
     ));
     const green = tagsGreen.map(d => (
-      parseInt(d, 10)
+      parseFloat(d)
     ));
     // add
     if (addOrUpdate === 1) {
@@ -366,7 +366,9 @@ const Datatable = (props: Props) => {
 
   const onChange: DatePickerProps['onChange'] = (date, dateString: string) => {
     //console.log(date, dateString);
-
+    if(dateString === ''){
+      return
+    }
     setexportProcessDto(
       {
         ...exportProcessDto,
@@ -428,7 +430,7 @@ const Datatable = (props: Props) => {
   };
 
   const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
+    if (inputValue ) {
       setTags([...tags, inputValue]);
     }
     setInputVisible(false);
@@ -477,7 +479,7 @@ const Datatable = (props: Props) => {
   };
 
   const handleInputConfirmRed = () => {
-    if (inputValueRed && tagsRed.indexOf(inputValueRed) === -1) {
+    if (inputValueRed ) {
       settagsRed([...tagsRed, inputValueRed]);
     }
     setinputVisibleRed(false);
@@ -526,7 +528,9 @@ const Datatable = (props: Props) => {
   };
 
   const handleInputConfirmGreen = () => {
-    if (inputValueGreen && tagsGreen.indexOf(inputValueGreen) === -1) {
+    if (inputValueGreen 
+      // && tagsGreen.indexOf(inputValueGreen) === -1
+      ) {
       settagsGreen([...tagsGreen, inputValueGreen]);
     }
     setinputVisibleGreen(false);
@@ -576,7 +580,7 @@ const Datatable = (props: Props) => {
   };
 
   const handleInputConfirmBlue = () => {
-    if (inputValueBlue && tagsBlue.indexOf(inputValueBlue) === -1) {
+    if (inputValueBlue ) {
       settagsBlue([...tagsBlue, inputValueBlue]);
     }
     setinputVisibleBlue(false);
@@ -604,17 +608,7 @@ const Datatable = (props: Props) => {
   };
   const tagChildBlue = tagsBlue.map(forMapBlue);
   //================================================exporrt report
-  // const onChangeDatea: DatePickerProps['onChange'] = (date, dateString) => {
-  //   console.log(date, dateString);
-  //   setCheckRefresh(true);
-  //   const a = {
-  //     fromDate: dateString,
-  //     toDate: dateString
-  //   }
-  //   dispatch(ExportProcessAction.exportReportExportProcess(a));
-  //   timeout(500);
-  //   refresh();
-  // };
+ 
   const onChangeDatea = (dates: any, dateStrings: any) => {
     if (dates) {
       //let dates =  dateStrings[1].split('-'); dates //+"T07:00:00.000Z"
@@ -692,9 +686,7 @@ const Datatable = (props: Props) => {
             x: 1500,
             y: 700,
           }
-
           }
-
         />
         <div className="datatablePagging">
           <Pagination
@@ -704,10 +696,7 @@ const Datatable = (props: Props) => {
             defaultCurrent={1}
             total={exportProcesss.totalItem}
           />
-
         </div>
-
-
       </div>
       <Drawer
         title={Title}
@@ -718,7 +707,6 @@ const Datatable = (props: Props) => {
           paddingBottom: 80,
         }}
       >
-
         <Row className="row" gutter={16}>
           <Col span={6}>
             {inputVisible && (
@@ -812,21 +800,21 @@ const Datatable = (props: Props) => {
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Số quả cam(quả):</label>
-            <Input placeholder="Nhập số quả cam" value={exportProcessDto.countOrange} onChange={onChangePriceOrange} />
+            <Input type="number" placeholder="Nhập số quả cam" value={exportProcessDto.countOrange} onChange={onChangePriceOrange} />
           </Col>
           <Col span={12}>
             <label >Số quả đỏ(quả):</label>
-            <Input placeholder="Nhập số quả đỏ " value={exportProcessDto.countRed} onChange={onChangePriceRed} />
+            <Input type="number" placeholder="Nhập số quả đỏ " value={exportProcessDto.countRed} onChange={onChangePriceRed} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
             <label >Số quả xanh lá(quả):</label>
-            <Input placeholder="Số quả xanh lá" value={exportProcessDto.countGreen} onChange={onChangePriceBlue} />
+            <Input type="number" placeholder="Số quả xanh lá" value={exportProcessDto.countBlue} onChange={onChangePriceBlue} />
           </Col>
           <Col span={12}>
             <label >Số quả xanh dương(quả):</label>
-            <Input placeholder="Số quả xanh dương " value={exportProcessDto.countBlue} onChange={onChangePriceGreen} />
+            <Input type="number" placeholder="Số quả xanh dương " value={exportProcessDto.countGreen} onChange={onChangePriceGreen} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>

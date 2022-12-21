@@ -14,6 +14,7 @@ import { Pagination, Table, Button, Input, DatePicker, Drawer, Row, Col, Space, 
 import { exportPrice, searchExportPriceDto, exportPriceDto } from '../../../models/index'
 import type { ColumnsType } from 'antd/es/table';
 import moment from "moment";
+import { openNotification } from "../../notice/notification";
 
 type Props = {}
 const Datatable = (props: Props) => {
@@ -88,6 +89,11 @@ const Datatable = (props: Props) => {
   // add or up date 
 
   const onAddOrUpdateUser = async () => {
+    if (exportPriceDto.priceBlue === undefined && exportPriceDto.priceGreen === undefined
+       &&exportPriceDto.priceOrange === undefined &&exportPriceDto.priceRed === undefined )  {
+      openNotification("Thông tin không được để trống");
+      return;
+    }
     let date =  exportPriceDto.dateExport.split('T')[0];
     // add
     if (addOrUpdate === 1) {
@@ -333,6 +339,9 @@ const Datatable = (props: Props) => {
   
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     //console.log(date, dateString);
+    if(dateString === ''){
+      return
+    }
     setexportPriceDto(
       {
         ...exportPriceDto,
@@ -422,21 +431,21 @@ const Datatable = (props: Props) => {
 
         <Row className="row" gutter={16}>
           <Col span={12}>
-            <label >Giá cam (vnđ):</label>
+            <label style={{color:"orange"}} >Giá cam (vnđ):</label>
             <Input placeholder="Nhập giá cam(vnđ)" value={exportPriceDto.priceOrange} onChange={onChangePriceOrange} />
           </Col>
           <Col span={12}>
-            <label >Giá đỏ(vnđ):</label>
+            <label style={{color:"red"}} >Giá đỏ (vnđ):</label>
             <Input placeholder="Nhập giá đỏ" value={exportPriceDto.priceRed} onChange={onChangePriceRed} />
           </Col>
         </Row>
         <Row className="row" gutter={16}>
           <Col span={12}>
-            <label >Giá xanh lá(vnđ):</label>
+            <label style={{color:"green"}} >Giá xanh lá (vnđ):</label>
             <Input placeholder="Nhập giá xanh lá" value={exportPriceDto.priceBlue} onChange={onChangePriceBlue} />
           </Col>
           <Col span={12}>
-            <label >Giá xanh dương(vnđ):</label>
+            <label style={{color:"blue"}}>Giá xanh dương (vnđ):</label>
             <Input placeholder="Nhập giá xanh dương " value={exportPriceDto.priceGreen} onChange={onChangePriceGreen} />
           </Col>
         </Row>

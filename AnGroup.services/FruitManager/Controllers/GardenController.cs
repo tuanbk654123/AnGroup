@@ -49,7 +49,7 @@ namespace FruitManager.Controllers
         public async Task<IActionResult> Create(CreateGardenDto createGardenDto, CancellationToken cancellationToken)
         {
             // kiểm tra tên vựa dã tồn tại
-            if(await GardenService.GetByGardenName(createGardenDto.NameGarden) != null) return BadRequest("Đã tồn tại tên vựa");
+            if(await GardenService.GetByGardenName(createGardenDto.NameGarden) != null) return BadRequest("Đã tồn tại tên vựa " +"'"+ createGardenDto.NameGarden + "'");
             bool create = await GardenService.Create(createGardenDto, cancellationToken);
             if (create)
             {
@@ -83,6 +83,10 @@ namespace FruitManager.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> Update(UpdateGardenDto updateGardenDto, CancellationToken cancellationToken)
         {
+            // kiểm tra tên vựa dã tồn tại
+            Garden garden = await GardenService.GetByGardenName(updateGardenDto.NameGarden);
+
+            if (garden != null&& garden.Id != updateGardenDto.Id) return BadRequest("Đã tồn tại tên vựa " + "'" + updateGardenDto.NameGarden + "'");
             bool create = await GardenService.Update(updateGardenDto, cancellationToken);
             if (create)
             {

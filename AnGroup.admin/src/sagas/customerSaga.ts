@@ -41,9 +41,9 @@ function* getUpdateCustomerSaga(action : any) {
     const data : Respone  = yield call(customerService.updateCustomer, action.payload);
     openNotification(data);
     yield put(CustomerAction.updateCustomerSuccess(data));
-  } catch (error) {
+  } catch (error:any) {
     //handle error
-    openNotification("Sửa thất bại");
+    openNotification(""+error.response.data);
   }
 }
 
