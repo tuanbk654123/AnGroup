@@ -42,7 +42,7 @@ namespace FruitManager.Repositories
             }
             if (searchImportProcessDto.toDate != null)
             {
-                DateTime toDate = new DateTime(searchImportProcessDto.toDate.Value.Year, searchImportProcessDto.toDate.Value.Month, searchImportProcessDto.toDate.Value.Day, 23, 0, 0).AddHours(8);
+                DateTime toDate = new DateTime(searchImportProcessDto.toDate.Value.Year, searchImportProcessDto.toDate.Value.Month, searchImportProcessDto.toDate.Value.Day, 23, 0, 0).AddHours(7);
                 filter &= Builders<ImportProcess>.Filter.Lte(x => x.DateImport, toDate);
             }
             if (searchImportProcessDto.statusBill != null)

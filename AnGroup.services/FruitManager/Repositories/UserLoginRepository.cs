@@ -41,7 +41,7 @@ namespace FruitManager.Repositories
             }
             if (searchUserDto.toDate != null)
             {
-                DateTime toDate = new DateTime(searchUserDto.toDate.Value.Year, searchUserDto.toDate.Value.Month, searchUserDto.toDate.Value.Day, 23, 0, 0).AddHours(8);
+                DateTime toDate = new DateTime(searchUserDto.toDate.Value.Year, searchUserDto.toDate.Value.Month, searchUserDto.toDate.Value.Day, 23, 0, 0).AddHours(7);
                 filter &= Builders<UserLogin>.Filter.Lte(x => x.LoginTime, toDate);
             }
 
